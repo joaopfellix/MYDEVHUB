@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Dev Hub - Ideias que viram códigos</title>
+<meta name="description" content="My Dev Hub: o depósito de links de projetos, sites e ideias de João Pedro Félix.">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#000;--panel:#050912;--panel2:#091020;--line:#13233f;--blue:#1646ff;--blue2:#0a2a9e;--neon:#1ad1ff;--white:#f4f8ff;--mut:#8da2c8;--ok:#2be6a0;--bad:#ff5d7a;--r:16px}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font:400 1rem/1.6 Manrope,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow-x:hidden}
+h1,h2,h3,.disp{font-family:Unbounded,"Segoe UI",system-ui,sans-serif;line-height:1.1;font-weight:700}
+button{font:inherit;color:inherit}
+a{color:var(--neon)}
+:focus-visible{outline:2px solid var(--neon);outline-offset:3px;border-radius:6px}
+svg.i{width:1.1em;height:1.1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+[hidden]{display:none!important}
+
+/* progresso de scroll */
+#bar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--blue),var(--neon));box-shadow:0 0 14px var(--neon);z-index:300}
+
+/* navegação */
+nav.top{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;gap:1.2rem;padding:.8rem clamp(1rem,4vw,2.5rem);background:rgba(0,0,0,.55);backdrop-filter:blur(14px);border-bottom:1px solid transparent;transition:border-color .3s,background .3s}
+nav.top.solid{border-color:var(--line);background:rgba(0,0,0,.82)}
+.logo{font:800 1.05rem Unbounded,system-ui,sans-serif;text-decoration:none;color:var(--white);white-space:nowrap;display:flex;align-items:center;gap:.5rem;background:none;border:0;cursor:pointer}
+.logo b{display:inline-grid;place-items:center;width:1.9rem;height:1.9rem;border-radius:8px;background:var(--blue);box-shadow:0 0 16px rgba(26,209,255,.6);font-size:.8rem}
+.links{display:flex;gap:.2rem;margin-left:auto}
+.links button{background:none;border:0;padding:.45rem .8rem;border-radius:8px;color:var(--mut);cursor:pointer;font-weight:700;font-size:.92rem;transition:color .2s,background .2s}
+.links button:hover,.links button.on{color:var(--white);background:rgba(26,209,255,.1)}
+.links button.on{box-shadow:inset 0 -2px 0 var(--neon)}
+.acts{display:flex;gap:.5rem;align-items:center}
+@media(max-width:860px){.links{display:none}.acts{margin-left:auto}}
+
+/* botões e campos */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.7rem 1.2rem;border-radius:10px;border:1px solid var(--neon);background:var(--neon);color:#001018;font-weight:800;font-size:.95rem;cursor:pointer;text-decoration:none;transition:box-shadow .2s,transform .2s,background .2s}
+.btn:hover{box-shadow:0 0 0 3px rgba(26,209,255,.2),0 0 26px rgba(26,209,255,.6);transform:translateY(-1px)}
+.btn.ghost{background:transparent;color:var(--white);border-color:var(--line)}
+.btn.ghost:hover{border-color:var(--neon);box-shadow:0 0 18px rgba(26,209,255,.25)}
+.btn.blue{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn.danger{background:transparent;color:var(--bad);border-color:rgba(255,93,122,.4)}
+.btn.danger:hover{box-shadow:0 0 18px rgba(255,93,122,.3);border-color:var(--bad)}
+.btn.sm{padding:.42rem .8rem;font-size:.82rem;border-radius:8px}
+.btn[disabled]{opacity:.5;pointer-events:none}
+label{display:block;font-size:.85rem;font-weight:700;color:var(--mut);margin:.9rem 0 .3rem}
+input,textarea,select{width:100%;background:#02050c;border:1px solid var(--line);color:var(--white);border-radius:10px;padding:.7rem .85rem;font:inherit;transition:border-color .2s,box-shadow .2s}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--neon);box-shadow:0 0 0 3px rgba(26,209,255,.18)}
+textarea{min-height:110px;resize:vertical}
+.err{color:var(--bad);font-size:.88rem;min-height:1.2em;margin-top:.6rem}
+.hint{color:var(--mut);font-size:.85rem}
+
+/* hero */
+.hero{position:relative;min-height:100vh;display:grid;place-items:center;text-align:center;padding:7rem 1.2rem 5rem;overflow:hidden}
+.grid-bg{position:absolute;inset:-25% -10% 0;background-image:linear-gradient(rgba(26,209,255,.13) 1px,transparent 1px),linear-gradient(90deg,rgba(26,209,255,.13) 1px,transparent 1px);background-size:58px 58px;-webkit-mask-image:radial-gradient(ellipse at 50% 42%,#000 15%,transparent 70%);mask-image:radial-gradient(ellipse at 50% 42%,#000 15%,transparent 70%);will-change:transform}
+.glow{position:absolute;width:62vmax;height:62vmax;left:50%;top:38%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(22,70,255,.38),transparent 60%);filter:blur(24px);animation:breathe 7s ease-in-out infinite}
+@keyframes breathe{50%{opacity:.6;transform:translate(-50%,-50%) scale(1.08)}}
+.hero-in{position:relative;max-width:980px;will-change:transform,opacity}
+.hello{display:inline-block;border:1px solid var(--line);background:rgba(5,9,18,.7);padding:.55rem 1.1rem;border-radius:999px;font-size:.95rem;color:var(--mut);animation:rise .9s .1s both}
+.hello b{color:var(--white)}
+.hero h1{font-weight:800;font-size:clamp(2.6rem,9.5vw,7.4rem);letter-spacing:-.03em;margin:1.4rem 0 .9rem;text-shadow:0 0 34px rgba(26,209,255,.55),0 0 90px rgba(22,70,255,.5);animation:rise 1s .25s both}
+.tagline{font:500 clamp(1.1rem,2.6vw,1.7rem) Unbounded,system-ui,sans-serif;color:var(--neon);animation:rise 1s .4s both}
+.intro{max-width:560px;margin:1.3rem auto 0;color:var(--mut);animation:rise 1s .55s both}
+.cta{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;margin-top:2rem;animation:rise 1s .7s both}
+@keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+.cue{position:absolute;bottom:1.6rem;left:50%;transform:translateX(-50%);color:var(--mut);font-size:.8rem;display:grid;gap:.5rem;justify-items:center}
+.cue i{width:22px;height:36px;border:2px solid var(--mut);border-radius:12px;position:relative}
+.cue i::after{content:"";position:absolute;left:50%;top:6px;width:4px;height:8px;margin-left:-2px;border-radius:2px;background:var(--neon);animation:wheel 1.6s infinite}
+@keyframes wheel{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(14px)}}
+
+/* ideia -> código (scroll) */
+.scrub{height:280vh;position:relative}
+.stage{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;padding:5rem clamp(1rem,5vw,4rem) 2rem;max-width:1200px;margin:auto}
+.stage h2{font-size:clamp(1.5rem,4vw,2.6rem);margin-bottom:.5rem}
+.stage>p{color:var(--mut);margin-bottom:2rem;max-width:520px}
+.duo{display:grid;grid-template-columns:minmax(0,.8fr) 70px minmax(0,1.3fr);align-items:center;gap:0}
+.idea{--p:0;background:var(--panel);border:1px solid rgba(26,209,255,calc(.15 + var(--p)*.7));border-radius:var(--r);padding:1.5rem;box-shadow:0 0 calc(var(--p)*40px) rgba(26,209,255,.28);transform:translateX(calc(var(--p)*-10px)) scale(calc(1 - var(--p)*.05));transition:box-shadow .2s}
+.idea small{color:var(--neon);font-weight:800}
+.idea p{font:600 1.15rem/1.4 Unbounded,system-ui,sans-serif;margin-top:.6rem}
+.wire{height:3px;background:var(--line);position:relative;overflow:hidden;border-radius:3px;margin:0 6px}
+.wire i{position:absolute;inset:0;background:var(--neon);box-shadow:0 0 12px var(--neon);transform-origin:left;transform:scaleX(var(--p,0))}
+.win{background:#02050d;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:0 20px 70px rgba(22,70,255,.22)}
+.win header{display:flex;align-items:center;gap:.4rem;padding:.7rem 1rem;border-bottom:1px solid var(--line);background:var(--panel2);font-size:.8rem;color:var(--mut)}
+.win header span{width:10px;height:10px;border-radius:50%;background:#1b2b4d}
+.win header em{margin-left:.6rem;font-style:normal}
+.win pre{padding:1.2rem 1.3rem;min-height:15.5rem;font:500 clamp(.78rem,1.6vw,.95rem)/1.7 "JetBrains Mono",ui-monospace,Consolas,Menlo,monospace;white-space:pre-wrap;overflow-wrap:anywhere;color:#cfe0ff}
+.s{color:#7fe3ff}.k{color:#5b8cff}.n{color:#ffd37a}.c{color:#5c7099}
+.caret{display:inline-block;width:.55ch;height:1.1em;background:var(--neon);vertical-align:-.2em;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.pub{display:inline-flex;align-items:center;gap:.5rem;margin-top:1.2rem;padding:.5rem 1rem;border-radius:999px;border:1px solid rgba(43,230,160,.5);color:var(--ok);font-weight:800;opacity:0;transform:translateY(10px);transition:.4s}
+.pub.on{opacity:1;transform:none;box-shadow:0 0 22px rgba(43,230,160,.3)}
+@media(max-width:820px){.duo{grid-template-columns:1fr}.wire{width:3px;height:36px;margin:6px auto}.wire i{transform-origin:top;transform:scaleY(var(--p,0))}.scrub{height:240vh}}
+
+/* hub / abas */
+.hub{max-width:1180px;margin:0 auto;padding:4rem clamp(1rem,4vw,2rem) 6rem;scroll-margin-top:60px}
+.tabbar{position:sticky;top:58px;z-index:50;display:flex;gap:.4rem;padding:.5rem;margin:0 auto 2.4rem;width:max-content;max-width:100%;background:rgba(5,9,18,.85);backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:14px;overflow-x:auto}
+.tabbar button{background:none;border:0;padding:.65rem 1.3rem;border-radius:10px;color:var(--mut);font-weight:800;cursor:pointer;white-space:nowrap;transition:.2s}
+.tabbar button:hover{color:var(--white)}
+.tabbar button.on{background:var(--blue);color:#fff;box-shadow:0 0 22px rgba(22,70,255,.7)}
+.phead{display:flex;justify-content:space-between;align-items:end;gap:1rem;flex-wrap:wrap;margin-bottom:1.4rem}
+.phead h2{font-size:clamp(1.5rem,3.4vw,2.3rem)}
+.phead p{color:var(--mut);margin-top:.4rem}
+.chips{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.6rem}
+.chip{border:1px solid var(--line);background:transparent;padding:.4rem .9rem;border-radius:999px;color:var(--mut);cursor:pointer;font-weight:700;font-size:.85rem;transition:.2s}
+.chip:hover{border-color:var(--neon);color:var(--white)}
+.chip.on{background:rgba(26,209,255,.14);border-color:var(--neon);color:var(--neon)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.2rem}
+.card{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:1.3rem;cursor:pointer;overflow:hidden;display:flex;flex-direction:column;gap:.7rem;transition:border-color .25s,transform .25s}
+.card::before{content:"";position:absolute;inset:0;background:radial-gradient(260px circle at var(--mx,50%) var(--my,0%),rgba(26,209,255,.16),transparent 60%);opacity:0;transition:opacity .25s;pointer-events:none}
+.card:hover{border-color:rgba(26,209,255,.6);transform:translateY(-4px)}
+.card:hover::before{opacity:1}
+.card h3{font-size:1.1rem;line-height:1.25}
+.card p{color:var(--mut);font-size:.93rem;flex:1}
+.tg{align-self:flex-start;font-size:.75rem;font-weight:800;padding:.2rem .65rem;border-radius:999px;border:1px solid}
+.t-Projeto{color:var(--neon);border-color:rgba(26,209,255,.5);background:rgba(26,209,255,.08)}
+.t-Site{color:#7da2ff;border-color:rgba(125,162,255,.5);background:rgba(22,70,255,.12)}
+.t-Ideia{color:#fff;border-color:rgba(255,255,255,.35);background:rgba(255,255,255,.06)}
+.foot{display:flex;gap:1rem;align-items:center;color:var(--mut);font-size:.85rem;flex-wrap:wrap}
+.foot span{display:inline-flex;align-items:center;gap:.35rem}
+.foot .host{margin-left:auto;color:var(--mut)}
+.cadm{display:flex;gap:.4rem;position:absolute;top:.8rem;right:.8rem;z-index:2}
+.empty{border:1px dashed var(--line);border-radius:var(--r);padding:2.4rem;text-align:center;color:var(--mut)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:clamp(1.2rem,3vw,2rem)}
+.hist{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:1.4rem}
+.hist .txt p{margin-bottom:1rem;color:#c6d4ee;max-width:68ch}
+.who dl{display:grid;gap:.9rem;margin-top:1rem}
+.who dt{color:var(--mut);font-size:.82rem;font-weight:700}
+.who dd{font-weight:700;font-size:1.05rem}
+.ctl{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.4rem}
+.wa{display:flex;align-items:center;gap:1rem;padding:1.2rem;border-radius:var(--r);border:1px solid rgba(26,209,255,.4);background:linear-gradient(135deg,rgba(22,70,255,.25),rgba(26,209,255,.06));text-decoration:none;color:var(--white);transition:.25s}
+.wa:hover{box-shadow:0 0 36px rgba(26,209,255,.35);transform:translateY(-2px)}
+.wa strong{font-size:1.2rem;display:block}
+.cl{display:grid;gap:.6rem;margin-top:1rem}
+.cl a{display:flex;gap:.6rem;align-items:center;padding:.75rem 1rem;border:1px solid var(--line);border-radius:12px;text-decoration:none;color:var(--white);transition:.2s}
+.cl a:hover{border-color:var(--neon)}
+@media(max-width:820px){.hist,.ctl{grid-template-columns:1fr}}
+footer{border-top:1px solid var(--line);padding:2rem clamp(1rem,4vw,2.5rem);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;color:var(--mut);font-size:.9rem}
+footer button{background:none;border:0;color:var(--mut);cursor:pointer;display:inline-flex;gap:.4rem;align-items:center}
+footer button:hover{color:var(--neon)}
+
+/* revelar no scroll */
+.rv{opacity:0;transform:translateY(34px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
+.rv.l{transform:translateX(-40px)}.rv.r{transform:translateX(40px)}
+.rv.in{opacity:1;transform:none}
+#top{position:fixed;right:1.2rem;bottom:1.2rem;z-index:90;width:46px;height:46px;border-radius:50%;border:1px solid var(--neon);background:rgba(0,0,0,.8);color:var(--neon);cursor:pointer;display:grid;place-items:center;opacity:0;pointer-events:none;transform:translateY(12px);transition:.3s;box-shadow:0 0 18px rgba(26,209,255,.35)}
+#top.on{opacity:1;pointer-events:auto;transform:none}
+
+/* modal e admin */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.74);backdrop-filter:blur(6px);display:none;z-index:200;overflow:auto;padding:5vh 1rem}
+.ov.open{display:block}
+.md{max-width:640px;margin:auto;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:1.6rem;position:relative;box-shadow:0 0 70px rgba(22,70,255,.28);animation:pop .28s cubic-bezier(.2,.8,.2,1)}
+.md.wide{max-width:760px}
+@keyframes pop{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:none}}
+.x{position:absolute;top:1rem;right:1rem;background:none;border:1px solid var(--line);border-radius:8px;width:34px;height:34px;display:grid;place-items:center;cursor:pointer;color:var(--mut)}
+.x:hover{color:var(--neon);border-color:var(--neon)}
+.md h2{font-size:1.35rem;margin-bottom:.3rem;padding-right:2.5rem}
+.md>.sub{color:var(--mut);margin-bottom:.5rem}
+.seg{display:flex;gap:.3rem;background:#02050c;border:1px solid var(--line);padding:.3rem;border-radius:12px;margin:1rem 0 .4rem}
+.seg button{flex:1;background:none;border:0;padding:.55rem;border-radius:9px;color:var(--mut);font-weight:800;cursor:pointer}
+.seg button.on{background:var(--blue);color:#fff}
+.note{border:1px dashed rgba(26,209,255,.5);background:rgba(26,209,255,.06);border-radius:12px;padding:.9rem 1rem;margin:1rem 0;font-size:.88rem;color:var(--mut)}
+.note b.code{display:block;font:800 1.7rem Unbounded,monospace;letter-spacing:.3em;color:var(--neon);margin-top:.3rem}
+.react{display:flex;gap:.6rem;margin:1.1rem 0;flex-wrap:wrap}
+.rb{display:inline-flex;gap:.5rem;align-items:center;padding:.6rem 1.1rem;border-radius:12px;border:1px solid var(--line);background:transparent;cursor:pointer;font-weight:800;transition:.2s}
+.rb:hover{border-color:var(--neon)}
+.rb.up.on{background:rgba(43,230,160,.14);border-color:var(--ok);color:var(--ok)}
+.rb.dn.on{background:rgba(255,93,122,.14);border-color:var(--bad);color:var(--bad)}
+.cm{border-top:1px solid var(--line);margin-top:1.2rem;padding-top:1rem}
+.cm h3{font-size:1rem;margin-bottom:.8rem}
+.cmi{border:1px solid var(--line);border-radius:12px;padding:.8rem 1rem;margin-bottom:.6rem;background:var(--panel2)}
+.cmi header{display:flex;justify-content:space-between;gap:.5rem;font-size:.82rem;color:var(--mut);margin-bottom:.2rem}
+.cmi header b{color:var(--white)}
+.cmi p{overflow-wrap:anywhere}
+.lock{border:1px dashed var(--line);border-radius:12px;padding:1rem;text-align:center;color:var(--mut)}
+.lock .btn{margin-top:.7rem}
+.admin{position:fixed;inset:0;z-index:150;background:var(--bg);display:none;grid-template-columns:230px minmax(0,1fr);overflow:hidden}
+.admin.open{display:grid}
+.admin aside{border-right:1px solid var(--line);padding:1.2rem .8rem;display:flex;flex-direction:column;gap:.3rem;background:var(--panel);overflow:auto}
+.admin aside .logo{margin-bottom:1rem;padding:0 .4rem}
+.admin aside button.t{background:none;border:0;text-align:left;padding:.65rem .8rem;border-radius:10px;color:var(--mut);cursor:pointer;font-weight:700;display:flex;gap:.6rem;align-items:center}
+.admin aside button.t:hover{color:var(--white);background:rgba(26,209,255,.08)}
+.admin aside button.t.on{background:var(--blue);color:#fff}
+.admin main{overflow:auto;padding:clamp(1rem,3vw,2.2rem)}
+.admin main h2{font-size:1.6rem;margin-bottom:1.2rem}
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:1rem}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:1.1rem}
+.stat b{display:block;font:800 2rem Unbounded,sans-serif;color:var(--neon)}
+.stat span{color:var(--mut);font-size:.85rem}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r)}
+table{width:100%;border-collapse:collapse;min-width:560px}
+th,td{text-align:left;padding:.75rem 1rem;border-bottom:1px solid var(--line);font-size:.92rem;vertical-align:middle}
+th{color:var(--mut);font-size:.8rem;background:var(--panel)}
+tr:last-child td{border-bottom:0}
+td .row{display:flex;gap:.4rem;flex-wrap:wrap}
+.ok{color:var(--ok);font-weight:800}.pend{color:#ffd37a;font-weight:800}
+.bar2{display:flex;height:8px;border-radius:6px;overflow:hidden;background:var(--line);margin:.5rem 0}
+.bar2 i{display:block;height:100%}
+.rx{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:1.1rem;margin-bottom:1rem}
+.rx small{color:var(--mut);display:block}
+.sec{margin-bottom:1.4rem}
+.sec h3{font-size:1.05rem;margin-bottom:.4rem}
+#toast{position:fixed;left:50%;bottom:1.5rem;transform:translate(-50%,30px);background:var(--panel2);border:1px solid var(--neon);padding:.7rem 1.2rem;border-radius:12px;z-index:400;opacity:0;pointer-events:none;transition:.3s;box-shadow:0 0 28px rgba(26,209,255,.3);max-width:90vw}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+#toast.bad{border-color:var(--bad)}
+@media(max-width:820px){.admin.open{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr)}.admin aside{flex-direction:row;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line);padding:.6rem}.admin aside .logo{display:none}.admin aside button.t{white-space:nowrap}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<nav class="top" id="nav"></nav>
+<main>
+  <header class="hero" id="inicio"></header>
+  <section class="scrub" id="scrub"></section>
+  <section class="hub" id="hub"></section>
+</main>
+<footer id="footer"></footer>
+<button id="top" aria-label="Voltar ao topo" data-act="toTop"><svg class="i" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+<div class="ov" id="modal" aria-hidden="true"><div class="md" id="mbody" role="dialog" aria-modal="true"></div></div>
+<div class="admin" id="admin"></div>
+<div id="toast" role="status"></div>
+<noscript><p style="padding:2rem">Ative o JavaScript para ver o My Dev Hub.</p></noscript>
+
+<script>
+"use strict";
+/* ================= CONFIGURAÇÃO DO DONO =================
+   Acesso inicial do admin (troque a senha em Painel > Segurança). */
+const CFG={ADMIN_EMAIL:'admin@devhub.com',ADMIN_PASS:'devhub@2026'};
+
+/* ================= ARMAZENAMENTO (localStorage com reserva em memória) ================= */
+const KEY='mydevhub_v1';
+let LS=null;try{localStorage.setItem('_t','1');localStorage.removeItem('_t');LS=localStorage}catch(e){}
+const mem={};
+const store={get:k=>{try{return LS?LS.getItem(k):(mem[k]??null)}catch(e){return mem[k]??null}},set:(k,v)=>{try{LS?LS.setItem(k,v):(mem[k]=v)}catch(e){mem[k]=v}}};
+
+/* ================= UTILITÁRIOS ================= */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const first=n=>String(n).trim().split(/\s+/)[0];
+const fdate=t=>new Date(t).toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'});
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+const IC={
+ up:'<path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>',
+ dn:'<path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/>',
+ link:'<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/>',
+ edit:'<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"/>',
+ del:'<path d="M3 6h18"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>',
+ x:'<path d="M18 6L6 18M6 6l12 12"/>',
+ msg:'<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+ lock:'<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+ plus:'<path d="M12 5v14M5 12h14"/>',
+ wa:'<path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20.5l1.7-5.2A8.5 8.5 0 1 1 21 11.5z"/>',
+ mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
+ code:'<path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/>',
+ user:'<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+ grid:'<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>',
+ heart:'<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/>',
+ cog:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
+ users:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/>',
+ chart:'<path d="M18 20V10M12 20V4M6 20v-6"/>',
+ back:'<path d="M19 12H5M12 19l-7-7 7-7"/>'
+};
+const ico=n=>`<svg class="i" viewBox="0 0 24 24" aria-hidden="true">${IC[n]}</svg>`;
+const fixUrl=u=>{u=String(u||'').trim();return /^https?:\/\//i.test(u)?u:'https://'+u};
+const host=u=>{try{return new URL(fixUrl(u)).hostname.replace(/^www\./,'')}catch(e){return ''}};
+let toastT;function toast(m,bad){const t=$('#toast');t.textContent=m;t.className='on'+(bad?' bad':'');clearTimeout(toastT);toastT=setTimeout(()=>t.className='',3200)}
+
+async function hash(s){
+  try{if(window.crypto&&crypto.subtle){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('devhub:'+s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}}catch(e){}
+  let h=5381;for(const c of 'devhub:'+s)h=((h<<5)+h+c.charCodeAt(0))>>>0;return 'f'+h.toString(16);
+}
+function code6(){try{const a=new Uint32Array(1);crypto.getRandomValues(a);return String(100000+a[0]%900000)}catch(e){return String(Math.floor(100000+Math.random()*900000))}}
+
+/* ================= ESTADO ================= */
+let S;
+const save=()=>store.set(KEY,JSON.stringify(S));
+let adminOn=false;              // sessão do dono: só em memória (recarregar a página sai)
+let tab='projetos',filter='Todos',adminTab='resumo',curPid=null,afterAuth=null;
+
+async function defaults(){
+  return{
+    v:1,
+    admin:{email:CFG.ADMIN_EMAIL,hash:await hash(CFG.ADMIN_PASS)},
+    users:[],comments:[],votes:{},session:{uid:null},
+    projects:[
+      {id:uid(),title:'Exemplo: Landing page de vendas',desc:'Página de vendas com animações e botão de checkout. Edite ou apague este exemplo pelo Painel do dono.',url:'https://exemplo.com',tag:'Projeto',ts:Date.now()},
+      {id:uid(),title:'Exemplo: Site pessoal com Instagram',desc:'Site pessoal com feed do Instagram e botão de WhatsApp. Troque o link pelo endereço real.',url:'https://exemplo.com',tag:'Site',ts:Date.now()-1},
+      {id:uid(),title:'Exemplo: SaaS por assinatura',desc:'Uma ideia de produto por assinatura que ainda vai virar código. Registre aqui antes de esquecer.',url:'https://exemplo.com',tag:'Ideia',ts:Date.now()-2}
+    ],
+    content:{
+      hero:{name:'João Pedro Félix',age:'29',city:'Itumbiara - Goiás',site:'My Dev Hub',tagline:'Ideias que viram códigos.',intro:'Um depósito de links com os meus projetos de programação, sites e ideias. Tudo em um só lugar, para você abrir, testar e opinar.'},
+      history:'O My Dev Hub nasceu de uma vontade simples: ter um lugar só para guardar tudo o que eu crio.\n\nEntre projetos de programação, sites e ideias rabiscadas, os links viviam espalhados em abas, anotações e conversas. Esta página reúne tudo em um endereço único.\n\nCada ideia entra aqui como um card com link. Quando vira código, ganha um projeto de verdade, e quem passa por aqui pode abrir, comentar e dizer se gostou.\n\nEdite este texto pelo Painel do dono para contar a sua versão.',
+      contact:{whatsapp:'(64) 9.9271-8193',email:'',github:'',instagram:'',note:'Quer conversar sobre um projeto, uma ideia ou uma parceria? Me chame no WhatsApp.'}
+    }
+  };
+}
+async function loadState(){
+  let raw=store.get(KEY);
+  if(raw){try{S=JSON.parse(raw);if(S&&S.projects&&S.content)return}catch(e){}}
+  S=await defaults();save();
+}
+const me=()=>S.users.find(u=>u.id===S.session.uid&&u.confirmed)||null;
+const votesOf=pid=>{const v=S.votes[pid]||{};let up=0,dn=0;for(const k in v){v[k]===1?up++:dn++}return{up,dn}};
+const cmOf=pid=>S.comments.filter(c=>c.pid===pid);
+const waLink=(txt)=>'https://wa.me/55'+String(S.content.contact.whatsapp).replace(/\D/g,'').replace(/^55(?=\d{11}$)/,'')+(txt?'?text='+encodeURIComponent(txt):'');
+
+/* ================= RENDER: PÁGINA PÚBLICA ================= */
+function renderNav(){
+  const u=me();
+  let acts;
+  if(adminOn)acts=`<button class="btn sm" data-act="openAdmin">${ico('cog')} Painel do dono</button><button class="btn ghost sm" data-act="logout">Sair</button>`;
+  else if(u)acts=`<span class="hint" style="margin-right:.2rem">Olá, ${esc(first(u.name))}</span><button class="btn ghost sm" data-act="logout">Sair</button>`;
+  else acts=`<button class="btn ghost sm" data-act="auth" data-tab="login">Entrar</button><button class="btn sm" data-act="auth" data-tab="register">Cadastrar</button>`;
+  $('#nav').innerHTML=`<button class="logo" data-act="toTop" aria-label="Início"><b>&lt;/&gt;</b>${esc(S.content.hero.site)}</button>
+  <div class="links"><button data-act="goTab" data-tab="projetos" id="nl-projetos">Projetos</button><button data-act="goTab" data-tab="historia" id="nl-historia">História</button><button data-act="goTab" data-tab="contato" id="nl-contato">Contato</button></div>
+  <div class="acts">${acts}</div>`;
+  markNav();
+}
+function markNav(){
+  const hubTop=$('#hub').getBoundingClientRect().top;
+  const inHub=hubTop<innerHeight*.55;
+  ['projetos','historia','contato'].forEach(t=>{const b=$('#nl-'+t);if(b)b.classList.toggle('on',inHub&&tab===t)});
+}
+function renderHero(){
+  const h=S.content.hero;
+  $('#inicio').innerHTML=`<div class="grid-bg" id="gridbg"></div><div class="glow"></div>
+  <div class="hero-in" id="heroin">
+    <p class="hello">Olá, eu sou <b>${esc(h.name)}</b>, ${esc(h.age)} anos, de ${esc(h.city)}.</p>
+    <h1>${esc(h.site)}</h1>
+    <p class="tagline">${esc(h.tagline)}</p>
+    <p class="intro">${esc(h.intro)}</p>
+    <div class="cta">
+      <button class="btn" data-act="goTab" data-tab="projetos">${ico('code')} Ver projetos</button>
+      <a class="btn ghost" href="${esc(waLink())}" target="_blank" rel="noopener">${ico('wa')} Chamar no WhatsApp</a>
+      ${adminOn?`<button class="btn blue" data-act="editContent" data-sec="hero">${ico('edit')} Editar apresentação</button>`:''}
+    </div>
+  </div>
+  <div class="cue"><i></i>Role para baixo</div>`;
+}
+let TOTAL=0,FULL='',lastN=-1;
+function codeText(){
+  const h=S.content.hero;
+  return `const hub = {\n  site: "${h.site}",\n  lema: "${h.tagline}",\n  dono: "${h.name}",\n  idade: ${parseInt(h.age)||0},\n  cidade: "${h.city}",\n  projetos: ${S.projects.length},\n};\n\nhub.publicar(); // no ar`;
+}
+function hl(src){
+  return esc(src).replace(/(&quot;[^\n]*?(?:&quot;|$))|(\bconst\b)|(\b\d+\b)|(\/\/[^\n]*)/g,(m,a,b,c,d)=>a?`<span class="s">${a}</span>`:b?`<span class="k">${b}</span>`:c?`<span class="n">${c}</span>`:`<span class="c">${d}</span>`);
+}
+function renderScrub(){
+  FULL=codeText();TOTAL=FULL.length;lastN=-1;
+  $('#scrub').innerHTML=`<div class="stage">
+    <h2>Do rascunho ao link.</h2>
+    <p>Role a página devagar e veja uma ideia virar código.</p>
+    <div class="duo" id="duo">
+      <div class="idea" id="idea"><small>Ideia</small><p>Um lugar só para guardar meus projetos, sites e ideias.</p></div>
+      <div class="wire" id="wire"><i></i></div>
+      <div class="win"><header><span></span><span></span><span></span><em>hub.js</em></header><pre id="code" aria-label="Código de exemplo do My Dev Hub"></pre></div>
+    </div>
+    <div class="pub" id="pub">${ico('code')} Publicado no My Dev Hub</div>
+  </div>`;
+  updateScroll(true);
+}
+function renderHub(instant){
+  const bar=`<div class="tabbar rv${instant?' in':''}" role="tablist">
+    <button role="tab" class="${tab==='projetos'?'on':''}" data-act="tab" data-tab="projetos">Projetos</button>
+    <button role="tab" class="${tab==='historia'?'on':''}" data-act="tab" data-tab="historia">História</button>
+    <button role="tab" class="${tab==='contato'?'on':''}" data-act="tab" data-tab="contato">Contato</button></div>`;
+  let body='';
+  if(tab==='projetos')body=panelProjects(instant);
+  else if(tab==='historia')body=panelHistory();
+  else body=panelContact();
+  $('#hub').innerHTML=bar+`<div id="tabpanel">${body}</div>`;
+  watchReveals();markNav();
+}
+function panelProjects(instant){
+  const list=S.projects.filter(p=>filter==='Todos'||p.tag===filter).sort((a,b)=>b.ts-a.ts);
+  const tags=['Todos','Projeto','Site','Ideia'];
+  const cards=list.map((p,i)=>{
+    const v=votesOf(p.id);
+    return `<article class="card rv${instant?' in':''}" style="--d:${instant?0:Math.min(i,6)*.07}s" tabindex="0" role="button" data-act="openProject" data-id="${p.id}" aria-label="Abrir ${esc(p.title)}">
+      ${adminOn?`<div class="cadm"><button class="btn ghost sm" data-act="editProject" data-id="${p.id}" aria-label="Editar">${ico('edit')}</button><button class="btn danger sm" data-act="delProject" data-id="${p.id}" aria-label="Excluir">${ico('del')}</button></div>`:''}
+      <span class="tg t-${esc(p.tag)}">${esc(p.tag)}</span>
+      <h3>${esc(p.title)}</h3><p>${esc(p.desc)}</p>
+      <div class="foot"><span>${ico('up')}${v.up}</span><span>${ico('dn')}${v.dn}</span><span>${ico('msg')}${cmOf(p.id).length}</span><span class="host">${esc(host(p.url))}</span></div>
+    </article>`}).join('');
+  return `<div class="phead rv${instant?' in':''}"><div><h2>Projetos, sites e ideias</h2><p>Qualquer pessoa pode abrir os links. Para comentar e reagir, entre na sua conta.</p></div>
+    ${adminOn?`<button class="btn" data-act="newProject">${ico('plus')} Novo projeto</button>`:''}</div>
+    <div class="chips rv${instant?' in':''}">${tags.map(t=>`<button class="chip ${filter===t?'on':''}" data-act="filter" data-f="${t}">${t}</button>`).join('')}</div>
+    ${list.length?`<div class="grid">${cards}</div>`:`<div class="empty">Nenhum item em "${esc(filter)}" por enquanto.</div>`}`;
+}
+function panelHistory(){
+  const h=S.content.hero,paras=S.content.history.split(/\n\s*\n/).map(p=>`<p>${esc(p).replace(/\n/g,'<br>')}</p>`).join('');
+  return `<div class="phead rv"><div><h2>A história do ${esc(h.site)}</h2><p>Como esta página foi parar aqui.</p></div>${adminOn?`<button class="btn blue" data-act="editContent" data-sec="history">${ico('edit')} Editar história</button>`:''}</div>
+  <div class="hist"><div class="panel txt rv l">${paras}</div>
+  <div class="panel who rv r"><h3>Quem faz</h3><dl><div><dt>Nome</dt><dd>${esc(h.name)}</dd></div><div><dt>Idade</dt><dd>${esc(h.age)} anos</dd></div><div><dt>Cidade</dt><dd>${esc(h.city)}</dd></div><div><dt>Site</dt><dd>${esc(h.site)} · ${esc(h.tagline)}</dd></div></dl></div></div>`;
+}
+function panelContact(){
+  const c=S.content.contact;
+  const extra=[c.email&&`<a href="mailto:${esc(c.email)}">${ico('mail')} ${esc(c.email)}</a>`,c.github&&`<a href="${esc(fixUrl(c.github))}" target="_blank" rel="noopener">${ico('code')} GitHub · ${esc(host(c.github))}</a>`,c.instagram&&`<a href="${esc(fixUrl(c.instagram))}" target="_blank" rel="noopener">${ico('user')} Instagram · ${esc(host(c.instagram)||c.instagram)}</a>`].filter(Boolean).join('');
+  return `<div class="phead rv"><div><h2>Contato</h2><p>${esc(c.note)}</p></div>${adminOn?`<button class="btn blue" data-act="editContent" data-sec="contact">${ico('edit')} Editar contato</button>`:''}</div>
+  <div class="ctl"><div class="rv l"><a class="wa" href="${esc(waLink())}" target="_blank" rel="noopener">${ico('wa')}<span><strong>${esc(c.whatsapp)}</strong>WhatsApp · toque para conversar</span></a>${extra?`<div class="cl">${extra}</div>`:''}</div>
+  <form class="panel rv r" data-form="wamsg"><h3>Mensagem rápida</h3><p class="hint">Abre o WhatsApp com o texto já pronto.</p>
+  <label for="wn">Seu nome</label><input id="wn" name="n" maxlength="60" required><label for="wm">Mensagem</label><textarea id="wm" name="m" maxlength="400" required></textarea>
+  <button class="btn" style="margin-top:1rem">${ico('wa')} Enviar pelo WhatsApp</button></form></div>`;
+}
+function renderFooter(){
+  $('#footer').innerHTML=`<span>© ${new Date().getFullYear()} ${esc(S.content.hero.site)} · ${esc(S.content.hero.name)} · ${esc(S.content.hero.city)}</span><button data-act="adminLogin">${ico('lock')} Área do dono</button>`;
+}
+function renderAll(instant){renderNav();renderHero();renderScrub();renderHub(instant);renderFooter();document.title=S.content.hero.site+' - '+S.content.hero.tagline.replace(/\.$/,'')}
+
+/* ================= SCROLL ================= */
+let ticking=false;
+function updateScroll(force){
+  const y=scrollY,H=innerHeight,max=document.documentElement.scrollHeight-H;
+  $('#bar').style.width=(max>0?y/max*100:0)+'%';
+  $('#nav').classList.toggle('solid',y>30);
+  $('#top').classList.toggle('on',y>H*.8);
+  const hp=clamp(y/H,0,1),hi=$('#heroin'),gb=$('#gridbg');
+  if(hi&&!matchMedia('(prefers-reduced-motion:reduce)').matches){hi.style.transform=`translateY(${y*.32}px) scale(${1-hp*.1})`;hi.style.opacity=String(1-hp*1.15)}
+  if(gb)gb.style.transform=`translateY(${y*.18}px)`;
+  const sc=$('#scrub');
+  if(sc){
+    const r=sc.getBoundingClientRect(),p=clamp(-r.top/(r.height-H),0,1);
+    const idea=$('#idea');if(idea)idea.style.setProperty('--p',p.toFixed(3));
+    const w=$('#wire');if(w)w.style.setProperty('--p',clamp(p*1.6,0,1).toFixed(3));
+    const n=Math.round(clamp(p/.85,0,1)*TOTAL);
+    if(n!==lastN||force){lastN=n;const pre=$('#code');if(pre)pre.innerHTML=hl(FULL.slice(0,n))+(n<TOTAL?'<i class="caret"></i>':'');}
+    const pub=$('#pub');if(pub)pub.classList.toggle('on',p>.93);
+  }
+  markNav();ticking=false;
+}
+addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(()=>updateScroll())}},{passive:true});
+addEventListener('resize',()=>updateScroll(true));
+let io;
+function watchReveals(){
+  if(!('IntersectionObserver' in window)){document.querySelectorAll('.rv').forEach(e=>e.classList.add('in'));return}
+  if(!io)io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+  document.querySelectorAll('.rv:not(.in)').forEach(e=>io.observe(e));
+}
+document.addEventListener('mousemove',e=>{const c=e.target.closest&&e.target.closest('.card');if(c){const r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px')}});
+
+/* ================= MODAL ================= */
+function openModal(html,wide){const m=$('#mbody');m.className='md'+(wide?' wide':'');m.innerHTML=`<button class="x" data-act="closeModal" aria-label="Fechar">${ico('x')}</button>`+html;$('#modal').classList.add('open');$('#modal').setAttribute('aria-hidden','false');const f=m.querySelector('input,textarea,select');if(f&&matchMedia('(pointer:fine)').matches)f.focus()}
+function closeModal(){$('#modal').classList.remove('open');$('#modal').setAttribute('aria-hidden','true');curPid=null}
+$('#modal').addEventListener('mousedown',e=>{if(e.target.id==='modal')closeModal()});
+addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#modal').classList.contains('open'))closeModal()});
+const err=(f,m)=>{const e=f.querySelector('.err');if(e)e.textContent=m};
+
+/* ================= PROJETO (detalhe, reações, comentários) ================= */
+function projectHTML(p){
+  const u=me(),v=votesOf(p.id),mine=u&&S.votes[p.id]?S.votes[p.id][u.id]:0,cms=cmOf(p.id).sort((a,b)=>b.ts-a.ts);
+  return `<span class="tg t-${esc(p.tag)}">${esc(p.tag)}</span>
+  <h2 style="margin-top:.6rem">${esc(p.title)}</h2><p class="sub">${esc(p.desc)}</p>
+  <div style="margin-top:1rem"><a class="btn" href="${esc(fixUrl(p.url))}" target="_blank" rel="noopener">${ico('link')} Abrir link</a> <span class="hint" style="margin-left:.5rem">${esc(host(p.url))}</span></div>
+  <div class="react"><button class="rb up ${mine===1?'on':''}" data-act="vote" data-v="1">${ico('up')} Gostei · ${v.up}</button><button class="rb dn ${mine===-1?'on':''}" data-act="vote" data-v="-1">${ico('dn')} Não gostei · ${v.dn}</button></div>
+  <div class="cm"><h3>Comentários (${cms.length})</h3>
+  ${u?`<form data-form="comment"><label for="ct" class="hint" style="margin-top:0">Comentando como ${esc(u.name)}</label><textarea id="ct" name="t" maxlength="500" required placeholder="O que você achou deste projeto?"></textarea><div class="err" role="alert"></div><button class="btn sm">Comentar</button></form>`
+  :adminOn?`<div class="lock">Você está no modo dono. Comentários e reações são dos visitantes cadastrados.</div>`
+  :`<div class="lock">Entre na sua conta para comentar e dar Gostei ou Não gostei.<br><button class="btn sm" data-act="auth" data-tab="login">Entrar ou cadastrar</button></div>`}
+  <div style="margin-top:1rem">${cms.map(c=>`<div class="cmi"><header><b>${esc(c.name)}</b><span>${fdate(c.ts)}${adminOn?` <button class="btn danger sm" data-act="delComment" data-id="${c.id}" aria-label="Excluir comentário">${ico('del')}</button>`:''}</span></header><p>${esc(c.text).replace(/\n/g,'<br>')}</p></div>`).join('')||'<p class="hint">Ainda sem comentários. Seja a primeira pessoa a comentar.</p>'}</div></div>`;
+}
+function showProject(id){const p=S.projects.find(x=>x.id===id);if(!p)return;curPid=id;const keep=$('#modal').scrollTop;openModal(projectHTML(p),true);$('#modal').scrollTop=keep}
+function refreshProject(){if(curPid&&$('#modal').classList.contains('open')){const p=S.projects.find(x=>x.id===curPid);if(p){const keep=$('#modal').scrollTop;$('#mbody').innerHTML=`<button class="x" data-act="closeModal" aria-label="Fechar">${ico('x')}</button>`+projectHTML(p);$('#modal').scrollTop=keep}}if(tab==='projetos'&&!document.getElementById('admin').classList.contains('open'))renderHub(true)}
+
+/* ================= AUTENTICAÇÃO ================= */
+function openAuth(t,msg){
+  afterAuth=curPid;
+  const reg=t==='register';
+  openModal(`<h2>${reg?'Criar conta':'Entrar'}</h2><p class="sub">${esc(msg||(reg?'Cadastre-se para comentar e reagir aos projetos.':'Acesse sua conta de visitante.'))}</p>
+  <div class="seg" role="tablist"><button class="${reg?'':'on'}" data-act="auth" data-tab="login">Entrar</button><button class="${reg?'on':''}" data-act="auth" data-tab="register">Cadastrar</button></div>
+  ${reg?`<form data-form="register"><label for="rn">Nome</label><input id="rn" name="name" autocomplete="name" minlength="2" maxlength="60" required>
+  <label for="re">E-mail</label><input id="re" name="email" type="email" autocomplete="email" required>
+  <label for="rp">Senha (mínimo 6 caracteres)</label><input id="rp" name="pass" type="password" autocomplete="new-password" minlength="6" required>
+  <label for="rp2">Repetir senha</label><input id="rp2" name="pass2" type="password" autocomplete="new-password" required>
+  <div class="err" role="alert"></div><button class="btn" style="width:100%">Criar conta e receber código</button><p class="hint" style="margin-top:.8rem">Cada e-mail só pode ter uma conta, e ela precisa ser confirmada por e-mail.</p></form>`
+  :`<form data-form="login"><label for="le">E-mail</label><input id="le" name="email" type="email" autocomplete="email" required>
+  <label for="lp">Senha</label><input id="lp" name="pass" type="password" autocomplete="current-password" required>
+  <div class="err" role="alert"></div><button class="btn" style="width:100%">Entrar</button></form>`}`);
+}
+function openVerify(userId,fresh){
+  const u=S.users.find(x=>x.id===userId);if(!u)return;
+  openModal(`<h2>Confirme seu e-mail</h2><p class="sub">Enviamos um código de 6 dígitos para <b>${esc(u.email)}</b>. Digite abaixo para ativar a conta.</p>
+  <div class="note">Modo demonstração: este arquivo não tem servidor de e-mail, então o código aparece aqui.<b class="code">${esc(u.code)}</b></div>
+  <form data-form="verify" data-uid="${u.id}"><label for="vc">Código</label><input id="vc" name="c" inputmode="numeric" maxlength="6" autocomplete="one-time-code" required>
+  <div class="err" role="alert"></div><button class="btn" style="width:100%">Confirmar e entrar</button></form>
+  <button class="btn ghost sm" style="margin-top:.8rem" data-act="resend" data-uid="${u.id}">Gerar novo código</button>`);
+  if(fresh)toast('Conta criada. Confirme o e-mail para entrar.');
+}
+const forms={
+  async login(f){
+    const email=f.email.value.trim().toLowerCase(),h=await hash(f.pass.value),u=S.users.find(x=>x.email===email);
+    if(!u||u.hash!==h)return err(f,'E-mail ou senha incorretos.');
+    if(!u.confirmed){u.code=code6();u.exp=Date.now()+15*60000;save();return openVerify(u.id)}
+    S.session.uid=u.id;save();const back=afterAuth;closeModal();renderAll(true);toast('Bem-vindo de volta, '+first(u.name)+'!');if(back)showProject(back);
+  },
+  async register(f){
+    const name=f.name.value.trim(),email=f.email.value.trim().toLowerCase(),p=f.pass.value;
+    if(name.length<2)return err(f,'Informe seu nome.');
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email))return err(f,'Digite um e-mail válido.');
+    if(p.length<6)return err(f,'A senha precisa ter pelo menos 6 caracteres.');
+    if(p!==f.pass2.value)return err(f,'As senhas não são iguais.');
+    if(S.users.some(x=>x.email===email)||email===S.admin.email.toLowerCase())return err(f,'Este e-mail já está cadastrado. Use a aba Entrar.');
+    const u={id:uid(),name,email,hash:await hash(p),confirmed:false,code:code6(),exp:Date.now()+15*60000,ts:Date.now()};
+    S.users.push(u);save();openVerify(u.id,true);
+  },
+  verify(f){
+    const u=S.users.find(x=>x.id===f.dataset.uid);if(!u)return;
+    if(Date.now()>u.exp)return err(f,'Este código expirou. Gere um novo código.');
+    if(f.c.value.trim()!==u.code)return err(f,'Código incorreto. Confira e tente de novo.');
+    u.confirmed=true;u.code='';S.session.uid=u.id;save();const back=afterAuth;closeModal();renderAll(true);toast('E-mail confirmado. Você já pode comentar e reagir.');if(back)showProject(back);
+  },
+  comment(f){
+    const u=me();if(!u)return openAuth('login','Entre para comentar.');
+    const t=f.t.value.trim();if(!t)return err(f,'Escreva algo antes de comentar.');
+    S.comments.push({id:uid(),pid:curPid,uid:u.id,name:u.name,text:t.slice(0,500),ts:Date.now()});save();refreshProject();toast('Comentário publicado.');
+  },
+  wamsg(f){const n=f.n.value.trim(),m=f.m.value.trim();window.open(waLink(`Olá, sou ${n}. ${m}`),'_blank','noopener')},
+  project(f){
+    const d={title:f.title.value.trim(),desc:f.desc.value.trim(),url:fixUrl(f.url.value),tag:f.tag.value};
+    if(!d.title||!f.url.value.trim())return err(f,'Preencha o título e o link.');
+    if(f.dataset.id){Object.assign(S.projects.find(p=>p.id===f.dataset.id),d);toast('Projeto atualizado.')}
+    else{S.projects.push({id:uid(),ts:Date.now(),...d});toast('Projeto adicionado.')}
+    save();closeModal();afterAdminChange();
+  },
+  content(f){
+    const sec=f.dataset.sec;
+    if(sec==='history')S.content.history=f.history.value;
+    else for(const k of Object.keys(S.content[sec]))S.content[sec][k]=f[k].value.trim();
+    save();if($('#modal').classList.contains('open'))closeModal();toast('Alterações salvas.');afterAdminChange();
+  },
+  async adminlogin(f){
+    if(Date.now()<lockUntil)return err(f,'Muitas tentativas. Aguarde alguns segundos.');
+    const ok=f.email.value.trim().toLowerCase()===S.admin.email.toLowerCase()&&(await hash(f.pass.value))===S.admin.hash;
+    if(!ok){if(++tries>=5){lockUntil=Date.now()+30000;tries=0}return err(f,'Acesso negado. Esta área é somente para o dono.')}
+    tries=0;adminOn=true;S.session.uid=null;save();closeModal();renderAll(true);toast('Acesso do dono liberado.');openAdmin();
+  },
+  async security(f){
+    if((await hash(f.cur.value))!==S.admin.hash)return err(f,'Senha atual incorreta.');
+    const em=f.email.value.trim().toLowerCase();
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em))return err(f,'E-mail inválido.');
+    if(S.users.some(u=>u.email===em))return err(f,'Este e-mail já é de um visitante cadastrado.');
+    S.admin.email=em;
+    if(f.np.value){if(f.np.value.length<8)return err(f,'A nova senha precisa ter 8 caracteres ou mais.');S.admin.hash=await hash(f.np.value)}
+    save();f.reset();err(f,'');toast('Dados do dono atualizados.');
+  }
+};
+let tries=0,lockUntil=0;
+document.addEventListener('submit',e=>{const f=e.target.closest('[data-form]');if(f){e.preventDefault();forms[f.dataset.form]&&forms[f.dataset.form](f)}});
+
+/* ================= FORMULÁRIOS DO DONO ================= */
+function projectForm(p){
+  p=p||{};
+  return `<h2>${p.id?'Editar projeto':'Novo projeto'}</h2><p class="sub">Aparece na aba Projetos para todos os visitantes.</p>
+  <form data-form="project" data-id="${p.id||''}"><label for="pt">Título</label><input id="pt" name="title" maxlength="80" value="${esc(p.title)}" required>
+  <label for="pd">Descrição</label><textarea id="pd" name="desc" maxlength="300">${esc(p.desc)}</textarea>
+  <label for="pu">Link</label><input id="pu" name="url" placeholder="https://" value="${esc(p.url)}" required>
+  <label for="pg">Categoria</label><select id="pg" name="tag">${['Projeto','Site','Ideia'].map(t=>`<option ${p.tag===t?'selected':''}>${t}</option>`).join('')}</select>
+  <div class="err" role="alert"></div><button class="btn" style="margin-top:.6rem">Salvar projeto</button></form>`;
+}
+const LBL={name:'Seu nome',age:'Idade',city:'Cidade',site:'Nome do site',tagline:'Frase de efeito',intro:'Texto de apresentação',whatsapp:'WhatsApp',email:'E-mail',github:'GitHub (link)',instagram:'Instagram (link)',note:'Texto da aba'};
+function contentForm(sec){
+  const titles={hero:'Apresentação',history:'História da página',contact:'Contato'};
+  let fields;
+  if(sec==='history')fields=`<label for="ch">Texto (separe parágrafos com uma linha em branco)</label><textarea id="ch" name="history" style="min-height:260px">${esc(S.content.history)}</textarea>`;
+  else fields=Object.keys(S.content[sec]).map(k=>{const big=k==='intro'||k==='note';return `<label for="c-${sec}-${k}">${LBL[k]}</label>${big?`<textarea id="c-${sec}-${k}" name="${k}">${esc(S.content[sec][k])}</textarea>`:`<input id="c-${sec}-${k}" name="${k}" value="${esc(S.content[sec][k])}">`}`}).join('');
+  return `<form data-form="content" data-sec="${sec}"><h3 style="margin-bottom:.3rem">${titles[sec]}</h3>${fields}<div class="err" role="alert"></div><button class="btn" style="margin-top:.8rem">Salvar ${titles[sec].toLowerCase()}</button></form>`;
+}
+
+/* ================= PAINEL DO DONO ================= */
+function openAdmin(){$('#admin').classList.add('open');document.body.style.overflow='hidden';renderAdmin()}
+function closeAdmin(){$('#admin').classList.remove('open');document.body.style.overflow='';renderAll(true)}
+function afterAdminChange(){if($('#admin').classList.contains('open'))renderAdmin();else renderAll(true)}
+function renderAdmin(){
+  const tabs=[['resumo','chart','Resumo'],['projetos','grid','Projetos'],['usuarios','users','Usuários'],['reacoes','heart','Reações e comentários'],['pagina','edit','Editar a página'],['seguranca','lock','Segurança']];
+  const up=Object.values(S.votes).reduce((a,v)=>a+Object.values(v).filter(x=>x===1).length,0),dn=Object.values(S.votes).reduce((a,v)=>a+Object.values(v).filter(x=>x===-1).length,0);
+  let main='';
+  if(adminTab==='resumo')main=`<h2>Resumo</h2><div class="stats">${[['Projetos',S.projects.length],['Usuários',S.users.length],['E-mail confirmado',S.users.filter(u=>u.confirmed).length],['Gostei',up],['Não gostei',dn],['Comentários',S.comments.length]].map(s=>`<div class="stat"><b>${s[1]}</b><span>${s[0]}</span></div>`).join('')}</div>`;
+  if(adminTab==='projetos')main=`<h2>Projetos</h2><p style="margin-bottom:1rem"><button class="btn" data-act="newProject">${ico('plus')} Enviar novo projeto</button></p><div class="tbl"><table><tr><th>Título</th><th>Categoria</th><th>Gostei</th><th>Não gostei</th><th>Ações</th></tr>${S.projects.map(p=>{const v=votesOf(p.id);return `<tr><td>${esc(p.title)}<br><a href="${esc(fixUrl(p.url))}" target="_blank" rel="noopener" class="hint">${esc(host(p.url))}</a></td><td>${esc(p.tag)}</td><td>${v.up}</td><td>${v.dn}</td><td><div class="row"><button class="btn ghost sm" data-act="editProject" data-id="${p.id}">${ico('edit')} Editar</button><button class="btn danger sm" data-act="delProject" data-id="${p.id}">${ico('del')}</button></div></td></tr>`}).join('')||'<tr><td colspan="5">Nenhum projeto.</td></tr>'}</table></div>`;
+  if(adminTab==='usuarios')main=`<h2>Registros de usuários</h2><div class="tbl"><table><tr><th>Nome</th><th>E-mail</th><th>Status</th><th>Cadastro</th><th>Ações</th></tr>${S.users.map(u=>`<tr><td>${esc(u.name)}</td><td>${esc(u.email)}</td><td class="${u.confirmed?'ok':'pend'}">${u.confirmed?'Confirmado':'Pendente'}</td><td>${fdate(u.ts)}</td><td><div class="row">${u.confirmed?'':`<button class="btn ghost sm" data-act="confirmUser" data-id="${u.id}">Confirmar</button>`}<button class="btn danger sm" data-act="delUser" data-id="${u.id}">${ico('del')} Remover</button></div></td></tr>`).join('')||'<tr><td colspan="5">Ainda não há usuários cadastrados.</td></tr>'}</table></div>`;
+  if(adminTab==='reacoes'){
+    const nm=id=>(S.users.find(u=>u.id===id)||{name:'(removido)'}).name;
+    main=`<h2>Reações e comentários</h2>${S.projects.map(p=>{const v=votesOf(p.id),t=v.up+v.dn,vs=S.votes[p.id]||{},ups=Object.keys(vs).filter(k=>vs[k]===1).map(nm),dns=Object.keys(vs).filter(k=>vs[k]===-1).map(nm),cms=cmOf(p.id).sort((a,b)=>b.ts-a.ts);
+    return `<div class="rx"><b>${esc(p.title)}</b><div class="bar2"><i style="width:${t?v.up/t*100:0}%;background:var(--ok)"></i><i style="width:${t?v.dn/t*100:0}%;background:var(--bad)"></i></div>
+    <small><span class="ok">Gostei (${v.up}):</span> ${esc(ups.join(', ')||'ninguém ainda')}</small><small><span style="color:var(--bad);font-weight:800">Não gostei (${v.dn}):</span> ${esc(dns.join(', ')||'ninguém ainda')}</small>
+    <div style="margin-top:.8rem">${cms.map(c=>`<div class="cmi"><header><b>${esc(c.name)}</b><span>${fdate(c.ts)} <button class="btn danger sm" data-act="delComment" data-id="${c.id}">${ico('del')}</button></span></header><p>${esc(c.text)}</p></div>`).join('')||'<small>Sem comentários.</small>'}</div></div>`}).join('')||'<div class="empty">Sem projetos.</div>'}`;
+  }
+  if(adminTab==='pagina')main=`<h2>Editar a página</h2>${['hero','history','contact'].map(s=>`<div class="panel sec">${contentForm(s)}</div>`).join('')}`;
+  if(adminTab==='seguranca')main=`<h2>Segurança e dados</h2><div class="panel sec"><form data-form="security"><h3>Acesso do dono</h3><label for="se">E-mail do dono</label><input id="se" name="email" type="email" value="${esc(S.admin.email)}" required>
+  <label for="sn">Nova senha (deixe em branco para manter)</label><input id="sn" name="np" type="password" autocomplete="new-password"><label for="sc">Senha atual (obrigatória)</label><input id="sc" name="cur" type="password" autocomplete="current-password" required>
+  <div class="err" role="alert"></div><button class="btn" style="margin-top:.8rem">Salvar acesso</button></form></div>
+  <div class="panel sec"><h3>Backup dos dados</h3><p class="hint" style="margin-bottom:.8rem">Os dados ficam salvos neste navegador. Exporte um backup de tempos em tempos.</p><button class="btn ghost" data-act="exportData">Exportar backup (.json)</button></div>`;
+  $('#admin').innerHTML=`<aside><button class="logo" data-act="closeAdmin"><b>&lt;/&gt;</b>Painel</button>${tabs.map(t=>`<button class="t ${adminTab===t[0]?'on':''}" data-act="adminTab" data-t="${t[0]}">${ico(t[1])} ${t[2]}</button>`).join('')}<button class="t" data-act="closeAdmin" style="margin-top:auto">${ico('back')} Voltar ao site</button></aside><main>${main}</main>`;
+}
+function adminLoginModal(){
+  openModal(`<h2>Área do dono</h2><p class="sub">Acesso restrito. Contas de visitantes não entram aqui.</p>
+  <form data-form="adminlogin"><label for="ae">E-mail do dono</label><input id="ae" name="email" type="email" autocomplete="username" required>
+  <label for="ap">Senha</label><input id="ap" name="pass" type="password" autocomplete="current-password" required>
+  <div class="err" role="alert"></div><button class="btn" style="width:100%">Entrar como dono</button></form>`);
+}
+
+/* ================= AÇÕES (delegação de cliques) ================= */
+const act={
+  toTop(){scrollTo({top:0,behavior:'smooth'})},
+  tab(d){tab=d.tab;renderHub(true);},
+  goTab(d){tab=d.tab;renderHub(true);$('#hub').scrollIntoView({behavior:'smooth'})},
+  filter(d){filter=d.f;renderHub(true)},
+  openProject(d){showProject(d.id)},
+  vote(d){
+    const u=me();if(!u){return openAuth('login','Entre na sua conta para dar Gostei ou Não gostei.')}
+    const v=+d.v;S.votes[curPid]=S.votes[curPid]||{};
+    if(S.votes[curPid][u.id]===v)delete S.votes[curPid][u.id];else S.votes[curPid][u.id]=v;
+    save();refreshProject();
+  },
+  auth(d){openAuth(d.tab)},
+  resend(d){const u=S.users.find(x=>x.id===d.uid);if(u){u.code=code6();u.exp=Date.now()+15*60000;save();openVerify(u.id);toast('Novo código gerado.')}},
+  logout(){S.session.uid=null;adminOn=false;save();closeAdminQuiet();renderAll(true);toast('Você saiu da conta.')},
+  adminLogin(){if(adminOn)openAdmin();else adminLoginModal()},
+  openAdmin(){openAdmin()},closeAdmin(){closeAdmin()},closeModal(){closeModal()},
+  adminTab(d){adminTab=d.t;renderAdmin()},
+  newProject(){openModal(projectForm())},
+  editProject(d){openModal(projectForm(S.projects.find(p=>p.id===d.id)))},
+  delProject(d){
+    const p=S.projects.find(x=>x.id===d.id);if(!p||!confirm(`Excluir "${p.title}"? Reações e comentários dele também serão apagados.`))return;
+    S.projects=S.projects.filter(x=>x.id!==d.id);delete S.votes[d.id];S.comments=S.comments.filter(c=>c.pid!==d.id);save();toast('Projeto excluído.');afterAdminChange();
+  },
+  delComment(d){if(!adminOn||!confirm('Excluir este comentário?'))return;S.comments=S.comments.filter(c=>c.id!==d.id);save();if($('#admin').classList.contains('open'))renderAdmin();refreshProject()},
+  confirmUser(d){const u=S.users.find(x=>x.id===d.id);if(u){u.confirmed=true;u.code='';save();renderAdmin();toast('Usuário confirmado.')}},
+  delUser(d){
+    const u=S.users.find(x=>x.id===d.id);if(!u||!confirm(`Remover ${u.name}? Os comentários e reações dessa pessoa também serão apagados.`))return;
+    S.users=S.users.filter(x=>x.id!==d.id);S.comments=S.comments.filter(c=>c.uid!==d.id);for(const k in S.votes)delete S.votes[k][d.id];
+    if(S.session.uid===d.id)S.session.uid=null;save();renderAdmin();toast('Usuário removido.');
+  },
+  editContent(d){openModal(contentForm(d.sec))},
+  exportData(){const b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='my-dev-hub-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+};
+function closeAdminQuiet(){$('#admin').classList.remove('open');document.body.style.overflow=''}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(!t)return;if(act[t.dataset.act]){e.stopPropagation();act[t.dataset.act](t.dataset,t,e)}});
+document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('article.card')){e.preventDefault();act.openProject(e.target.dataset)}});
+
+/* ================= INÍCIO ================= */
+loadState().then(()=>{renderAll(false);updateScroll(true);watchReveals()});
+</script>
+</body>
+</html>
