@@ -303,10 +303,34 @@ async function defaults(){
     }
   };
 }
+
 async function loadState(){
   let raw=store.get(KEY);
-  if(raw){try{S=JSON.parse(raw);if(S&&S.projects&&S.content)return}catch(e){}}
-  S=await defaults();save();
+  if(raw){
+    try{
+      const parsed=JSON.parse(raw);
+      if(parsed&&parsed.projects&&parsed.content){
+        // Carrega os dados salvos e garante que propriedades novas existam
+        const def=await defaults();
+        S={
+          ...def,
+          ...parsed,
+          admin: parsed.admin || def.admin,
+          users: parsed.users || [],
+          comments: parsed.comments || [],
+          votes: parsed.votes || {},
+          content: {
+            hero: { ...def.content.hero, ...(parsed.content?.hero || {}) },
+            history: parsed.content?.history || def.content.history,
+            contact: { ...def.content.contact, ...(parsed.content?.contact || {}) }
+          }
+        };
+        return;
+      }
+    }catch(e){console.error("Erro ao carregar estado salvo:", e);}
+  }
+  S=await defaults();
+  save();
 }
 
 async function initSupabaseAuth(){
