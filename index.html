@@ -157,6 +157,12 @@ footer button:hover{color:var(--neon)}
 .cmi header{display:flex;justify-content:space-between;gap:.5rem;font-size:.82rem;color:var(--mut);margin-bottom:.2rem}
 .cmi header b{color:var(--white)}
 .cmi p{overflow-wrap:anywhere}
+.cmi{display:flex;gap:.8rem;align-items:flex-start}
+.cmb{flex:1;min-width:0}
+.avw{position:relative;flex:none;display:inline-block;width:var(--s);height:var(--s);border-radius:50%}
+.avw .av{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;object-fit:cover;border:1px solid rgba(26,209,255,.45)}
+.avw span.av{display:grid;place-items:center;background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;font:800 calc(var(--s)*.38) Unbounded,sans-serif;letter-spacing:.02em}
+.nameav{display:inline-flex;align-items:center;gap:.55rem}
 .lock{border:1px dashed var(--line);border-radius:12px;padding:1rem;text-align:center;color:var(--mut)}
 .lock .btn{margin-top:.7rem}
 .gbtn{width:100%;margin-bottom:1rem}
@@ -261,6 +267,12 @@ const IC={
 };
 const ico=n=>`<svg class="i" viewBox="0 0 24 24" aria-hidden="true">${IC[n]}</svg>`;
 const GOOGLE_SVG='<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.95H1.19v3.15C3.17 21.31 7.23 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.25c-.25-.72-.38-1.49-.38-2.25s.13-1.53.38-2.25V6.6H1.19C.43 8.13 0 9.87 0 12s.43 3.87 1.19 5.4l4.09-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.23 0 3.17 2.69 1.19 6.6l4.09 3.15c.95-2.84 3.6-4.95 6.72-4.95z"/></svg>';
+const initials=n=>String(n||'?').trim().split(/\s+/).slice(0,2).map(w=>w[0]||'').join('').toUpperCase()||'?';
+function avatar(name,url,s){
+  s=s||34;
+  const img=(url&&/^https:\/\//i.test(url))?`<img class="av" src="${esc(url)}" alt="" referrerpolicy="no-referrer" loading="lazy" onerror="this.remove()">`:'';
+  return `<span class="avw" style="--s:${s}px" aria-hidden="true"><span class="av">${esc(initials(name))}</span>${img}</span>`;
+}
 const fixUrl=u=>{u=String(u||'').trim();return /^https?:\/\//i.test(u)?u:'https://'+u};
 const host=u=>{try{return new URL(fixUrl(u)).hostname.replace(/^www\./,'')}catch(e){return ''}};
 let toastT;function toast(m,bad){const t=$('#toast');t.textContent=m;t.className='on'+(bad?' bad':'');clearTimeout(toastT);toastT=setTimeout(()=>t.className='',3600)}
@@ -308,7 +320,7 @@ async function applySession(session){
 const me=()=>{
   if(!user)return null;
   const md=user.user_metadata||{};
-  return{id:user.id,email:user.email,banned:!!(profile&&profile.banned),name:(profile&&profile.name)||md.full_name||md.name||(user.email||'').split('@')[0]||'Visitante'};
+  return{id:user.id,email:user.email,banned:!!(profile&&profile.banned),avatar:(profile&&profile.avatar_url)||md.avatar_url||md.picture||'',name:(profile&&profile.name)||md.full_name||md.name||(user.email||'').split('@')[0]||'Visitante'};
 };
 const votesOf=pid=>{const vs=D.votes.filter(v=>v.project_id===pid);return{up:vs.filter(v=>v.value===1).length,dn:vs.filter(v=>v.value===-1).length}};
 const myVote=pid=>{const u=me();if(!u)return 0;const v=D.votes.find(x=>x.project_id===pid&&x.user_id===u.id);return v?v.value:0};
@@ -320,8 +332,8 @@ const adminOpen=()=>$('#admin').classList.contains('open');
 /* ================= RENDER: PÁGINA PÚBLICA ================= */
 function renderNav(){
   const u=me();let acts;
-  if(isAdmin)acts=`<button class="btn sm" data-act="openAdmin">${ico('cog')} Painel do dono</button><button class="btn ghost sm" data-act="logout">Sair</button>`;
-  else if(u)acts=`<span class="hint" style="margin-right:.2rem">Olá, ${esc(first(u.name))}</span><button class="btn ghost sm" data-act="logout">Sair</button>`;
+  if(isAdmin)acts=`${avatar(u.name,u.avatar,30)}<button class="btn sm" data-act="openAdmin">${ico('cog')} Painel do dono</button><button class="btn ghost sm" data-act="logout">Sair</button>`;
+  else if(u)acts=`<span class="hint nameav" style="margin-right:.2rem">${avatar(u.name,u.avatar,30)}Olá, ${esc(first(u.name))}</span><button class="btn ghost sm" data-act="logout">Sair</button>`;
   else acts=`<button class="btn ghost sm" data-act="auth" data-tab="login">Entrar</button><button class="btn sm" data-act="auth" data-tab="register">Cadastrar</button>`;
   $('#nav').innerHTML=`<button class="logo" data-act="toTop" aria-label="Início"><b>&lt;/&gt;</b>${esc(D.content.hero.site)}</button>
   <div class="links"><button data-act="goTab" data-tab="projetos" id="nl-projetos">Projetos</button><button data-act="goTab" data-tab="historia" id="nl-historia">História</button><button data-act="goTab" data-tab="contato" id="nl-contato">Contato</button></div>
@@ -466,13 +478,13 @@ function projectHTML(p){
   let box;
   if(!u)box=`<div class="lock">Entre na sua conta para comentar e dar Gostei ou Não gostei.<br><button class="btn sm" data-act="auth" data-tab="login">Entrar ou cadastrar</button></div>`;
   else if(u.banned)box=`<div class="lock">Sua conta está bloqueada para comentar e reagir.</div>`;
-  else box=`<form data-form="comment"><label for="ct" class="hint" style="margin-top:0">Comentando como ${esc(u.name)}</label><textarea id="ct" name="t" maxlength="500" required placeholder="O que você achou deste projeto?"></textarea><div class="err" role="alert"></div><button class="btn sm">Comentar</button></form>`;
+  else box=`<form data-form="comment"><label for="ct" class="hint" style="margin-top:0"><span class="nameav">${avatar(u.name,u.avatar,24)} Comentando como ${esc(u.name)}</span></label><textarea id="ct" name="t" maxlength="500" required placeholder="O que você achou deste projeto?"></textarea><div class="err" role="alert"></div><button class="btn sm">Comentar</button></form>`;
   return `<span class="tg t-${esc(p.tag)}">${esc(p.tag)}</span>
   <h2 style="margin-top:.6rem">${esc(p.title)}</h2><p class="sub">${esc(p.description)}</p>
   <div style="margin-top:1rem"><a class="btn" href="${esc(fixUrl(p.url))}" target="_blank" rel="noopener">${ico('link')} Abrir link</a> <span class="hint" style="margin-left:.5rem">${esc(host(p.url))}</span></div>
   <div class="react"><button class="rb up ${mine===1?'on':''}" data-act="vote" data-v="1">${ico('up')} Gostei · ${v.up}</button><button class="rb dn ${mine===-1?'on':''}" data-act="vote" data-v="-1">${ico('dn')} Não gostei · ${v.dn}</button></div>
   <div class="cm"><h3>Comentários (${cms.length})</h3>${box}
-  <div style="margin-top:1rem">${cms.map(c=>`<div class="cmi"><header><b>${esc(c.name)}</b><span>${fdate(c.created_at)}${(isAdmin||(u&&c.user_id===u.id))?` <button class="btn danger sm" data-act="delComment" data-id="${c.id}" aria-label="Excluir comentário">${ico('del')}</button>`:''}</span></header><p>${esc(c.text).replace(/\n/g,'<br>')}</p></div>`).join('')||'<p class="hint">Ainda sem comentários. Seja a primeira pessoa a comentar.</p>'}</div></div>`;
+  <div style="margin-top:1rem">${cms.map(c=>`<div class="cmi">${avatar(c.name,c.avatar_url,38)}<div class="cmb"><header><b>${esc(c.name)}</b><span>${fdate(c.created_at)}${(isAdmin||(u&&c.user_id===u.id))?` <button class="btn danger sm" data-act="delComment" data-id="${c.id}" aria-label="Excluir comentário">${ico('del')}</button>`:''}</span></header><p>${esc(c.text).replace(/\n/g,'<br>')}</p></div></div>`).join('')||'<p class="hint">Ainda sem comentários. Seja a primeira pessoa a comentar.</p>'}</div></div>`;
 }
 function showProject(id){const p=D.projects.find(x=>x.id===id);if(!p)return;openModal(projectHTML(p),true);curPid=id}
 function refreshProject(){
@@ -648,12 +660,12 @@ function renderAdmin(){
   let main='';
   if(adminTab==='resumo')main=`<h2>Resumo</h2><div class="stats">${[['Projetos',D.projects.length],['Usuários',D.profiles.length],['E-mail confirmado',D.profiles.filter(u=>u.confirmed).length],['Bloqueados',D.profiles.filter(u=>u.banned).length],['Gostei',up],['Não gostei',dn],['Comentários',D.comments.length]].map(s=>`<div class="stat"><b>${s[1]}</b><span>${s[0]}</span></div>`).join('')}</div>`;
   if(adminTab==='projetos')main=`<h2>Projetos</h2><p style="margin-bottom:1rem"><button class="btn" data-act="newProject">${ico('plus')} Enviar novo projeto</button></p><div class="tbl"><table><tr><th>Título</th><th>Categoria</th><th>Gostei</th><th>Não gostei</th><th>Comentários</th><th>Ações</th></tr>${D.projects.map(p=>{const v=votesOf(p.id);return `<tr><td>${esc(p.title)}<br><a href="${esc(fixUrl(p.url))}" target="_blank" rel="noopener" class="hint">${esc(host(p.url))}</a></td><td>${esc(p.tag)}</td><td>${v.up}</td><td>${v.dn}</td><td>${cmOf(p.id).length}</td><td><div class="row"><button class="btn ghost sm" data-act="editProject" data-id="${p.id}">${ico('edit')} Editar</button><button class="btn danger sm" data-act="delProject" data-id="${p.id}" aria-label="Excluir">${ico('del')}</button></div></td></tr>`}).join('')||'<tr><td colspan="6">Nenhum projeto.</td></tr>'}</table></div>`;
-  if(adminTab==='usuarios')main=`<h2>Registros de usuários</h2><p class="hint" style="margin-bottom:1rem">Bloquear impede a pessoa de comentar e reagir. "Apagar atividade" remove todos os comentários e reações dela.</p><div class="tbl"><table><tr><th>Nome</th><th>E-mail</th><th>Status</th><th>Cadastro</th><th>Ações</th></tr>${D.profiles.map(u=>{const self=u.id===user.id;return `<tr><td>${esc(u.name)}${self?' <span class="hint">(você)</span>':''}</td><td>${esc(u.email)}</td><td>${u.banned?'<span class="ban">Bloqueado</span>':u.confirmed?'<span class="ok">Confirmado</span>':'<span class="pend">Pendente</span>'}</td><td>${fdate(u.created_at)}</td><td>${self?'<span class="hint">—</span>':`<div class="row"><button class="btn ghost sm" data-act="toggleBan" data-id="${u.id}">${u.banned?'Desbloquear':'Bloquear'}</button><button class="btn danger sm" data-act="wipeUser" data-id="${u.id}">${ico('del')} Apagar atividade</button></div>`}</td></tr>`}).join('')||'<tr><td colspan="5">Ainda não há usuários cadastrados.</td></tr>'}</table></div>`;
+  if(adminTab==='usuarios')main=`<h2>Registros de usuários</h2><p class="hint" style="margin-bottom:1rem">Bloquear impede a pessoa de comentar e reagir. "Apagar atividade" remove todos os comentários e reações dela.</p><div class="tbl"><table><tr><th>Nome</th><th>E-mail</th><th>Status</th><th>Cadastro</th><th>Ações</th></tr>${D.profiles.map(u=>{const self=u.id===user.id;return `<tr><td><span class="nameav">${avatar(u.name,u.avatar_url,30)}<span>${esc(u.name)}${self?' <span class="hint">(você)</span>':''}</span></span></td><td>${esc(u.email)}</td><td>${u.banned?'<span class="ban">Bloqueado</span>':u.confirmed?'<span class="ok">Confirmado</span>':'<span class="pend">Pendente</span>'}</td><td>${fdate(u.created_at)}</td><td>${self?'<span class="hint">—</span>':`<div class="row"><button class="btn ghost sm" data-act="toggleBan" data-id="${u.id}">${u.banned?'Desbloquear':'Bloquear'}</button><button class="btn danger sm" data-act="wipeUser" data-id="${u.id}">${ico('del')} Apagar atividade</button></div>`}</td></tr>`}).join('')||'<tr><td colspan="5">Ainda não há usuários cadastrados.</td></tr>'}</table></div>`;
   if(adminTab==='reacoes'){
     main=`<h2>Reações e comentários</h2>${D.projects.map(p=>{const v=votesOf(p.id),t=v.up+v.dn,vs=D.votes.filter(x=>x.project_id===p.id),ups=vs.filter(x=>x.value===1).map(x=>nameOf(x.user_id)),dns=vs.filter(x=>x.value===-1).map(x=>nameOf(x.user_id)),cms=cmOf(p.id);
     return `<div class="rx"><b>${esc(p.title)}</b><div class="bar2"><i style="width:${t?v.up/t*100:0}%;background:var(--ok)"></i><i style="width:${t?v.dn/t*100:0}%;background:var(--bad)"></i></div>
     <small><span class="ok">Gostei (${v.up}):</span> ${esc(ups.join(', ')||'ninguém ainda')}</small><small><span class="ban">Não gostei (${v.dn}):</span> ${esc(dns.join(', ')||'ninguém ainda')}</small>
-    <div style="margin-top:.8rem">${cms.map(c=>`<div class="cmi"><header><b>${esc(c.name)}</b><span>${fdate(c.created_at)} <button class="btn danger sm" data-act="delComment" data-id="${c.id}" aria-label="Excluir comentário">${ico('del')}</button></span></header><p>${esc(c.text)}</p></div>`).join('')||'<small>Sem comentários.</small>'}</div></div>`}).join('')||'<div class="empty">Sem projetos.</div>'}`;
+    <div style="margin-top:.8rem">${cms.map(c=>`<div class="cmi">${avatar(c.name,c.avatar_url,38)}<div class="cmb"><header><b>${esc(c.name)}</b><span>${fdate(c.created_at)} <button class="btn danger sm" data-act="delComment" data-id="${c.id}" aria-label="Excluir comentário">${ico('del')}</button></span></header><p>${esc(c.text)}</p></div></div>`).join('')||'<small>Sem comentários.</small>'}</div></div>`}).join('')||'<div class="empty">Sem projetos.</div>'}`;
   }
   if(adminTab==='pagina')main=`<h2>Editar a página</h2>${['hero','history','contact'].map(s=>`<div class="panel sec">${contentForm(s)}</div>`).join('')}`;
   if(adminTab==='seguranca'){
