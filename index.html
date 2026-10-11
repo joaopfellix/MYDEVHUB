@@ -124,7 +124,6 @@ textarea{min-height:110px;resize:vertical}
 .lbar i{display:block;height:100%;min-width:3px}
 .llist{display:flex;flex-wrap:wrap;gap:.5rem 1.3rem}
 .llist .hint{font-weight:500}
-.langbox a{display:inline-flex;gap:.4rem;align-items:center;margin-top:.85rem;font-size:.85rem}
 .cadm{display:flex;gap:.4rem;position:absolute;top:.8rem;right:.8rem;z-index:2}
 .empty{border:1px dashed var(--line);border-radius:var(--r);padding:2.4rem;text-align:center;color:var(--mut)}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:clamp(1.2rem,3vw,2rem)}
@@ -332,7 +331,7 @@ function langsBlock(p){
   return `<div class="langbox"><h3>Linguagens</h3>
     ${ls.length?`${hasP?`<div class="lbar">${ls.map(l=>`<i style="width:${Math.max(0,Math.min(100,Number(l.p)||0))}%;background:${langColor(l.n)}" title="${esc(l.n)} ${pctTxt(l.p||0)}"></i>`).join('')}</div>`:''}
     <div class="llist">${ls.map(l=>`<span class="lg"><i style="background:${langColor(l.n)}"></i>${esc(l.n)}${l.p!=null?` <span class="hint">${pctTxt(l.p)}</span>`:''}</span>`).join('')}</div>`:'<p class="hint">Ainda sem linguagens detectadas.</p>'}
-    ${p.repo?`<a href="https://github.com/${esc(p.repo)}" target="_blank" rel="noopener">${ico('code')} Ver código no GitHub</a>`:''}</div>`;
+  </div>`;
 }
 const fixUrl=u=>{u=String(u||'').trim();return /^https?:\/\//i.test(u)?u:'https://'+u};
 const host=u=>{try{return new URL(fixUrl(u)).hostname.replace(/^www\./,'')}catch(e){return ''}};
