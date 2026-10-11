@@ -511,7 +511,7 @@ function openAuth(t,msg){
   :`<form data-form="login"><label for="le">E-mail</label><input id="le" name="email" type="email" autocomplete="email" required>
   <label for="lp">Senha</label><input id="lp" name="pass" type="password" autocomplete="current-password" required>
   <div class="err" role="alert"></div><button class="btn" style="width:100%">Entrar</button></form>`}`);
-
+}
 const forms={
   async login(f){
     const email=f.email.value.trim().toLowerCase(),h=await hash(f.pass.value),u=S.users.find(x=>x.email===email);
