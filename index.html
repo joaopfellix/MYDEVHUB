@@ -6,7 +6,6 @@
 <title>My Dev Hub - Ideias que viram códigos</title>
 <meta name="description" content="My Dev Hub: o depósito de links de projetos, sites e ideias de João Pedro Félix.">
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
-<!-- Biblioteca do Supabase JS -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{--bg:#000;--panel:#050912;--panel2:#091020;--line:#13233f;--blue:#1646ff;--blue2:#0a2a9e;--neon:#1ad1ff;--white:#f4f8ff;--mut:#8da2c8;--ok:#2be6a0;--bad:#ff5d7a;--r:16px}
@@ -19,11 +18,7 @@ a{color:var(--neon)}
 :focus-visible{outline:2px solid var(--neon);outline-offset:3px;border-radius:6px}
 svg.i{width:1.1em;height:1.1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
 [hidden]{display:none!important}
-
-/* progresso de scroll */
 #bar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--blue),var(--neon));box-shadow:0 0 14px var(--neon);z-index:300}
-
-/* navegação */
 nav.top{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;gap:1.2rem;padding:.8rem clamp(1rem,4vw,2.5rem);background:rgba(0,0,0,.55);backdrop-filter:blur(14px);border-bottom:1px solid transparent;transition:border-color .3s,background .3s}
 nav.top.solid{border-color:var(--line);background:rgba(0,0,0,.82)}
 .logo{font:800 1.05rem Unbounded,system-ui,sans-serif;text-decoration:none;color:var(--white);white-space:nowrap;display:flex;align-items:center;gap:.5rem;background:none;border:0;cursor:pointer}
@@ -34,8 +29,6 @@ nav.top.solid{border-color:var(--line);background:rgba(0,0,0,.82)}
 .links button.on{box-shadow:inset 0 -2px 0 var(--neon)}
 .acts{display:flex;gap:.5rem;align-items:center}
 @media(max-width:860px){.links{display:none}.acts{margin-left:auto}}
-
-/* botões e campos */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.7rem 1.2rem;border-radius:10px;border:1px solid var(--neon);background:var(--neon);color:#001018;font-weight:800;font-size:.95rem;cursor:pointer;text-decoration:none;transition:box-shadow .2s,transform .2s,background .2s}
 .btn:hover{box-shadow:0 0 0 3px rgba(26,209,255,.2),0 0 26px rgba(26,209,255,.6);transform:translateY(-1px)}
 .btn.ghost{background:transparent;color:var(--white);border-color:var(--line)}
@@ -51,8 +44,6 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--neon);bo
 textarea{min-height:110px;resize:vertical}
 .err{color:var(--bad);font-size:.88rem;min-height:1.2em;margin-top:.6rem}
 .hint{color:var(--mut);font-size:.85rem}
-
-/* hero */
 .hero{position:relative;min-height:100vh;display:grid;place-items:center;text-align:center;padding:7rem 1.2rem 5rem;overflow:hidden}
 .grid-bg{position:absolute;inset:-25% -10% 0;background-image:linear-gradient(rgba(26,209,255,.13) 1px,transparent 1px),linear-gradient(90deg,rgba(26,209,255,.13) 1px,transparent 1px);background-size:58px 58px;-webkit-mask-image:radial-gradient(ellipse at 50% 42%,#000 15%,transparent 70%);mask-image:radial-gradient(ellipse at 50% 42%,#000 15%,transparent 70%);will-change:transform}
 .glow{position:absolute;width:62vmax;height:62vmax;left:50%;top:38%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(22,70,255,.38),transparent 60%);filter:blur(24px);animation:breathe 7s ease-in-out infinite}
@@ -69,8 +60,8 @@ textarea{min-height:110px;resize:vertical}
 .cue i{width:22px;height:36px;border:2px solid var(--mut);border-radius:12px;position:relative}
 .cue i::after{content:"";position:absolute;left:50%;top:6px;width:4px;height:8px;margin-left:-2px;border-radius:2px;background:var(--neon);animation:wheel 1.6s infinite}
 @keyframes wheel{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(14px)}}
-
-/* ideia -> código (scroll) */
+.loading{color:var(--mut);font-weight:700;letter-spacing:.05em;animation:breathe2 1.4s ease-in-out infinite}
+@keyframes breathe2{50%{opacity:.4}}
 .scrub{height:280vh;position:relative}
 .stage{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;padding:5rem clamp(1rem,5vw,4rem) 2rem;max-width:1200px;margin:auto}
 .stage h2{font-size:clamp(1.5rem,4vw,2.6rem);margin-bottom:.5rem}
@@ -92,8 +83,6 @@ textarea{min-height:110px;resize:vertical}
 .pub{display:inline-flex;align-items:center;gap:.5rem;margin-top:1.2rem;padding:.5rem 1rem;border-radius:999px;border:1px solid rgba(43,230,160,.5);color:var(--ok);font-weight:800;opacity:0;transform:translateY(10px);transition:.4s}
 .pub.on{opacity:1;transform:none;box-shadow:0 0 22px rgba(43,230,160,.3)}
 @media(max-width:820px){.duo{grid-template-columns:1fr}.wire{width:3px;height:36px;margin:6px auto}.wire i{transform-origin:top;transform:scaleY(var(--p,0))}.scrub{height:240vh}}
-
-/* hub / abas */
 .hub{max-width:1180px;margin:0 auto;padding:4rem clamp(1rem,4vw,2rem) 6rem;scroll-margin-top:60px}
 .tabbar{position:sticky;top:58px;z-index:50;display:flex;gap:.4rem;padding:.5rem;margin:0 auto 2.4rem;width:max-content;max-width:100%;background:rgba(5,9,18,.85);backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:14px;overflow-x:auto}
 .tabbar button{background:none;border:0;padding:.65rem 1.3rem;border-radius:10px;color:var(--mut);font-weight:800;cursor:pointer;white-space:nowrap;transition:.2s}
@@ -139,15 +128,11 @@ textarea{min-height:110px;resize:vertical}
 footer{border-top:1px solid var(--line);padding:2rem clamp(1rem,4vw,2.5rem);display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;color:var(--mut);font-size:.9rem}
 footer button{background:none;border:0;color:var(--mut);cursor:pointer;display:inline-flex;gap:.4rem;align-items:center}
 footer button:hover{color:var(--neon)}
-
-/* revelar no scroll */
 .rv{opacity:0;transform:translateY(34px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
 .rv.l{transform:translateX(-40px)}.rv.r{transform:translateX(40px)}
 .rv.in{opacity:1;transform:none}
 #top{position:fixed;right:1.2rem;bottom:1.2rem;z-index:90;width:46px;height:46px;border-radius:50%;border:1px solid var(--neon);background:rgba(0,0,0,.8);color:var(--neon);cursor:pointer;display:grid;place-items:center;opacity:0;pointer-events:none;transform:translateY(12px);transition:.3s;box-shadow:0 0 18px rgba(26,209,255,.35)}
 #top.on{opacity:1;pointer-events:auto;transform:none}
-
-/* modal e admin */
 .ov{position:fixed;inset:0;background:rgba(0,0,0,.74);backdrop-filter:blur(6px);display:none;z-index:200;overflow:auto;padding:5vh 1rem}
 .ov.open{display:block}
 .md{max-width:640px;margin:auto;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:1.6rem;position:relative;box-shadow:0 0 70px rgba(22,70,255,.28);animation:pop .28s cubic-bezier(.2,.8,.2,1)}
@@ -161,7 +146,6 @@ footer button:hover{color:var(--neon)}
 .seg button{flex:1;background:none;border:0;padding:.55rem;border-radius:9px;color:var(--mut);font-weight:800;cursor:pointer}
 .seg button.on{background:var(--blue);color:#fff}
 .note{border:1px dashed rgba(26,209,255,.5);background:rgba(26,209,255,.06);border-radius:12px;padding:.9rem 1rem;margin:1rem 0;font-size:.88rem;color:var(--mut)}
-.note b.code{display:block;font:800 1.7rem Unbounded,monospace;letter-spacing:.3em;color:var(--neon);margin-top:.3rem}
 .react{display:flex;gap:.6rem;margin:1.1rem 0;flex-wrap:wrap}
 .rb{display:inline-flex;gap:.5rem;align-items:center;padding:.6rem 1.1rem;border-radius:12px;border:1px solid var(--line);background:transparent;cursor:pointer;font-weight:800;transition:.2s}
 .rb:hover{border-color:var(--neon)}
@@ -175,6 +159,8 @@ footer button:hover{color:var(--neon)}
 .cmi p{overflow-wrap:anywhere}
 .lock{border:1px dashed var(--line);border-radius:12px;padding:1rem;text-align:center;color:var(--mut)}
 .lock .btn{margin-top:.7rem}
+.gbtn{width:100%;margin-bottom:1rem}
+.or{text-align:center;color:var(--mut);font-size:.85rem;margin-bottom:.4rem}
 .admin{position:fixed;inset:0;z-index:150;background:var(--bg);display:none;grid-template-columns:230px minmax(0,1fr);overflow:hidden}
 .admin.open{display:grid}
 .admin aside{border-right:1px solid var(--line);padding:1.2rem .8rem;display:flex;flex-direction:column;gap:.3rem;background:var(--panel);overflow:auto}
@@ -184,6 +170,7 @@ footer button:hover{color:var(--neon)}
 .admin aside button.t.on{background:var(--blue);color:#fff}
 .admin main{overflow:auto;padding:clamp(1rem,3vw,2.2rem)}
 .admin main h2{font-size:1.6rem;margin-bottom:1.2rem}
+.who-bar{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.4rem;color:var(--mut);font-size:.88rem}
 .stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:1rem}
 .stat{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:1.1rem}
 .stat b{display:block;font:800 2rem Unbounded,sans-serif;color:var(--neon)}
@@ -194,7 +181,7 @@ th,td{text-align:left;padding:.75rem 1rem;border-bottom:1px solid var(--line);fo
 th{color:var(--mut);font-size:.8rem;background:var(--panel)}
 tr:last-child td{border-bottom:0}
 td .row{display:flex;gap:.4rem;flex-wrap:wrap}
-.ok{color:var(--ok);font-weight:800}.pend{color:#ffd37a;font-weight:800}
+.ok{color:var(--ok);font-weight:800}.pend{color:#ffd37a;font-weight:800}.ban{color:var(--bad);font-weight:800}
 .bar2{display:flex;height:8px;border-radius:6px;overflow:hidden;background:var(--line);margin:.5rem 0}
 .bar2 i{display:block;height:100%}
 .rx{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:1.1rem;margin-bottom:1rem}
@@ -212,7 +199,7 @@ td .row{display:flex;gap:.4rem;flex-wrap:wrap}
 <div id="bar"></div>
 <nav class="top" id="nav"></nav>
 <main>
-  <header class="hero" id="inicio"></header>
+  <header class="hero" id="inicio"><p class="loading">Carregando…</p></header>
   <section class="scrub" id="scrub"></section>
   <section class="hub" id="hub"></section>
 </main>
@@ -226,28 +213,31 @@ td .row{display:flex;gap:.4rem;flex-wrap:wrap}
 <script>
 "use strict";
 
-/* ================= SUPABASE CONFIG ================= */
-const SUPABASE_URL = 'https://rfmksbtnzhrekngezpjj.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_u5VrQof5gAWb0-7u76m-OQ_Rth0p3H8'; // Insira sua chave anon public do Supabase aqui
-const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+/* ================= SUPABASE =================
+   Tudo (projetos, textos, usuários, reações e comentários) fica no banco,
+   então o que o dono altera no painel aparece para todos os visitantes.
+   Rode o arquivo supabase-setup.sql antes de publicar. */
+const SUPABASE_URL='https://rfmksbtnzhrekngezpjj.supabase.co';
+const SUPABASE_ANON_KEY='sb_publishable_u5VrQof5gAWb0-7u76m-OQ_Rth0p3H8';
+const SITE_URL=location.origin+location.pathname;
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
 
-/* ================= CONFIGURAÇÃO DO DONO =================
-    Acesso inicial do admin (troque a senha em Painel > Segurança). */
-const CFG={ADMIN_EMAIL:'admin@devhub.com',ADMIN_PASS:'devhub@2026'};
-
-/* ================= ARMAZENAMENTO (localStorage com reserva em memória) ================= */
-const KEY='mydevhub_v1';
-let LS=null;try{localStorage.setItem('_t','1');localStorage.removeItem('_t');LS=localStorage}catch(e){}
-const mem={};
-const store={get:k=>{try{return LS?LS.getItem(k):(mem[k]??null)}catch(e){return mem[k]??null}},set:(k,v)=>{try{LS?LS.setItem(k,v):(mem[k]=v)}catch(e){mem[k]=v}}};
+/* Textos padrão (usados até o dono salvar a primeira edição) */
+const DEFAULT_CONTENT={
+  hero:{name:'João Pedro Félix',age:'29',city:'Itumbiara - Goiás',site:'My Dev Hub',tagline:'Ideias que viram códigos.',intro:'Um depósito de links com os meus projetos de programação, sites e ideias. Tudo em um só lugar, para você abrir, testar e opinar.'},
+  history:'O My Dev Hub nasceu de uma vontade simples: ter um lugar só para guardar tudo o que eu crio.\n\nEntre projetos de programação, sites e ideias rabiscadas, os links viviam espalhados em abas, anotações e conversas. Esta página reúne tudo em um endereço único.\n\nCada ideia entra aqui como um card com link. Quando vira código, ganha um projeto de verdade, e quem passa por aqui pode abrir, comentar e dizer se gostou.\n\nEdite este texto pelo Painel do dono para contar a sua versão.',
+  contact:{whatsapp:'(64) 9.9271-8193',email:'',github:'',instagram:'',note:'Quer conversar sobre um projeto, uma ideia ou uma parceria? Me chame no WhatsApp.'}
+};
+const OLD_LOCAL_KEY='mydevhub_v1';
 
 /* ================= UTILITÁRIOS ================= */
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
-const first=n=>String(n).trim().split(/\s+/)[0];
+const first=n=>String(n||'').trim().split(/\s+/)[0];
 const fdate=t=>new Date(t).toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'});
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+const clone=o=>JSON.parse(JSON.stringify(o));
+const TAGS=['Projeto','Site','Ideia'];
 const IC={
  up:'<path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>',
  dn:'<path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/>',
@@ -270,111 +260,81 @@ const IC={
  back:'<path d="M19 12H5M12 19l-7-7 7-7"/>'
 };
 const ico=n=>`<svg class="i" viewBox="0 0 24 24" aria-hidden="true">${IC[n]}</svg>`;
+const GOOGLE_SVG='<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.95H1.19v3.15C3.17 21.31 7.23 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.25c-.25-.72-.38-1.49-.38-2.25s.13-1.53.38-2.25V6.6H1.19C.43 8.13 0 9.87 0 12s.43 3.87 1.19 5.4l4.09-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.23 0 3.17 2.69 1.19 6.6l4.09 3.15c.95-2.84 3.6-4.95 6.72-4.95z"/></svg>';
 const fixUrl=u=>{u=String(u||'').trim();return /^https?:\/\//i.test(u)?u:'https://'+u};
 const host=u=>{try{return new URL(fixUrl(u)).hostname.replace(/^www\./,'')}catch(e){return ''}};
-let toastT;function toast(m,bad){const t=$('#toast');t.textContent=m;t.className='on'+(bad?' bad':'');clearTimeout(toastT);toastT=setTimeout(()=>t.className='',3200)}
-
-async function hash(s){
-  try{if(window.crypto&&crypto.subtle){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('devhub:'+s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}}catch(e){}
-  let h=5381;for(const c of 'devhub:'+s)h=((h<<5)+h+c.charCodeAt(0))>>>0;return 'f'+h.toString(16);
+let toastT;function toast(m,bad){const t=$('#toast');t.textContent=m;t.className='on'+(bad?' bad':'');clearTimeout(toastT);toastT=setTimeout(()=>t.className='',3600)}
+function busy(f,on){const b=f.querySelector('button:not([type=button])');if(b)b.disabled=on}
+const ss={get:k=>{try{return sessionStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{sessionStorage.setItem(k,v)}catch(e){}},del:k=>{try{sessionStorage.removeItem(k)}catch(e){}}};
+function mergeContent(d){
+  d=d||{};const c=clone(DEFAULT_CONTENT);
+  return{hero:{...c.hero,...(d.hero||{})},history:(typeof d.history==='string'&&d.history.trim())?d.history:c.history,contact:{...c.contact,...(d.contact||{})}};
 }
-function code6(){try{const a=new Uint32Array(1);crypto.getRandomValues(a);return String(100000+a[0]%900000)}catch(e){return String(Math.floor(100000+Math.random()*900000))}}
 
 /* ================= ESTADO ================= */
-let S;
-const save=()=>store.set(KEY,JSON.stringify(S));
-let adminOn=false;
-let tab='projetos',filter='Todos',adminTab='resumo',curPid=null,afterAuth=null,supabaseUser=null;
+let D={content:clone(DEFAULT_CONTENT),projects:[],comments:[],votes:[],profiles:[]};
+let user=null,profile=null,isAdmin=false,lastUid=null,wantAdmin=false,quietOut=false,voting=false;
+let tab='projetos',filter='Todos',adminTab='resumo',curPid=null,afterAuth=null;
 
-async function defaults(){
-  return{
-    v:1,
-    admin:{email:CFG.ADMIN_EMAIL,hash:await hash(CFG.ADMIN_PASS)},
-    users:[],comments:[],votes:{},session:{uid:null},
-    projects:[
-      {id:uid(),title:'Exemplo: Landing page de vendas',desc:'Página de vendas com animações e botão de checkout. Edite ou apague este exemplo pelo Painel do dono.',url:'https://exemplo.com',tag:'Projeto',ts:Date.now()},
-      {id:uid(),title:'Exemplo: Site pessoal com Instagram',desc:'Site pessoal com feed do Instagram e botão de WhatsApp. Troque o link pelo endereço real.',url:'https://exemplo.com',tag:'Site',ts:Date.now()-1},
-      {id:uid(),title:'Exemplo: SaaS por assinatura',desc:'Uma ideia de produto por assinatura que ainda vai virar código. Registre aqui antes de esquecer.',url:'https://exemplo.com',tag:'Ideia',ts:Date.now()-2}
-    ],
-    content:{
-      hero:{name:'João Pedro Félix',age:'29',city:'Itumbiara - Goiás',site:'My Dev Hub',tagline:'Ideias que viram códigos.',intro:'Um depósito de links com os meus projetos de programação, sites e ideias. Tudo em um só lugar, para você abrir, testar e opinar.'},
-      history:'O My Dev Hub nasceu de uma vontade simples: ter um lugar só para guardar tudo o que eu crio.\n\nEntre projetos de programação, sites e ideias rabiscadas, os links viviam espalhados em abas, anotações e conversas. Esta página reúne tudo em um endereço único.\n\nCada ideia entra aqui como um card com link. Quando vira código, ganha um projeto de verdade, e quem passa por aqui pode abrir, comentar e dizer se gostou.\n\nEdite este texto pelo Painel do dono para contar a sua versão.',
-      contact:{whatsapp:'(64) 9.9271-8193',email:'',github:'',instagram:'',note:'Quer conversar sobre um projeto, uma ideia ou uma parceria? Me chame no WhatsApp.'}
-    }
-  };
-}
-
-async function loadState(){
-  let raw=store.get(KEY);
-  if(raw){
-    try{
-      const parsed=JSON.parse(raw);
-      if(parsed&&parsed.projects&&parsed.content){
-        // Carrega os dados salvos e garante que propriedades novas existam
-        const def=await defaults();
-        S={
-          ...def,
-          ...parsed,
-          admin: parsed.admin || def.admin,
-          users: parsed.users || [],
-          comments: parsed.comments || [],
-          votes: parsed.votes || {},
-          content: {
-            hero: { ...def.content.hero, ...(parsed.content?.hero || {}) },
-            history: parsed.content?.history || def.content.history,
-            contact: { ...def.content.contact, ...(parsed.content?.contact || {}) }
-          }
-        };
-        return;
-      }
-    }catch(e){console.error("Erro ao carregar estado salvo:", e);}
+async function loadData(){
+  const [c,p,cm,v]=await Promise.all([
+    sb.from('site_content').select('data').eq('id',1).maybeSingle(),
+    sb.from('projects').select('*').order('created_at',{ascending:false}),
+    sb.from('comments').select('*').order('created_at',{ascending:false}),
+    sb.from('votes').select('project_id,user_id,value')
+  ]);
+  const e=c.error||p.error||cm.error||v.error;
+  if(e){console.error(e);toast('Erro ao carregar dados do Supabase. Confira se o supabase-setup.sql foi executado.',true)}
+  if(!c.error)D.content=mergeContent(c.data&&c.data.data);
+  if(!p.error)D.projects=p.data||[];
+  if(!cm.error)D.comments=cm.data||[];
+  if(!v.error)D.votes=v.data||[];
+  D.profiles=[];
+  if(isAdmin){
+    const r=await sb.from('profiles').select('*').order('created_at',{ascending:false});
+    if(r.error)console.error(r.error);else D.profiles=r.data||[];
   }
-  S=await defaults();
-  save();
 }
-
-async function initSupabaseAuth(){
-  try {
-    const { data: { session } } = await _supabase.auth.getSession();
-    if(session && session.user){
-      supabaseUser = session.user;
-    }
-    _supabase.auth.onAuthStateChange((_event, session) => {
-      supabaseUser = session ? session.user : null;
-      renderNav();
-      refreshProject();
-    });
-  } catch(e){console.error(e)}
+async function applySession(session){
+  user=session&&session.user||null;profile=null;isAdmin=false;
+  if(user){
+    const [pr,ad]=await Promise.all([
+      sb.from('profiles').select('*').eq('id',user.id).maybeSingle(),
+      sb.from('admins').select('user_id').eq('user_id',user.id).maybeSingle()
+    ]);
+    profile=pr.data||null;isAdmin=!!ad.data;
+  }
 }
-
-const me=()=> {
-  if(supabaseUser) return { id: supabaseUser.id, name: supabaseUser.user_metadata?.full_name || supabaseUser.email.split('@')[0], email: supabaseUser.email };
-  return S.users.find(u=>u.id===S.session.uid&&u.confirmed)||null;
+const me=()=>{
+  if(!user)return null;
+  const md=user.user_metadata||{};
+  return{id:user.id,email:user.email,banned:!!(profile&&profile.banned),name:(profile&&profile.name)||md.full_name||md.name||(user.email||'').split('@')[0]||'Visitante'};
 };
-
-const votesOf=pid=>{const v=S.votes[pid]||{};let up=0,dn=0;for(const k in v){v[k]===1?up++:dn++}return{up,dn}};
-const cmOf=pid=>S.comments.filter(c=>c.pid===pid);
-const waLink=(txt)=>'https://wa.me/55'+String(S.content.contact.whatsapp).replace(/\D/g,'').replace(/^55(?=\d{11}$)/,'')+(txt?'?text='+encodeURIComponent(txt):'');
+const votesOf=pid=>{const vs=D.votes.filter(v=>v.project_id===pid);return{up:vs.filter(v=>v.value===1).length,dn:vs.filter(v=>v.value===-1).length}};
+const myVote=pid=>{const u=me();if(!u)return 0;const v=D.votes.find(x=>x.project_id===pid&&x.user_id===u.id);return v?v.value:0};
+const cmOf=pid=>D.comments.filter(c=>c.project_id===pid);
+const nameOf=id=>{const p=D.profiles.find(x=>x.id===id);return p?p.name:'(sem perfil)'};
+const waLink=txt=>'https://wa.me/55'+String(D.content.contact.whatsapp).replace(/\D/g,'').replace(/^55(?=\d{11}$)/,'')+(txt?'?text='+encodeURIComponent(txt):'');
+const adminOpen=()=>$('#admin').classList.contains('open');
 
 /* ================= RENDER: PÁGINA PÚBLICA ================= */
 function renderNav(){
-  const u=me();
-  let acts;
-  if(adminOn)acts=`<button class="btn sm" data-act="openAdmin">${ico('cog')} Painel do dono</button><button class="btn ghost sm" data-act="logout">Sair</button>`;
+  const u=me();let acts;
+  if(isAdmin)acts=`<button class="btn sm" data-act="openAdmin">${ico('cog')} Painel do dono</button><button class="btn ghost sm" data-act="logout">Sair</button>`;
   else if(u)acts=`<span class="hint" style="margin-right:.2rem">Olá, ${esc(first(u.name))}</span><button class="btn ghost sm" data-act="logout">Sair</button>`;
   else acts=`<button class="btn ghost sm" data-act="auth" data-tab="login">Entrar</button><button class="btn sm" data-act="auth" data-tab="register">Cadastrar</button>`;
-  $('#nav').innerHTML=`<button class="logo" data-act="toTop" aria-label="Início"><b>&lt;/&gt;</b>${esc(S.content.hero.site)}</button>
+  $('#nav').innerHTML=`<button class="logo" data-act="toTop" aria-label="Início"><b>&lt;/&gt;</b>${esc(D.content.hero.site)}</button>
   <div class="links"><button data-act="goTab" data-tab="projetos" id="nl-projetos">Projetos</button><button data-act="goTab" data-tab="historia" id="nl-historia">História</button><button data-act="goTab" data-tab="contato" id="nl-contato">Contato</button></div>
   <div class="acts">${acts}</div>`;
   markNav();
 }
 function markNav(){
-  const hubTop=$('#hub').getBoundingClientRect().top;
-  const inHub=hubTop<innerHeight*.55;
+  const hub=$('#hub');if(!hub)return;
+  const inHub=hub.getBoundingClientRect().top<innerHeight*.55;
   ['projetos','historia','contato'].forEach(t=>{const b=$('#nl-'+t);if(b)b.classList.toggle('on',inHub&&tab===t)});
 }
 function renderHero(){
-  const h=S.content.hero;
+  const h=D.content.hero;
   $('#inicio').innerHTML=`<div class="grid-bg" id="gridbg"></div><div class="glow"></div>
   <div class="hero-in" id="heroin">
     <p class="hello">Olá, eu sou <b>${esc(h.name)}</b>, ${esc(h.age)} anos, de ${esc(h.city)}.</p>
@@ -384,15 +344,15 @@ function renderHero(){
     <div class="cta">
       <button class="btn" data-act="goTab" data-tab="projetos">${ico('code')} Ver projetos</button>
       <a class="btn ghost" href="${esc(waLink())}" target="_blank" rel="noopener">${ico('wa')} Chamar no WhatsApp</a>
-      ${adminOn?`<button class="btn blue" data-act="editContent" data-sec="hero">${ico('edit')} Editar apresentação</button>`:''}
+      ${isAdmin?`<button class="btn blue" data-act="editContent" data-sec="hero">${ico('edit')} Editar apresentação</button>`:''}
     </div>
   </div>
   <div class="cue"><i></i>Role para baixo</div>`;
 }
 let TOTAL=0,FULL='',lastN=-1;
 function codeText(){
-  const h=S.content.hero;
-  return `const hub = {\n  site: "${h.site}",\n  lema: "${h.tagline}",\n  dono: "${h.name}",\n  idade: ${parseInt(h.age)||0},\n  cidade: "${h.city}",\n  projetos: ${S.projects.length},\n};\n\nhub.publicar(); // no ar`;
+  const h=D.content.hero;
+  return `const hub = {\n  site: "${h.site}",\n  lema: "${h.tagline}",\n  dono: "${h.name}",\n  idade: ${parseInt(h.age)||0},\n  cidade: "${h.city}",\n  projetos: ${D.projects.length},\n};\n\nhub.publicar(); // no ar`;
 }
 function hl(src){
   return esc(src).replace(/(&quot;[^\n]*?(?:&quot;|$))|(\bconst\b)|(\b\d+\b)|(\/\/[^\n]*)/g,(m,a,b,c,d)=>a?`<span class="s">${a}</span>`:b?`<span class="k">${b}</span>`:c?`<span class="n">${c}</span>`:`<span class="c">${d}</span>`);
@@ -409,55 +369,58 @@ function renderScrub(){
     </div>
     <div class="pub" id="pub">${ico('code')} Publicado no My Dev Hub</div>
   </div>`;
-  updateScroll(true);
 }
 function renderHub(instant){
   const bar=`<div class="tabbar rv${instant?' in':''}" role="tablist">
     <button role="tab" class="${tab==='projetos'?'on':''}" data-act="tab" data-tab="projetos">Projetos</button>
     <button role="tab" class="${tab==='historia'?'on':''}" data-act="tab" data-tab="historia">História</button>
     <button role="tab" class="${tab==='contato'?'on':''}" data-act="tab" data-tab="contato">Contato</button></div>`;
-  let body='';
-  if(tab==='projetos')body=panelProjects(instant);
-  else if(tab==='historia')body=panelHistory();
-  else body=panelContact();
+  const body=tab==='projetos'?panelProjects(instant):tab==='historia'?panelHistory():panelContact();
   $('#hub').innerHTML=bar+`<div id="tabpanel">${body}</div>`;
   watchReveals();markNav();
 }
 function panelProjects(instant){
-  const list=S.projects.filter(p=>filter==='Todos'||p.tag===filter).sort((a,b)=>b.ts-a.ts);
-  const tags=['Todos','Projeto','Site','Ideia'];
+  const list=D.projects.filter(p=>filter==='Todos'||p.tag===filter);
   const cards=list.map((p,i)=>{
     const v=votesOf(p.id);
     return `<article class="card rv${instant?' in':''}" style="--d:${instant?0:Math.min(i,6)*.07}s" tabindex="0" role="button" data-act="openProject" data-id="${p.id}" aria-label="Abrir ${esc(p.title)}">
-      ${adminOn?`<div class="cadm"><button class="btn ghost sm" data-act="editProject" data-id="${p.id}" aria-label="Editar">${ico('edit')}</button><button class="btn danger sm" data-act="delProject" data-id="${p.id}" aria-label="Excluir">${ico('del')}</button></div>`:''}
+      ${isAdmin?`<div class="cadm"><button class="btn ghost sm" data-act="editProject" data-id="${p.id}" aria-label="Editar">${ico('edit')}</button><button class="btn danger sm" data-act="delProject" data-id="${p.id}" aria-label="Excluir">${ico('del')}</button></div>`:''}
       <span class="tg t-${esc(p.tag)}">${esc(p.tag)}</span>
-      <h3>${esc(p.title)}</h3><p>${esc(p.desc)}</p>
+      <h3>${esc(p.title)}</h3><p>${esc(p.description)}</p>
       <div class="foot"><span>${ico('up')}${v.up}</span><span>${ico('dn')}${v.dn}</span><span>${ico('msg')}${cmOf(p.id).length}</span><span class="host">${esc(host(p.url))}</span></div>
     </article>`}).join('');
+  const empty=D.projects.length?`Nenhum item em "${esc(filter)}" por enquanto.`:(isAdmin?'Nenhum projeto ainda. Clique em "Novo projeto" para adicionar o primeiro.':'Os projetos vão aparecer aqui em breve.');
   return `<div class="phead rv${instant?' in':''}"><div><h2>Projetos, sites e ideias</h2><p>Qualquer pessoa pode abrir os links. Para comentar e reagir, entre na sua conta.</p></div>
-    ${adminOn?`<button class="btn" data-act="newProject">${ico('plus')} Novo projeto</button>`:''}</div>
-    <div class="chips rv${instant?' in':''}">${tags.map(t=>`<button class="chip ${filter===t?'on':''}" data-act="filter" data-f="${t}">${t}</button>`).join('')}</div>
-    ${list.length?`<div class="grid">${cards}</div>`:`<div class="empty">Nenhum item em "${esc(filter)}" por enquanto.</div>`}`;
+    ${isAdmin?`<button class="btn" data-act="newProject">${ico('plus')} Novo projeto</button>`:''}</div>
+    <div class="chips rv${instant?' in':''}">${['Todos',...TAGS].map(t=>`<button class="chip ${filter===t?'on':''}" data-act="filter" data-f="${t}">${t}</button>`).join('')}</div>
+    ${list.length?`<div class="grid">${cards}</div>`:`<div class="empty">${empty}</div>`}`;
 }
 function panelHistory(){
-  const h=S.content.hero,paras=S.content.history.split(/\n\s*\n/).map(p=>`<p>${esc(p).replace(/\n/g,'<br>')}</p>`).join('');
-  return `<div class="phead rv"><div><h2>A história do ${esc(h.site)}</h2><p>Como esta página foi parar aqui.</p></div>${adminOn?`<button class="btn blue" data-act="editContent" data-sec="history">${ico('edit')} Editar história</button>`:''}</div>
+  const h=D.content.hero,paras=D.content.history.split(/\n\s*\n/).map(p=>`<p>${esc(p).replace(/\n/g,'<br>')}</p>`).join('');
+  return `<div class="phead rv"><div><h2>A história do ${esc(h.site)}</h2><p>Como esta página foi parar aqui.</p></div>${isAdmin?`<button class="btn blue" data-act="editContent" data-sec="history">${ico('edit')} Editar história</button>`:''}</div>
   <div class="hist"><div class="panel txt rv l">${paras}</div>
   <div class="panel who rv r"><h3>Quem faz</h3><dl><div><dt>Nome</dt><dd>${esc(h.name)}</dd></div><div><dt>Idade</dt><dd>${esc(h.age)} anos</dd></div><div><dt>Cidade</dt><dd>${esc(h.city)}</dd></div><div><dt>Site</dt><dd>${esc(h.site)} · ${esc(h.tagline)}</dd></div></dl></div></div>`;
 }
 function panelContact(){
-  const c=S.content.contact;
+  const c=D.content.contact;
   const extra=[c.email&&`<a href="mailto:${esc(c.email)}">${ico('mail')} ${esc(c.email)}</a>`,c.github&&`<a href="${esc(fixUrl(c.github))}" target="_blank" rel="noopener">${ico('code')} GitHub · ${esc(host(c.github))}</a>`,c.instagram&&`<a href="${esc(fixUrl(c.instagram))}" target="_blank" rel="noopener">${ico('user')} Instagram · ${esc(host(c.instagram)||c.instagram)}</a>`].filter(Boolean).join('');
-  return `<div class="phead rv"><div><h2>Contato</h2><p>${esc(c.note)}</p></div>${adminOn?`<button class="btn blue" data-act="editContent" data-sec="contact">${ico('edit')} Editar contato</button>`:''}</div>
+  return `<div class="phead rv"><div><h2>Contato</h2><p>${esc(c.note)}</p></div>${isAdmin?`<button class="btn blue" data-act="editContent" data-sec="contact">${ico('edit')} Editar contato</button>`:''}</div>
   <div class="ctl"><div class="rv l"><a class="wa" href="${esc(waLink())}" target="_blank" rel="noopener">${ico('wa')}<span><strong>${esc(c.whatsapp)}</strong>WhatsApp · toque para conversar</span></a>${extra?`<div class="cl">${extra}</div>`:''}</div>
   <form class="panel rv r" data-form="wamsg"><h3>Mensagem rápida</h3><p class="hint">Abre o WhatsApp com o texto já pronto.</p>
   <label for="wn">Seu nome</label><input id="wn" name="n" maxlength="60" required><label for="wm">Mensagem</label><textarea id="wm" name="m" maxlength="400" required></textarea>
   <button class="btn" style="margin-top:1rem">${ico('wa')} Enviar pelo WhatsApp</button></form></div>`;
 }
 function renderFooter(){
-  $('#footer').innerHTML=`<span>© ${new Date().getFullYear()} ${esc(S.content.hero.site)} · ${esc(S.content.hero.name)} · ${esc(S.content.hero.city)}</span><button data-act="adminLogin">${ico('lock')} Área do dono</button>`;
+  const h=D.content.hero;
+  $('#footer').innerHTML=`<span>© ${new Date().getFullYear()} ${esc(h.site)} · ${esc(h.name)} · ${esc(h.city)}</span><button data-act="adminLogin">${ico('lock')} Área do dono</button>`;
 }
-function renderAll(instant){renderNav();renderHero();renderScrub();renderHub(instant);renderFooter();document.title=S.content.hero.site+' - '+S.content.hero.tagline.replace(/\.$/,'')}
+function renderAll(instant){
+  renderNav();renderHero();renderScrub();renderHub(instant);renderFooter();
+  document.title=D.content.hero.site+' - '+D.content.hero.tagline.replace(/\.$/,'');
+  updateScroll(true);
+}
+function rerender(){renderAll(true);if(adminOpen())renderAdmin();refreshProject()}
+async function reload(){await loadData();rerender()}
 
 /* ================= SCROLL ================= */
 let ticking=false;
@@ -470,7 +433,7 @@ function updateScroll(force){
   if(hi&&!matchMedia('(prefers-reduced-motion:reduce)').matches){hi.style.transform=`translateY(${y*.32}px) scale(${1-hp*.1})`;hi.style.opacity=String(1-hp*1.15)}
   if(gb)gb.style.transform=`translateY(${y*.18}px)`;
   const sc=$('#scrub');
-  if(sc){
+  if(sc&&sc.firstElementChild){
     const r=sc.getBoundingClientRect(),p=clamp(-r.top/(r.height-H),0,1);
     const idea=$('#idea');if(idea)idea.style.setProperty('--p',p.toFixed(3));
     const w=$('#wire');if(w)w.style.setProperty('--p',clamp(p*1.6,0,1).toFixed(3));
@@ -495,63 +458,91 @@ function openModal(html,wide){const m=$('#mbody');m.className='md'+(wide?' wide'
 function closeModal(){$('#modal').classList.remove('open');$('#modal').setAttribute('aria-hidden','true');curPid=null}
 $('#modal').addEventListener('mousedown',e=>{if(e.target.id==='modal')closeModal()});
 addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#modal').classList.contains('open'))closeModal()});
-const err=(f,m)=>{const e=f.querySelector('.err');if(e)e.textContent=m};
+const err=(f,m)=>{const e=f.querySelector('.err');if(e)e.textContent=m;busy(f,false)};
 
 /* ================= PROJETO (detalhe, reações, comentários) ================= */
 function projectHTML(p){
-  const u=me(),v=votesOf(p.id),mine=u&&S.votes[p.id]?S.votes[p.id][u.id]:0,cms=cmOf(p.id).sort((a,b)=>b.ts-a.ts);
+  const u=me(),v=votesOf(p.id),mine=myVote(p.id),cms=cmOf(p.id);
+  let box;
+  if(!u)box=`<div class="lock">Entre na sua conta para comentar e dar Gostei ou Não gostei.<br><button class="btn sm" data-act="auth" data-tab="login">Entrar ou cadastrar</button></div>`;
+  else if(u.banned)box=`<div class="lock">Sua conta está bloqueada para comentar e reagir.</div>`;
+  else box=`<form data-form="comment"><label for="ct" class="hint" style="margin-top:0">Comentando como ${esc(u.name)}</label><textarea id="ct" name="t" maxlength="500" required placeholder="O que você achou deste projeto?"></textarea><div class="err" role="alert"></div><button class="btn sm">Comentar</button></form>`;
   return `<span class="tg t-${esc(p.tag)}">${esc(p.tag)}</span>
-  <h2 style="margin-top:.6rem">${esc(p.title)}</h2><p class="sub">${esc(p.desc)}</p>
+  <h2 style="margin-top:.6rem">${esc(p.title)}</h2><p class="sub">${esc(p.description)}</p>
   <div style="margin-top:1rem"><a class="btn" href="${esc(fixUrl(p.url))}" target="_blank" rel="noopener">${ico('link')} Abrir link</a> <span class="hint" style="margin-left:.5rem">${esc(host(p.url))}</span></div>
   <div class="react"><button class="rb up ${mine===1?'on':''}" data-act="vote" data-v="1">${ico('up')} Gostei · ${v.up}</button><button class="rb dn ${mine===-1?'on':''}" data-act="vote" data-v="-1">${ico('dn')} Não gostei · ${v.dn}</button></div>
-  <div class="cm"><h3>Comentários (${cms.length})</h3>
-  ${u?`<form data-form="comment"><label for="ct" class="hint" style="margin-top:0">Comentando como ${esc(u.name)}</label><textarea id="ct" name="t" maxlength="500" required placeholder="O que você achou deste projeto?"></textarea><div class="err" role="alert"></div><button class="btn sm">Comentar</button></form>`
-  :adminOn?`<div class="lock">Você está no modo dono. Comentários e reações são dos visitantes cadastrados.</div>`
-  :`<div class="lock">Entre na sua conta para comentar e dar Gostei ou Não gostei.<br><button class="btn sm" data-act="auth" data-tab="login">Entrar ou cadastrar</button></div>`}
-  <div style="margin-top:1rem">${cms.map(c=>`<div class="cmi"><header><b>${esc(c.name)}</b><span>${fdate(c.ts)}${adminOn?` <button class="btn danger sm" data-act="delComment" data-id="${c.id}" aria-label="Excluir comentário">${ico('del')}</button>`:''}</span></header><p>${esc(c.text).replace(/\n/g,'<br>')}</p></div>`).join('')||'<p class="hint">Ainda sem comentários. Seja a primeira pessoa a comentar.</p>'}</div></div>`;
+  <div class="cm"><h3>Comentários (${cms.length})</h3>${box}
+  <div style="margin-top:1rem">${cms.map(c=>`<div class="cmi"><header><b>${esc(c.name)}</b><span>${fdate(c.created_at)}${(isAdmin||(u&&c.user_id===u.id))?` <button class="btn danger sm" data-act="delComment" data-id="${c.id}" aria-label="Excluir comentário">${ico('del')}</button>`:''}</span></header><p>${esc(c.text).replace(/\n/g,'<br>')}</p></div>`).join('')||'<p class="hint">Ainda sem comentários. Seja a primeira pessoa a comentar.</p>'}</div></div>`;
 }
-function showProject(id){const p=S.projects.find(x=>x.id===id);if(!p)return;curPid=id;const keep=$('#modal').scrollTop;openModal(projectHTML(p),true);$('#modal').scrollTop=keep}
-function refreshProject(){if(curPid&&$('#modal').classList.contains('open')){const p=S.projects.find(x=>x.id===curPid);if(p){const keep=$('#modal').scrollTop;$('#mbody').innerHTML=`<button class="x" data-act="closeModal" aria-label="Fechar">${ico('x')}</button>`+projectHTML(p);$('#modal').scrollTop=keep}}if(tab==='projetos'&&!document.getElementById('admin').classList.contains('open'))renderHub(true)}
+function showProject(id){const p=D.projects.find(x=>x.id===id);if(!p)return;openModal(projectHTML(p),true);curPid=id}
+function refreshProject(){
+  if(!curPid||!$('#modal').classList.contains('open'))return;
+  const p=D.projects.find(x=>x.id===curPid);if(!p)return closeModal();
+  const keep=$('#modal').scrollTop;
+  $('#mbody').innerHTML=`<button class="x" data-act="closeModal" aria-label="Fechar">${ico('x')}</button>`+projectHTML(p);
+  $('#modal').scrollTop=keep;
+}
+function refreshHub(){if(tab==='projetos'&&!adminOpen())renderHub(true)}
 
 /* ================= AUTENTICAÇÃO ================= */
-
-  function openAuth(t,msg){
-  afterAuth=curPid;
+function openAuth(t,msg){
+  if(curPid)afterAuth=curPid;
   const reg=t==='register';
   openModal(`<h2>${reg?'Criar conta':'Entrar'}</h2><p class="sub">${esc(msg||(reg?'Cadastre-se para comentar e reagir aos projetos.':'Acesse sua conta de visitante.'))}</p>
-  
-  <!-- Botão de Login com Google -->
-  <button class="btn ghost" style="width:100%;margin-bottom:1rem;display:flex;align-items:center;justify-content:center;gap:8px;" data-act="googleLogin">
-    <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.95H1.19v3.15C3.17 21.31 7.23 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.25c-.25-.72-.38-1.49-.38-2.25s.13-1.53.38-2.25V6.6H1.19C.43 8.13 0 9.87 0 12s.43 3.87 1.19 5.4l4.09-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.23 0 3.17 2.69 1.19 6.6l4.09 3.15c.95-2.84 3.6-4.95 6.72-4.95z"/></svg>
-    Continuar com Google
-  </button>
-  <div style="text-align:center;color:var(--mut);font-size:0.85rem;margin-bottom:1rem">ou via e-mail</div>
-
+  <button class="btn ghost gbtn" type="button" data-act="googleLogin">${GOOGLE_SVG} Continuar com Google</button>
+  <div class="or">ou via e-mail</div>
   <div class="seg" role="tablist"><button class="${reg?'':'on'}" data-act="auth" data-tab="login">Entrar</button><button class="${reg?'on':''}" data-act="auth" data-tab="register">Cadastrar</button></div>
   ${reg?`<form data-form="register"><label for="rn">Nome</label><input id="rn" name="name" autocomplete="name" minlength="2" maxlength="60" required>
   <label for="re">E-mail</label><input id="re" name="email" type="email" autocomplete="email" required>
   <label for="rp">Senha (mínimo 6 caracteres)</label><input id="rp" name="pass" type="password" autocomplete="new-password" minlength="6" required>
   <label for="rp2">Repetir senha</label><input id="rp2" name="pass2" type="password" autocomplete="new-password" required>
-  <div class="err" role="alert"></div><button class="btn" style="width:100%">Criar conta e receber código</button><p class="hint" style="margin-top:.8rem">Cada e-mail só pode ter uma conta, e ela precisa ser confirmada por e-mail.</p></form>`
+  <div class="err" role="alert"></div><button class="btn" style="width:100%">Criar conta</button><p class="hint" style="margin-top:.8rem">Você vai receber um link no e-mail para confirmar a conta.</p></form>`
   :`<form data-form="login"><label for="le">E-mail</label><input id="le" name="email" type="email" autocomplete="email" required>
   <label for="lp">Senha</label><input id="lp" name="pass" type="password" autocomplete="current-password" required>
   <div class="err" role="alert"></div><button class="btn" style="width:100%">Entrar</button></form>`}`);
 }
-function openVerify(userId,fresh){
-  const u=S.users.find(x=>x.id===userId);if(!u)return;
-  openModal(`<h2>Confirme seu e-mail</h2><p class="sub">Enviamos um código de 6 dígitos para <b>${esc(u.email)}</b>. Digite abaixo para ativar a conta.</p>
-  <div class="note">Copie e cole o código: O código aparece aqui.<b class="code">${esc(u.code)}</b></div>
-  <form data-form="verify" data-uid="${u.id}"><label for="vc">Código</label><input id="vc" name="c" inputmode="numeric" maxlength="6" autocomplete="one-time-code" required>
-  <div class="err" role="alert"></div><button class="btn" style="width:100%">Confirmar e entrar</button></form>
-  <button class="btn ghost sm" style="margin-top:.8rem" data-act="resend" data-uid="${u.id}">Gerar novo código</button>`);
-  if(fresh)toast('Conta criada. Confirme o e-mail para entrar.');
+function openConfirmSent(email){
+  openModal(`<h2>Confirme seu e-mail</h2><p class="sub">Enviamos um link de confirmação para <b>${esc(email)}</b>. Abra o e-mail e clique no link para ativar a conta. Você volta para cá já conectado.</p>
+  <div class="note">Não chegou? Confira a caixa de spam ou peça outro e-mail.</div>
+  <button class="btn ghost sm" data-act="resendSignup" data-email="${esc(email)}">Reenviar e-mail</button>`);
 }
+function adminLoginModal(){
+  openModal(`<h2>Área do dono</h2><p class="sub">Acesso restrito. Só contas marcadas como dono no banco entram aqui.</p>
+  <button class="btn ghost gbtn" type="button" data-act="googleLogin" data-admin="1">${GOOGLE_SVG} Entrar como dono com Google</button>
+  <div class="or">ou com e-mail e senha</div>
+  <form data-form="adminlogin"><label for="ae">E-mail do dono</label><input id="ae" name="email" type="email" autocomplete="username" required>
+  <label for="ap">Senha</label><input id="ap" name="pass" type="password" autocomplete="current-password" required>
+  <div class="err" role="alert"></div><button class="btn" style="width:100%">Entrar como dono</button></form>`);
+}
+
+/* Mudanças de sessão (login, logout, retorno do Google ou do link de e-mail) */
+async function syncSession(session,ev){
+  await applySession(session);
+  if(wantAdmin&&user&&!isAdmin){
+    wantAdmin=false;ss.del('wantAdmin');quietOut=true;
+    await sb.auth.signOut();
+    toast('Esta conta não tem acesso de dono.',true);
+    return;
+  }
+  await loadData();
+  if(!isAdmin)closeAdminQuiet();
+  const back=afterAuth;afterAuth=null;
+  if(ev==='SIGNED_IN'&&$('#modal').classList.contains('open'))closeModal();
+  rerender();
+  if(wantAdmin&&isAdmin){wantAdmin=false;ss.del('wantAdmin');openAdmin();toast('Acesso do dono liberado.')}
+  else if(ev==='SIGNED_IN'){const u=me();if(u)toast('Olá, '+first(u.name)+'!');if(back)showProject(back)}
+  else if(ev==='SIGNED_OUT'){if(quietOut)quietOut=false;else toast('Você saiu da conta.')}
+}
+
 const forms={
   async login(f){
-    const email=f.email.value.trim().toLowerCase(),h=await hash(f.pass.value),u=S.users.find(x=>x.email===email);
-    if(!u||u.hash!==h)return err(f,'E-mail ou senha incorretos.');
-    if(!u.confirmed){u.code=code6();u.exp=Date.now()+15*60000;save();return openVerify(u.id)}
-    S.session.uid=u.id;save();const back=afterAuth;closeModal();renderAll(true);toast('Bem-vindo de volta, '+first(u.name)+'!');if(back)showProject(back);
+    busy(f,true);
+    const email=f.email.value.trim().toLowerCase();
+    const {error}=await sb.auth.signInWithPassword({email,password:f.pass.value});
+    if(error){
+      if(/confirm/i.test(error.message))return openConfirmSent(email);
+      return err(f,'E-mail ou senha incorretos.');
+    }
   },
   async register(f){
     const name=f.name.value.trim(),email=f.email.value.trim().toLowerCase(),p=f.pass.value;
@@ -559,168 +550,267 @@ const forms={
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email))return err(f,'Digite um e-mail válido.');
     if(p.length<6)return err(f,'A senha precisa ter pelo menos 6 caracteres.');
     if(p!==f.pass2.value)return err(f,'As senhas não são iguais.');
-    if(S.users.some(x=>x.email===email)||email===S.admin.email.toLowerCase())return err(f,'Este e-mail já está cadastrado. Use a aba Entrar.');
-    const u={id:uid(),name,email,hash:await hash(p),confirmed:false,code:code6(),exp:Date.now()+15*60000,ts:Date.now()};
-    S.users.push(u);save();openVerify(u.id,true);
-  },
-  verify(f){
-    const u=S.users.find(x=>x.id===f.dataset.uid);if(!u)return;
-    if(Date.now()>u.exp)return err(f,'Este código expirou. Gere um novo código.');
-    if(f.c.value.trim()!==u.code)return err(f,'Código incorreto. Confira e tente de novo.');
-    u.confirmed=true;u.code='';S.session.uid=u.id;save();const back=afterAuth;closeModal();renderAll(true);toast('E-mail confirmado. Você já pode comentar e reagir.');if(back)showProject(back);
-  },
-  comment(f){
-    const u=me();if(!u)return openAuth('login','Entre para comentar.');
-    const t=f.t.value.trim();if(!t)return err(f,'Escreva algo antes de comentar.');
-    S.comments.push({id:uid(),pid:curPid,uid:u.id,name:u.name,text:t.slice(0,500),ts:Date.now()});save();refreshProject();toast('Comentário publicado.');
-  },
-  wamsg(f){const n=f.n.value.trim(),m=f.m.value.trim();window.open(waLink(`Olá, sou ${n}. ${m}`),'_blank','noopener')},
-  project(f){
-    const d={title:f.title.value.trim(),desc:f.desc.value.trim(),url:fixUrl(f.url.value),tag:f.tag.value};
-    if(!d.title||!f.url.value.trim())return err(f,'Preencha o título e o link.');
-    if(f.dataset.id){Object.assign(S.projects.find(p=>p.id===f.dataset.id),d);toast('Projeto atualizado.')}
-    else{S.projects.push({id:uid(),ts:Date.now(),...d});toast('Projeto adicionado.')}
-    save();closeModal();afterAdminChange();
-  },
-  content(f){
-    const sec=f.dataset.sec;
-    if(sec==='history')S.content.history=f.history.value;
-    else for(const k of Object.keys(S.content[sec]))S.content[sec][k]=f[k].value.trim();
-    save();if($('#modal').classList.contains('open'))closeModal();toast('Alterações salvas.');afterAdminChange();
+    busy(f,true);
+    const {data,error}=await sb.auth.signUp({email,password:p,options:{data:{full_name:name},emailRedirectTo:SITE_URL}});
+    if(error)return err(f,/registered|exists/i.test(error.message)?'Este e-mail já está cadastrado. Use a aba Entrar.':'Não foi possível criar a conta: '+error.message);
+    if(data.user&&Array.isArray(data.user.identities)&&data.user.identities.length===0)return err(f,'Este e-mail já está cadastrado. Use a aba Entrar.');
+    if(!data.session)openConfirmSent(email);
   },
   async adminlogin(f){
-    if(Date.now()<lockUntil)return err(f,'Muitas tentativas. Aguarde alguns segundos.');
-    const ok=f.email.value.trim().toLowerCase()===S.admin.email.toLowerCase()&&(await hash(f.pass.value))===S.admin.hash;
-    if(!ok){if(++tries>=5){lockUntil=Date.now()+30000;tries=0}return err(f,'Acesso negado. Esta área é somente para o dono.')}
-    tries=0;adminOn=true;S.session.uid=null;save();closeModal();renderAll(true);toast('Acesso do dono liberado.');openAdmin();
+    busy(f,true);wantAdmin=true;
+    const {error}=await sb.auth.signInWithPassword({email:f.email.value.trim().toLowerCase(),password:f.pass.value});
+    if(error){wantAdmin=false;return err(f,/confirm/i.test(error.message)?'Confirme o e-mail desta conta antes de entrar.':'Acesso negado. E-mail ou senha incorretos.')}
+  },
+  async comment(f){
+    const u=me();if(!u)return openAuth('login','Entre para comentar.');
+    const t=f.t.value.trim();if(!t)return err(f,'Escreva algo antes de comentar.');
+    busy(f,true);
+    const {error}=await sb.from('comments').insert({project_id:curPid,user_id:u.id,text:t.slice(0,500)});
+    if(error)return err(f,'Não foi possível comentar: '+error.message);
+    await loadData();refreshProject();refreshHub();toast('Comentário publicado.');
+  },
+  wamsg(f){const n=f.n.value.trim(),m=f.m.value.trim();window.open(waLink(`Olá, sou ${n}. ${m}`),'_blank','noopener')},
+  async project(f){
+    const d={title:f.title.value.trim().slice(0,80),description:f.desc.value.trim().slice(0,300),url:fixUrl(f.url.value),tag:f.tag.value};
+    if(!d.title||!f.url.value.trim())return err(f,'Preencha o título e o link.');
+    busy(f,true);
+    const id=f.dataset.id;
+    const r=id?await sb.from('projects').update(d).eq('id',id).select():await sb.from('projects').insert(d).select();
+    if(r.error)return err(f,'Erro ao salvar: '+r.error.message);
+    if(!r.data||!r.data.length)return err(f,'Nada foi salvo: sua conta não tem permissão de dono no banco (tabela admins).');
+    closeModal();await reload();toast(id?'Projeto atualizado.':'Projeto adicionado.');
+  },
+  async content(f){
+    const sec=f.dataset.sec,next=clone(D.content);
+    if(sec==='history')next.history=f.history.value;
+    else for(const k of Object.keys(next[sec]))next[sec][k]=f[k].value.trim();
+    busy(f,true);
+    const r=await sb.from('site_content').upsert({id:1,data:next,updated_at:new Date().toISOString()}).select();
+    if(r.error)return err(f,'Erro ao salvar: '+r.error.message);
+    if(!r.data||!r.data.length)return err(f,'Nada foi salvo: sua conta não tem permissão de dono no banco (tabela admins).');
+    D.content=next;busy(f,false);
+    if($('#modal').classList.contains('open'))closeModal();
+    rerender();toast('Alterações salvas. Já aparecem para todos.');
   },
   async security(f){
-    if((await hash(f.cur.value))!==S.admin.hash)return err(f,'Senha atual incorreta.');
-    const em=f.email.value.trim().toLowerCase();
+    const hasPass=(user.identities||[]).some(i=>i.provider==='email');
+    const em=f.email.value.trim().toLowerCase(),np=f.np.value;
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em))return err(f,'E-mail inválido.');
-    if(S.users.some(u=>u.email===em))return err(f,'Este e-mail já é de um visitante cadastrado.');
-    S.admin.email=em;
-    if(f.np.value){if(f.np.value.length<8)return err(f,'A nova senha precisa ter 8 caracteres ou mais.');S.admin.hash=await hash(f.np.value)}
-    save();f.reset();err(f,'');toast('Dados do dono atualizados.');
+    if(np&&np.length<8)return err(f,'A nova senha precisa ter 8 caracteres ou mais.');
+    const upd={};
+    if(em!==(user.email||'').toLowerCase())upd.email=em;
+    if(np)upd.password=np;
+    if(!Object.keys(upd).length)return err(f,'Nada para alterar.');
+    busy(f,true);
+    if(hasPass){
+      const chk=await sb.auth.signInWithPassword({email:user.email,password:f.cur.value});
+      if(chk.error)return err(f,'Senha atual incorreta.');
+    }
+    const {error}=await sb.auth.updateUser(upd,{emailRedirectTo:SITE_URL});
+    if(error)return err(f,'Não foi possível salvar: '+error.message);
+    f.reset();err(f,'');
+    toast(upd.email?'Enviamos um link de confirmação para o novo e-mail.':'Senha atualizada.');
   }
 };
-let tries=0,lockUntil=0;
-document.addEventListener('submit',e=>{const f=e.target.closest('[data-form]');if(f){e.preventDefault();forms[f.dataset.form]&&forms[f.dataset.form](f)}});
+document.addEventListener('submit',e=>{
+  const f=e.target.closest('[data-form]');if(!f)return;e.preventDefault();
+  const fn=forms[f.dataset.form];if(!fn)return;
+  Promise.resolve().then(()=>fn(f)).catch(x=>{console.error(x);err(f,'Erro inesperado: '+(x&&x.message||x))});
+});
 
 /* ================= FORMULÁRIOS DO DONO ================= */
 function projectForm(p){
   p=p||{};
   return `<h2>${p.id?'Editar projeto':'Novo projeto'}</h2><p class="sub">Aparece na aba Projetos para todos os visitantes.</p>
   <form data-form="project" data-id="${p.id||''}"><label for="pt">Título</label><input id="pt" name="title" maxlength="80" value="${esc(p.title)}" required>
-  <label for="pd">Descrição</label><textarea id="pd" name="desc" maxlength="300">${esc(p.desc)}</textarea>
+  <label for="pd">Descrição</label><textarea id="pd" name="desc" maxlength="300">${esc(p.description)}</textarea>
   <label for="pu">Link</label><input id="pu" name="url" placeholder="https://" value="${esc(p.url)}" required>
-  <label for="pg">Categoria</label><select id="pg" name="tag">${['Projeto','Site','Ideia'].map(t=>`<option ${p.tag===t?'selected':''}>${t}</option>`).join('')}</select>
+  <label for="pg">Categoria</label><select id="pg" name="tag">${TAGS.map(t=>`<option ${p.tag===t?'selected':''}>${t}</option>`).join('')}</select>
   <div class="err" role="alert"></div><button class="btn" style="margin-top:.6rem">Salvar projeto</button></form>`;
 }
 const LBL={name:'Seu nome',age:'Idade',city:'Cidade',site:'Nome do site',tagline:'Frase de efeito',intro:'Texto de apresentação',whatsapp:'WhatsApp',email:'E-mail',github:'GitHub (link)',instagram:'Instagram (link)',note:'Texto da aba'};
 function contentForm(sec){
   const titles={hero:'Apresentação',history:'História da página',contact:'Contato'};
   let fields;
-  if(sec==='history')fields=`<label for="ch">Texto (separe parágrafos com uma linha em branco)</label><textarea id="ch" name="history" style="min-height:260px">${esc(S.content.history)}</textarea>`;
-  else fields=Object.keys(S.content[sec]).map(k=>{const big=k==='intro'||k==='note';return `<label for="c-${sec}-${k}">${LBL[k]}</label>${big?`<textarea id="c-${sec}-${k}" name="${k}">${esc(S.content[sec][k])}</textarea>`:`<input id="c-${sec}-${k}" name="${k}" value="${esc(S.content[sec][k])}">`}`}).join('');
+  if(sec==='history')fields=`<label for="ch">Texto (separe parágrafos com uma linha em branco)</label><textarea id="ch" name="history" style="min-height:260px">${esc(D.content.history)}</textarea>`;
+  else fields=Object.keys(D.content[sec]).map(k=>{const big=k==='intro'||k==='note';return `<label for="c-${sec}-${k}">${LBL[k]||k}</label>${big?`<textarea id="c-${sec}-${k}" name="${k}">${esc(D.content[sec][k])}</textarea>`:`<input id="c-${sec}-${k}" name="${k}" value="${esc(D.content[sec][k])}">`}`}).join('');
   return `<form data-form="content" data-sec="${sec}"><h3 style="margin-bottom:.3rem">${titles[sec]}</h3>${fields}<div class="err" role="alert"></div><button class="btn" style="margin-top:.8rem">Salvar ${titles[sec].toLowerCase()}</button></form>`;
 }
 
 /* ================= PAINEL DO DONO ================= */
-function openAdmin(){$('#admin').classList.add('open');document.body.style.overflow='hidden';renderAdmin()}
-function closeAdmin(){$('#admin').classList.remove('open');document.body.style.overflow='';renderAll(true)}
-function afterAdminChange(){if($('#admin').classList.contains('open'))renderAdmin();else renderAll(true)}
+function openAdmin(){if(!isAdmin)return adminLoginModal();$('#admin').classList.add('open');document.body.style.overflow='hidden';renderAdmin()}
+function closeAdminQuiet(){$('#admin').classList.remove('open');document.body.style.overflow=''}
+function closeAdmin(){closeAdminQuiet();renderAll(true)}
 function renderAdmin(){
+  if(!isAdmin)return closeAdminQuiet();
   const tabs=[['resumo','chart','Resumo'],['projetos','grid','Projetos'],['usuarios','users','Usuários'],['reacoes','heart','Reações e comentários'],['pagina','edit','Editar a página'],['seguranca','lock','Segurança']];
-  const up=Object.values(S.votes).reduce((a,v)=>a+Object.values(v).filter(x=>x===1).length,0),dn=Object.values(S.votes).reduce((a,v)=>a+Object.values(v).filter(x=>x===-1).length,0);
+  const up=D.votes.filter(v=>v.value===1).length,dn=D.votes.filter(v=>v.value===-1).length;
   let main='';
-  if(adminTab==='resumo')main=`<h2>Resumo</h2><div class="stats">${[['Projetos',S.projects.length],['Usuários',S.users.length],['E-mail confirmado',S.users.filter(u=>u.confirmed).length],['Gostei',up],['Não gostei',dn],['Comentários',S.comments.length]].map(s=>`<div class="stat"><b>${s[1]}</b><span>${s[0]}</span></div>`).join('')}</div>`;
-  if(adminTab==='projetos')main=`<h2>Projetos</h2><p style="margin-bottom:1rem"><button class="btn" data-act="newProject">${ico('plus')} Enviar novo projeto</button></p><div class="tbl"><table><tr><th>Título</th><th>Categoria</th><th>Gostei</th><th>Não gostei</th><th>Ações</th></tr>${S.projects.map(p=>{const v=votesOf(p.id);return `<tr><td>${esc(p.title)}<br><a href="${esc(fixUrl(p.url))}" target="_blank" rel="noopener" class="hint">${esc(host(p.url))}</a></td><td>${esc(p.tag)}</td><td>${v.up}</td><td>${v.dn}</td><td><div class="row"><button class="btn ghost sm" data-act="editProject" data-id="${p.id}">${ico('edit')} Editar</button><button class="btn danger sm" data-act="delProject" data-id="${p.id}">${ico('del')}</button></div></td></tr>`}).join('')||'<tr><td colspan="5">Nenhum projeto.</td></tr>'}</table></div>`;
-  if(adminTab==='usuarios')main=`<h2>Registros de usuários</h2><div class="tbl"><table><tr><th>Nome</th><th>E-mail</th><th>Status</th><th>Cadastro</th><th>Ações</th></tr>${S.users.map(u=>`<tr><td>${esc(u.name)}</td><td>${esc(u.email)}</td><td class="${u.confirmed?'ok':'pend'}">${u.confirmed?'Confirmado':'Pendente'}</td><td>${fdate(u.ts)}</td><td><div class="row">${u.confirmed?'':`<button class="btn ghost sm" data-act="confirmUser" data-id="${u.id}">Confirmar</button>`}<button class="btn danger sm" data-act="delUser" data-id="${u.id}">${ico('del')} Remover</button></div></td></tr>`).join('')||'<tr><td colspan="5">Ainda não há usuários cadastrados.</td></tr>'}</table></div>`;
+  if(adminTab==='resumo')main=`<h2>Resumo</h2><div class="stats">${[['Projetos',D.projects.length],['Usuários',D.profiles.length],['E-mail confirmado',D.profiles.filter(u=>u.confirmed).length],['Bloqueados',D.profiles.filter(u=>u.banned).length],['Gostei',up],['Não gostei',dn],['Comentários',D.comments.length]].map(s=>`<div class="stat"><b>${s[1]}</b><span>${s[0]}</span></div>`).join('')}</div>`;
+  if(adminTab==='projetos')main=`<h2>Projetos</h2><p style="margin-bottom:1rem"><button class="btn" data-act="newProject">${ico('plus')} Enviar novo projeto</button></p><div class="tbl"><table><tr><th>Título</th><th>Categoria</th><th>Gostei</th><th>Não gostei</th><th>Comentários</th><th>Ações</th></tr>${D.projects.map(p=>{const v=votesOf(p.id);return `<tr><td>${esc(p.title)}<br><a href="${esc(fixUrl(p.url))}" target="_blank" rel="noopener" class="hint">${esc(host(p.url))}</a></td><td>${esc(p.tag)}</td><td>${v.up}</td><td>${v.dn}</td><td>${cmOf(p.id).length}</td><td><div class="row"><button class="btn ghost sm" data-act="editProject" data-id="${p.id}">${ico('edit')} Editar</button><button class="btn danger sm" data-act="delProject" data-id="${p.id}" aria-label="Excluir">${ico('del')}</button></div></td></tr>`}).join('')||'<tr><td colspan="6">Nenhum projeto.</td></tr>'}</table></div>`;
+  if(adminTab==='usuarios')main=`<h2>Registros de usuários</h2><p class="hint" style="margin-bottom:1rem">Bloquear impede a pessoa de comentar e reagir. "Apagar atividade" remove todos os comentários e reações dela.</p><div class="tbl"><table><tr><th>Nome</th><th>E-mail</th><th>Status</th><th>Cadastro</th><th>Ações</th></tr>${D.profiles.map(u=>{const self=u.id===user.id;return `<tr><td>${esc(u.name)}${self?' <span class="hint">(você)</span>':''}</td><td>${esc(u.email)}</td><td>${u.banned?'<span class="ban">Bloqueado</span>':u.confirmed?'<span class="ok">Confirmado</span>':'<span class="pend">Pendente</span>'}</td><td>${fdate(u.created_at)}</td><td>${self?'<span class="hint">—</span>':`<div class="row"><button class="btn ghost sm" data-act="toggleBan" data-id="${u.id}">${u.banned?'Desbloquear':'Bloquear'}</button><button class="btn danger sm" data-act="wipeUser" data-id="${u.id}">${ico('del')} Apagar atividade</button></div>`}</td></tr>`}).join('')||'<tr><td colspan="5">Ainda não há usuários cadastrados.</td></tr>'}</table></div>`;
   if(adminTab==='reacoes'){
-    const nm=id=>(S.users.find(u=>u.id===id)||{name:'(removido)'}).name;
-    main=`<h2>Reações e comentários</h2>${S.projects.map(p=>{const v=votesOf(p.id),t=v.up+v.dn,vs=S.votes[p.id]||{},ups=Object.keys(vs).filter(k=>vs[k]===1).map(nm),dns=Object.keys(vs).filter(k=>vs[k]===-1).map(nm),cms=cmOf(p.id).sort((a,b)=>b.ts-a.ts);
+    main=`<h2>Reações e comentários</h2>${D.projects.map(p=>{const v=votesOf(p.id),t=v.up+v.dn,vs=D.votes.filter(x=>x.project_id===p.id),ups=vs.filter(x=>x.value===1).map(x=>nameOf(x.user_id)),dns=vs.filter(x=>x.value===-1).map(x=>nameOf(x.user_id)),cms=cmOf(p.id);
     return `<div class="rx"><b>${esc(p.title)}</b><div class="bar2"><i style="width:${t?v.up/t*100:0}%;background:var(--ok)"></i><i style="width:${t?v.dn/t*100:0}%;background:var(--bad)"></i></div>
-    <small><span class="ok">Gostei (${v.up}):</span>${esc(ups.join(', ')||'ninguém ainda')}</small><small><span style="color:var(--bad);font-weight:800">Não gostei (${v.dn}):</span>${esc(dns.join(', ')||'ninguém ainda')}</small>
-    <div style="margin-top:.8rem">${cms.map(c=>`<div class="cmi"><header><b>${esc(c.name)}</b><span>${fdate(c.ts)} <button class="btn danger sm" data-act="delComment" data-id="${c.id}">${ico('del')}</button></span></header><p>${esc(c.text)}</p></div>`).join('')||'<small>Sem comentários.</small>'}</div></div>`}).join('')||'<div class="empty">Sem projetos.</div>'}`;
+    <small><span class="ok">Gostei (${v.up}):</span> ${esc(ups.join(', ')||'ninguém ainda')}</small><small><span class="ban">Não gostei (${v.dn}):</span> ${esc(dns.join(', ')||'ninguém ainda')}</small>
+    <div style="margin-top:.8rem">${cms.map(c=>`<div class="cmi"><header><b>${esc(c.name)}</b><span>${fdate(c.created_at)} <button class="btn danger sm" data-act="delComment" data-id="${c.id}" aria-label="Excluir comentário">${ico('del')}</button></span></header><p>${esc(c.text)}</p></div>`).join('')||'<small>Sem comentários.</small>'}</div></div>`}).join('')||'<div class="empty">Sem projetos.</div>'}`;
   }
   if(adminTab==='pagina')main=`<h2>Editar a página</h2>${['hero','history','contact'].map(s=>`<div class="panel sec">${contentForm(s)}</div>`).join('')}`;
-  if(adminTab==='seguranca')main=`<h2>Segurança e dados</h2><div class="panel sec"><form data-form="security"><h3>Acesso do dono</h3><label for="se">E-mail do dono</label><input id="se" name="email" type="email" value="${esc(S.admin.email)}" required>
-  <label for="sn">Nova senha (deixe em branco para manter)</label><input id="sn" name="np" type="password" autocomplete="new-password"><label for="sc">Senha atual (obrigatória)</label><input id="sc" name="cur" type="password" autocomplete="current-password" required>
-  <div class="err" role="alert"></div><button class="btn" style="margin-top:.8rem">Salvar acesso</button></form></div>
-  <div class="panel sec"><h3>Backup dos dados</h3><p class="hint" style="margin-bottom:.8rem">Os dados ficam salvos neste navegador. Exporte um backup de tempos em tempos.</p><button class="btn ghost" data-act="exportData">Exportar backup (.json)</button></div>`;
-  $('#admin').innerHTML=`<aside><button class="logo" data-act="closeAdmin"><b>&lt;/&gt;</b>Painel</button>${tabs.map(t=>`<button class="t ${adminTab===t[0]?'on':''}" data-act="adminTab" data-t="${t[0]}">${ico(t[1])}${t[2]}</button>`).join('')}<button class="t" data-act="closeAdmin" style="margin-top:auto">${ico('back')} Voltar ao site</button></aside><main>${main}</main>`;
-}
-function adminLoginModal(){
-  openModal(`<h2>Área do dono</h2><p class="sub">Acesso restrito. Contas de visitantes não entram aqui.</p>
-  <form data-form="adminlogin"><label for="ae">E-mail do dono</label><input id="ae" name="email" type="email" autocomplete="username" required>
-  <label for="ap">Senha</label><input id="ap" name="pass" type="password" autocomplete="current-password" required>
-  <div class="err" role="alert"></div><button class="btn" style="width:100%">Entrar como dono</button></form>`);
+  if(adminTab==='seguranca'){
+    const hasPass=(user.identities||[]).some(i=>i.provider==='email');
+    main=`<h2>Segurança e dados</h2><div class="panel sec"><form data-form="security"><h3>Acesso do dono</h3>
+    <label for="se">E-mail do dono</label><input id="se" name="email" type="email" value="${esc(user.email)}" required>
+    <label for="sn">${hasPass?'Nova senha (deixe em branco para manter)':'Criar uma senha (opcional, você entra pelo Google)'}</label><input id="sn" name="np" type="password" autocomplete="new-password" minlength="8">
+    ${hasPass?`<label for="sc">Senha atual (obrigatória)</label><input id="sc" name="cur" type="password" autocomplete="current-password" required>`:''}
+    <div class="err" role="alert"></div><button class="btn" style="margin-top:.8rem">Salvar acesso</button></form></div>
+    <div class="panel sec"><h3>Backup dos dados</h3><p class="hint" style="margin-bottom:.8rem">Os dados ficam no Supabase. Exporte um backup de tempos em tempos.</p><button class="btn ghost" data-act="exportData">Exportar backup (.json)</button></div>
+    <div class="panel sec"><h3>Trazer dados da versão antiga</h3><p class="hint" style="margin-bottom:.8rem">A versão anterior salvava projetos e textos só neste navegador. Use uma vez para enviar esses dados ao banco (os cards "Exemplo:" são ignorados).</p><button class="btn ghost" data-act="importLocal">Importar dados deste navegador</button></div>`;
+  }
+  $('#admin').innerHTML=`<aside><button class="logo" data-act="closeAdmin"><b>&lt;/&gt;</b>Painel</button>${tabs.map(t=>`<button class="t ${adminTab===t[0]?'on':''}" data-act="adminTab" data-t="${t[0]}">${ico(t[1])}${t[2]}</button>`).join('')}<button class="t" data-act="closeAdmin" style="margin-top:auto">${ico('back')} Voltar ao site</button></aside>
+  <main><div class="who-bar"><span>Conectado como <b>${esc(user.email)}</b></span><button class="btn ghost sm" data-act="refresh">Atualizar dados</button></div>${main}</main>`;
 }
 
 /* ================= AÇÕES (delegação de cliques) ================= */
 const act={
   toTop(){scrollTo({top:0,behavior:'smooth'})},
-  tab(d){tab=d.tab;renderHub(true);},
+  tab(d){tab=d.tab;renderHub(true)},
   goTab(d){tab=d.tab;renderHub(true);$('#hub').scrollIntoView({behavior:'smooth'})},
   filter(d){filter=d.f;renderHub(true)},
   openProject(d){showProject(d.id)},
-  vote(d){
-    const u=me();if(!u){return openAuth('login','Entre na sua conta para dar Gostei ou Não gostei.')}
-    const v=+d.v;S.votes[curPid]=S.votes[curPid]||{};
-    if(S.votes[curPid][u.id]===v)delete S.votes[curPid][u.id];else S.votes[curPid][u.id]=v;
-    save();refreshProject();
+  async vote(d){
+    const u=me();if(!u)return openAuth('login','Entre na sua conta para dar Gostei ou Não gostei.');
+    if(u.banned)return toast('Sua conta está bloqueada para reagir.',true);
+    if(voting)return;voting=true;
+    try{
+      const v=+d.v,pid=curPid;
+      const q=myVote(pid)===v
+        ?sb.from('votes').delete().eq('project_id',pid).eq('user_id',u.id)
+        :sb.from('votes').upsert({project_id:pid,user_id:u.id,value:v},{onConflict:'project_id,user_id'});
+      const {error}=await q;
+      if(error)return toast('Não foi possível registrar: '+error.message,true);
+      await loadData();refreshProject();refreshHub();
+    }finally{voting=false}
   },
   auth(d){openAuth(d.tab)},
-  async googleLogin(){
-    try {
-      const { error } = await _supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: { redirectTo: 'https://mydevhub.club' }
-      });
-      if(error) toast('Erro ao entrar com Google: ' + error.message, true);
-    } catch(err){
-      toast('Erro de conexão com o Supabase', true);
-    }
+  async googleLogin(d){
+    if(d.admin){wantAdmin=true;ss.set('wantAdmin','1')}
+    const {error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:SITE_URL}});
+    if(error){wantAdmin=false;ss.del('wantAdmin');toast('Erro ao entrar com Google: '+error.message,true)}
   },
-  resend(d){const u=S.users.find(x=>x.id===d.uid);if(u){u.code=code6();u.exp=Date.now()+15*60000;save();openVerify(u.id);toast('Novo código gerado.')}},
-  async logout(){
-    if(supabaseUser){
-      await _supabase.auth.signOut();
-      supabaseUser=null;
-    }
-    S.session.uid=null;adminOn=false;save();closeAdminQuiet();renderAll(true);toast('Você saiu da conta.');
+  async resendSignup(d){
+    const {error}=await sb.auth.resend({type:'signup',email:d.email,options:{emailRedirectTo:SITE_URL}});
+    toast(error?'Não foi possível reenviar: '+error.message:'E-mail reenviado.',!!error);
   },
-  adminLogin(){if(adminOn)openAdmin();else adminLoginModal()},
+  async logout(){closeAdminQuiet();await sb.auth.signOut()},
+  adminLogin(){if(isAdmin)openAdmin();else adminLoginModal()},
   openAdmin(){openAdmin()},closeAdmin(){closeAdmin()},closeModal(){closeModal()},
   adminTab(d){adminTab=d.t;renderAdmin()},
+  async refresh(){await reload();toast('Dados atualizados.')},
   newProject(){openModal(projectForm())},
-  editProject(d){openModal(projectForm(S.projects.find(p=>p.id===d.id)))},
-  delProject(d){
-    const p=S.projects.find(x=>x.id===d.id);if(!p||!confirm(`Excluir "${p.title}"? Reações e comentários dele também serão apagados.`))return;
-    S.projects=S.projects.filter(x=>x.id!==d.id);delete S.votes[d.id];S.comments=S.comments.filter(c=>c.pid!==d.id);save();toast('Projeto excluído.');afterAdminChange();
+  editProject(d){openModal(projectForm(D.projects.find(p=>p.id===d.id)))},
+  async delProject(d){
+    const p=D.projects.find(x=>x.id===d.id);if(!p||!confirm(`Excluir "${p.title}"? Reações e comentários dele também serão apagados.`))return;
+    const r=await sb.from('projects').delete().eq('id',d.id).select();
+    if(r.error||!r.data||!r.data.length)return toast('Não foi possível excluir'+(r.error?': '+r.error.message:' (sem permissão de dono).'),true);
+    if(curPid===d.id)closeModal();
+    await reload();toast('Projeto excluído.');
   },
-  delComment(d){if(!adminOn||!confirm('Excluir este comentário?'))return;S.comments=S.comments.filter(c=>c.id!==d.id);save();if($('#admin').classList.contains('open'))renderAdmin();refreshProject()},
-  confirmUser(d){const u=S.users.find(x=>x.id===d.id);if(u){u.confirmed=true;u.code='';save();renderAdmin();toast('Usuário confirmado.')}},
-  delUser(d){
-    const u=S.users.find(x=>x.id===d.id);if(!u||!confirm(`Remover ${u.name}? Os comentários e reações dessa pessoa também serão apagados.`))return;
-    S.users=S.users.filter(x=>x.id!==d.id);S.comments=S.comments.filter(c=>c.uid!==d.id);for(const k in S.votes)delete S.votes[k][d.id];
-    if(S.session.uid===d.id)S.session.uid=null;save();renderAdmin();toast('Usuário removido.');
+  async delComment(d){
+    if(!confirm('Excluir este comentário?'))return;
+    const r=await sb.from('comments').delete().eq('id',d.id).select();
+    if(r.error||!r.data||!r.data.length)return toast('Não foi possível excluir o comentário.',true);
+    await loadData();if(adminOpen())renderAdmin();refreshProject();refreshHub();toast('Comentário excluído.');
+  },
+  async toggleBan(d){
+    const u=D.profiles.find(x=>x.id===d.id);if(!u)return;
+    const r=await sb.from('profiles').update({banned:!u.banned}).eq('id',u.id).select();
+    if(r.error||!r.data||!r.data.length)return toast('Não foi possível alterar o usuário.',true);
+    await reload();toast(u.banned?'Usuário desbloqueado.':'Usuário bloqueado.');
+  },
+  async wipeUser(d){
+    const u=D.profiles.find(x=>x.id===d.id);if(!u||!confirm(`Apagar todos os comentários e reações de ${u.name}?`))return;
+    const [a,b]=await Promise.all([sb.from('comments').delete().eq('user_id',u.id),sb.from('votes').delete().eq('user_id',u.id)]);
+    if(a.error||b.error)return toast('Erro ao apagar: '+(a.error||b.error).message,true);
+    await reload();toast('Atividade apagada.');
   },
   editContent(d){openModal(contentForm(d.sec))},
-  exportData(){const b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='my-dev-hub-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+  exportData(){
+    const b=new Blob([JSON.stringify({exportado_em:new Date().toISOString(),...D},null,2)],{type:'application/json'}),a=document.createElement('a');
+    a.href=URL.createObjectURL(b);a.download='my-dev-hub-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+  },
+  async importLocal(){
+    let raw=null;try{raw=localStorage.getItem(OLD_LOCAL_KEY)}catch(e){}
+    if(!raw)return toast('Nenhum dado da versão antiga neste navegador.',true);
+    let old;try{old=JSON.parse(raw)}catch(e){return toast('Dados antigos inválidos.',true)}
+    const ps=(old.projects||[]).filter(p=>p&&p.title&&!/^Exemplo:/i.test(p.title)).map(p=>({
+      title:String(p.title).slice(0,80),description:String(p.desc||'').slice(0,300),url:fixUrl(p.url),
+      tag:TAGS.includes(p.tag)?p.tag:'Projeto',created_at:new Date(p.ts||Date.now()).toISOString()
+    }));
+    if(!confirm(`Importar ${ps.length} projeto(s) e os textos da página salvos neste navegador?\n\nUse só uma vez para não duplicar projetos.`))return;
+    if(ps.length){const r=await sb.from('projects').insert(ps).select();if(r.error)return toast('Erro ao importar projetos: '+r.error.message,true)}
+    if(old.content){const r=await sb.from('site_content').upsert({id:1,data:mergeContent(old.content),updated_at:new Date().toISOString()});if(r.error)return toast('Erro ao importar textos: '+r.error.message,true)}
+    await reload();toast('Importação concluída.');
+  }
 };
-function closeAdminQuiet(){$('#admin').classList.remove('open');document.body.style.overflow=''}
-document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(!t)return;if(act[t.dataset.act]){e.stopPropagation();act[t.dataset.act](t.dataset,t,e)}});
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-act]');if(!t||!act[t.dataset.act])return;
+  e.stopPropagation();
+  Promise.resolve().then(()=>act[t.dataset.act](t.dataset,t,e)).catch(x=>{console.error(x);toast('Erro: '+(x&&x.message||x),true)});
+});
 document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('article.card')){e.preventDefault();act.openProject(e.target.dataset)}});
 
+/* ================= TEMPO REAL =================
+   Quando o dono salva um projeto ou texto, quem está com o site aberto
+   vê a mudança na hora, sem recarregar. */
+let rtTimer=null;
+function typing(){
+  const a=document.activeElement;
+  if(a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))return true;
+  return [...document.querySelectorAll('#mbody textarea,#mbody input')].some(x=>x.value.trim());
+}
+async function liveUpdate(){
+  const before=JSON.stringify(D.content);
+  await loadData();
+  if(adminOpen()){renderAdmin();return}
+  if(typing())return refreshHub();
+  if(JSON.stringify(D.content)!==before){renderNav();renderHero();renderScrub();renderFooter();updateScroll(true)}
+  else{FULL=codeText();TOTAL=FULL.length;updateScroll(true)}
+  refreshHub();refreshProject();
+}
+function startRealtime(){
+  try{
+    sb.channel('mydevhub-live')
+      .on('postgres_changes',{event:'*',schema:'public',table:'projects'},queue)
+      .on('postgres_changes',{event:'*',schema:'public',table:'site_content'},queue)
+      .on('postgres_changes',{event:'*',schema:'public',table:'comments'},queue)
+      .on('postgres_changes',{event:'*',schema:'public',table:'votes'},queue)
+      .subscribe();
+  }catch(e){console.error(e)}
+  function queue(){clearTimeout(rtTimer);rtTimer=setTimeout(()=>liveUpdate().catch(x=>console.error(x)),400)}
+  // reserva: ao voltar para a aba, busca as novidades
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')queue()});
+}
+
 /* ================= INÍCIO ================= */
-loadState().then(async()=>{
-  await initSupabaseAuth();
-  renderAll(false);
-  updateScroll(true);
-  watchReveals();
-});
+(async()=>{
+  let session=null;
+  try{session=(await sb.auth.getSession()).data.session}catch(e){console.error(e)}
+  lastUid=session&&session.user?session.user.id:null;
+  if(ss.get('wantAdmin')&&session)wantAdmin=true;else ss.del('wantAdmin');
+  await applySession(session);
+  if(wantAdmin&&!isAdmin){wantAdmin=false;ss.del('wantAdmin');quietOut=true;await sb.auth.signOut();user=null;profile=null;lastUid=null;toast('Esta conta não tem acesso de dono.',true)}
+  await loadData();
+  renderAll(false);watchReveals();
+  if(wantAdmin&&isAdmin){wantAdmin=false;ss.del('wantAdmin');openAdmin();toast('Acesso do dono liberado.')}
+  startRealtime();
+  sb.auth.onAuthStateChange((ev,s)=>{
+    if(ev==='INITIAL_SESSION'||ev==='TOKEN_REFRESHED')return;
+    const now=s&&s.user?s.user.id:null;
+    if(now===lastUid&&ev!=='USER_UPDATED')return;
+    lastUid=now;
+    setTimeout(()=>syncSession(s,ev).catch(x=>console.error(x)),0);
+  });
+})();
 </script>
 </body>
 </html>
