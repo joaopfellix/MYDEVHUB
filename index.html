@@ -335,7 +335,7 @@ function langsBlock(p){
 }
 const fixUrl=u=>{u=String(u||'').trim();return /^https?:\/\//i.test(u)?u:'https://'+u};
 const host=u=>{try{return new URL(fixUrl(u)).hostname.replace(/^www\./,'')}catch(e){return ''}};
-let toastT;function toast(m,bad){const t=$('#toast');t.textContent=m;t.className='on'+(bad?' bad':'');clearTimeout(toastT);toastT=setTimeout(()=>t.className='',3600)}
+let toastT;function toast(m,bad,ms){const t=$('#toast');t.textContent=m;t.className='on'+(bad?' bad':'');clearTimeout(toastT);toastT=setTimeout(()=>t.className='',ms||3600)}
 function busy(f,on){const b=f.querySelector('button:not([type=button])');if(b)b.disabled=on}
 const ss={get:k=>{try{return sessionStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{sessionStorage.setItem(k,v)}catch(e){}},del:k=>{try{sessionStorage.removeItem(k)}catch(e){}}};
 function mergeContent(d){
@@ -580,30 +580,79 @@ function openConfirmSent(email){
   <div class="note">Não chegou? Confira a caixa de spam ou peça outro e-mail.</div>
   <button class="btn ghost sm" data-act="resendSignup" data-email="${esc(email)}">Reenviar e-mail</button>`);
 }
-function adminLoginModal(){
+/* ---------- Bloqueio da área do dono: 3 erros = 24h ----------
+   Conta no servidor (por IP) e também neste navegador. */
+const GATE_KEY='mdh_admin_gate',GATE_MAX=3,GATE_MS=24*60*60*1000;
+const DENIED_MSG='Você não tem privilégios suficiente para acessar essa área.';
+const ls={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}},del:k=>{try{localStorage.removeItem(k)}catch(e){}}};
+function localFails(){let a=[];try{a=JSON.parse(ls.get(GATE_KEY)||'[]')}catch(e){}return (Array.isArray(a)?a:[]).filter(t=>typeof t==='number'&&Date.now()-t<GATE_MS)}
+function localGate(){
+  const a=localFails().sort((x,y)=>y-x);
+  if(a.length>=GATE_MAX)return{locked:true,until:a[GATE_MAX-1]+GATE_MS,remaining:0};
+  return{locked:false,until:null,remaining:GATE_MAX-a.length};
+}
+function mergeGate(loc,srv){
+  if(!srv)return loc;
+  const su=srv.until?new Date(srv.until).getTime():null;
+  if(loc.locked||srv.locked)return{locked:true,until:Math.max(loc.locked?loc.until:0,srv.locked&&su?su:0),remaining:0};
+  return{locked:false,until:null,remaining:Math.min(loc.remaining,srv.remaining??GATE_MAX)};
+}
+async function gateStatus(){
+  let srv=null;try{const r=await sb.rpc('admin_gate');if(!r.error)srv=r.data}catch(e){}
+  return mergeGate(localGate(),srv);
+}
+async function gateFail(){
+  const a=localFails();a.push(Date.now());ls.set(GATE_KEY,JSON.stringify(a));
+  let srv=null;try{const r=await sb.rpc('admin_gate_fail');if(!r.error)srv=r.data}catch(e){}
+  return mergeGate(localGate(),srv);
+}
+async function gateClear(){ls.del(GATE_KEY);try{await sb.rpc('admin_gate_clear')}catch(e){}}
+function timeLeft(until){
+  const ms=Math.max(0,until-Date.now()),h=Math.floor(ms/3600000),m=Math.ceil((ms%3600000)/60000);
+  if(h<=0)return m+' minuto'+(m===1?'':'s');
+  return h+' hora'+(h===1?'':'s')+(m>0&&m<60?' e '+m+' minuto'+(m===1?'':'s'):'');
+}
+function goHome(){
+  closeModal();closeAdminQuiet();curPid=null;afterAuth=null;tab='projetos';filter='Todos';
+  try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}
+  renderAll(true);scrollTo({top:0,behavior:'smooth'});
+}
+/* Tentativa negada: desconecta, registra, volta para o início e avisa */
+async function adminDenied(){
+  wantAdmin=false;ss.del('wantAdmin');
+  if(user){quietOut=true;try{await sb.auth.signOut()}catch(e){}user=null;profile=null;isAdmin=false;lastUid=null;}
+  const g=await gateFail();
+  goHome();
+  if(g.locked)toast(DENIED_MSG+' Acesso bloqueado por 24 horas.',true,7000);
+  else toast(DENIED_MSG+(g.remaining===1?' Resta 1 tentativa.':' Restam '+g.remaining+' tentativas.'),true,6000);
+}
+function lockedModal(g){
+  openModal(`<h2>Área do dono</h2><p class="sub">${esc(DENIED_MSG)}</p>
+  <div class="note">${ico('lock')} Foram feitas ${GATE_MAX} tentativas sem sucesso. A área do dono fica bloqueada por mais <b>${esc(timeLeft(g.until))}</b>.</div>
+  <button class="btn ghost" type="button" data-act="closeModal">Voltar ao site</button>`);
+}
+async function adminLoginModal(){
+  const g=await gateStatus();
+  if(g.locked)return lockedModal(g);
   openModal(`<h2>Área do dono</h2><p class="sub">Acesso restrito. Só contas marcadas como dono no banco entram aqui.</p>
   <button class="btn ghost gbtn" type="button" data-act="googleLogin" data-admin="1">${GOOGLE_SVG} Entrar como dono com Google</button>
   <div class="or">ou com e-mail e senha</div>
   <form data-form="adminlogin"><label for="ae">E-mail do dono</label><input id="ae" name="email" type="email" autocomplete="username" required>
   <label for="ap">Senha</label><input id="ap" name="pass" type="password" autocomplete="current-password" required>
-  <div class="err" role="alert"></div><button class="btn" style="width:100%">Entrar como dono</button></form>`);
+  <div class="err" role="alert"></div><button class="btn" style="width:100%">Entrar como dono</button></form>
+  ${g.remaining<GATE_MAX?`<p class="hint" style="margin-top:.8rem">Tentativas restantes: ${g.remaining}. Depois disso, o acesso fica bloqueado por 24 horas.</p>`:''}`);
 }
 
 /* Mudanças de sessão (login, logout, retorno do Google ou do link de e-mail) */
 async function syncSession(session,ev){
   await applySession(session);
-  if(wantAdmin&&user&&!isAdmin){
-    wantAdmin=false;ss.del('wantAdmin');quietOut=true;
-    await sb.auth.signOut();
-    toast('Esta conta não tem acesso de dono.',true);
-    return;
-  }
+  if(wantAdmin&&user&&!isAdmin)return adminDenied();
   await loadData();
   if(!isAdmin)closeAdminQuiet();
   const back=afterAuth;afterAuth=null;
   if(ev==='SIGNED_IN'&&$('#modal').classList.contains('open'))closeModal();
   rerender();
-  if(wantAdmin&&isAdmin){wantAdmin=false;ss.del('wantAdmin');openAdmin();toast('Acesso do dono liberado.')}
+  if(wantAdmin&&isAdmin){wantAdmin=false;ss.del('wantAdmin');gateClear();openAdmin();toast('Acesso do dono liberado.')}
   else if(ev==='SIGNED_IN'){const u=me();if(u)toast('Olá, '+first(u.name)+'!');if(back)showProject(back)}
   else if(ev==='SIGNED_OUT'){if(quietOut)quietOut=false;else toast('Você saiu da conta.')}
 }
@@ -631,9 +680,12 @@ const forms={
     if(!data.session)openConfirmSent(email);
   },
   async adminlogin(f){
-    busy(f,true);wantAdmin=true;
+    busy(f,true);
+    const g=await gateStatus();
+    if(g.locked){closeModal();return lockedModal(g)}
+    wantAdmin=true;
     const {error}=await sb.auth.signInWithPassword({email:f.email.value.trim().toLowerCase(),password:f.pass.value});
-    if(error){wantAdmin=false;return err(f,/confirm/i.test(error.message)?'Confirme o e-mail desta conta antes de entrar.':'Acesso negado. E-mail ou senha incorretos.')}
+    if(error)return adminDenied();
   },
   async comment(f){
     const u=me();if(!u)return openAuth('login','Entre para comentar.');
@@ -781,7 +833,7 @@ const act={
   },
   auth(d){openAuth(d.tab)},
   async googleLogin(d){
-    if(d.admin){wantAdmin=true;ss.set('wantAdmin','1')}
+    if(d.admin){const g=await gateStatus();if(g.locked){closeModal();return lockedModal(g)}wantAdmin=true;ss.set('wantAdmin','1')}
     const {error}=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:SITE_URL}});
     if(error){wantAdmin=false;ss.del('wantAdmin');toast('Erro ao entrar com Google: '+error.message,true)}
   },
@@ -912,10 +964,12 @@ function startRealtime(){
   lastUid=session&&session.user?session.user.id:null;
   if(ss.get('wantAdmin')&&session)wantAdmin=true;else ss.del('wantAdmin');
   await applySession(session);
-  if(wantAdmin&&!isAdmin){wantAdmin=false;ss.del('wantAdmin');quietOut=true;await sb.auth.signOut();user=null;profile=null;lastUid=null;toast('Esta conta não tem acesso de dono.',true)}
+  let denied=false;
+  if(wantAdmin&&!isAdmin){denied=true;wantAdmin=false;ss.del('wantAdmin');quietOut=true;try{await sb.auth.signOut()}catch(e){}user=null;profile=null;lastUid=null}
   await loadData();
   renderAll(false);watchReveals();
-  if(wantAdmin&&isAdmin){wantAdmin=false;ss.del('wantAdmin');openAdmin();toast('Acesso do dono liberado.')}
+  if(denied){const g=await gateFail();toast(g.locked?DENIED_MSG+' Acesso bloqueado por 24 horas.':DENIED_MSG+(g.remaining===1?' Resta 1 tentativa.':' Restam '+g.remaining+' tentativas.'),true,7000)}
+  if(wantAdmin&&isAdmin){wantAdmin=false;ss.del('wantAdmin');gateClear();openAdmin();toast('Acesso do dono liberado.')}
   startRealtime();
   sb.auth.onAuthStateChange((ev,s)=>{
     if(ev==='INITIAL_SESSION'||ev==='TOKEN_REFRESHED')return;
