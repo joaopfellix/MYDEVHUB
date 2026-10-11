@@ -150,18 +150,13 @@ footer button:hover{color:var(--neon)}
 /* modal e admin */
 .ov{position:fixed;inset:0;background:rgba(0,0,0,.74);backdrop-filter:blur(6px);display:none;z-index:200;overflow:auto;padding:5vh 1rem}
 .ov.open{display:block}
-.md{max-width:640px;margin:auto;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:1.6rem;position:relative;box-shadow:0 0 70px rgba(22,70,255,.28);animation:pop .28s cubic-bezier(.2,.8,.2,1)}
+.md{max-width:480px;margin:auto;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:1.8rem;position:relative;box-shadow:0 0 70px rgba(22,70,255,.28);animation:pop .28s cubic-bezier(.2,.8,.2,1)}
 .md.wide{max-width:760px}
 @keyframes pop{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:none}}
 .x{position:absolute;top:1rem;right:1rem;background:none;border:1px solid var(--line);border-radius:8px;width:34px;height:34px;display:grid;place-items:center;cursor:pointer;color:var(--mut)}
 .x:hover{color:var(--neon);border-color:var(--neon)}
 .md h2{font-size:1.35rem;margin-bottom:.3rem;padding-right:2.5rem}
-.md>.sub{color:var(--mut);margin-bottom:.5rem}
-.seg{display:flex;gap:.3rem;background:#02050c;border:1px solid var(--line);padding:.3rem;border-radius:12px;margin:1rem 0 .4rem}
-.seg button{flex:1;background:none;border:0;padding:.55rem;border-radius:9px;color:var(--mut);font-weight:800;cursor:pointer}
-.seg button.on{background:var(--blue);color:#fff}
-.note{border:1px dashed rgba(26,209,255,.5);background:rgba(26,209,255,.06);border-radius:12px;padding:.9rem 1rem;margin:1rem 0;font-size:.88rem;color:var(--mut)}
-.note b.code{display:block;font:800 1.7rem Unbounded,monospace;letter-spacing:.3em;color:var(--neon);margin-top:.3rem}
+.md>.sub{color:var(--mut);margin-bottom:1.4rem}
 .react{display:flex;gap:.6rem;margin:1.1rem 0;flex-wrap:wrap}
 .rb{display:inline-flex;gap:.5rem;align-items:center;padding:.6rem 1.1rem;border-radius:12px;border:1px solid var(--line);background:transparent;cursor:pointer;font-weight:800;transition:.2s}
 .rb:hover{border-color:var(--neon)}
@@ -194,7 +189,6 @@ th,td{text-align:left;padding:.75rem 1rem;border-bottom:1px solid var(--line);fo
 th{color:var(--mut);font-size:.8rem;background:var(--panel)}
 tr:last-child td{border-bottom:0}
 td .row{display:flex;gap:.4rem;flex-wrap:wrap}
-.ok{color:var(--ok);font-weight:800}.pend{color:#ffd37a;font-weight:800}
 .bar2{display:flex;height:8px;border-radius:6px;overflow:hidden;background:var(--line);margin:.5rem 0}
 .bar2 i{display:block;height:100%}
 .rx{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:1.1rem;margin-bottom:1rem}
@@ -228,14 +222,13 @@ td .row{display:flex;gap:.4rem;flex-wrap:wrap}
 
 /* ================= SUPABASE CONFIG ================= */
 const SUPABASE_URL = 'https://rfmksbtnzhrekngezpjj.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_u5VrQof5gAWb0-7u76m-OQ_Rth0p3H8'; // Insira sua chave anon public do Supabase aqui
+const SUPABASE_ANON_KEY = 'SUA_CHAVE_ANON_PUBLIC_AQUI'; // Substitua pela sua chave Publishable key
 const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-/* ================= CONFIGURAÇÃO DO DONO =================
-    Acesso inicial do admin (troque a senha em Painel > Segurança). */
+/* ================= CONFIGURAÇÃO DO DONO ================= */
 const CFG={ADMIN_EMAIL:'admin@devhub.com',ADMIN_PASS:'devhub@2026'};
 
-/* ================= ARMAZENAMENTO (localStorage com reserva em memória) ================= */
+/* ================= ARMAZENAMENTO ================= */
 const KEY='mydevhub_v1';
 let LS=null;try{localStorage.setItem('_t','1');localStorage.removeItem('_t');LS=localStorage}catch(e){}
 const mem={};
@@ -264,7 +257,7 @@ const IC={
  user:'<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
  grid:'<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>',
  heart:'<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/>',
- cog:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
+ cog:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
  users:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/>',
  chart:'<path d="M18 20V10M12 20V4M6 20v-6"/>',
  back:'<path d="M19 12H5M12 19l-7-7 7-7"/>'
@@ -278,13 +271,12 @@ async function hash(s){
   try{if(window.crypto&&crypto.subtle){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('devhub:'+s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}}catch(e){}
   let h=5381;for(const c of 'devhub:'+s)h=((h<<5)+h+c.charCodeAt(0))>>>0;return 'f'+h.toString(16);
 }
-function code6(){try{const a=new Uint32Array(1);crypto.getRandomValues(a);return String(100000+a[0]%900000)}catch(e){return String(Math.floor(100000+Math.random()*900000))}}
 
 /* ================= ESTADO ================= */
 let S;
 const save=()=>store.set(KEY,JSON.stringify(S));
 let adminOn=false;
-let tab='projetos',filter='Todos',adminTab='resumo',curPid=null,afterAuth=null,supabaseUser=null;
+let tab='projetos',filter='Todos',adminTab='resumo',curPid=null,supabaseUser=null;
 
 async function defaults(){
   return{
@@ -325,7 +317,7 @@ async function initSupabaseAuth(){
 
 const me=()=> {
   if(supabaseUser) return { id: supabaseUser.id, name: supabaseUser.user_metadata?.full_name || supabaseUser.email.split('@')[0], email: supabaseUser.email };
-  return S.users.find(u=>u.id===S.session.uid&&u.confirmed)||null;
+  return null;
 };
 
 const votesOf=pid=>{const v=S.votes[pid]||{};let up=0,dn=0;for(const k in v){v[k]===1?up++:dn++}return{up,dn}};
@@ -338,7 +330,7 @@ function renderNav(){
   let acts;
   if(adminOn)acts=`<button class="btn sm" data-act="openAdmin">${ico('cog')} Painel do dono</button><button class="btn ghost sm" data-act="logout">Sair</button>`;
   else if(u)acts=`<span class="hint" style="margin-right:.2rem">Olá, ${esc(first(u.name))}</span><button class="btn ghost sm" data-act="logout">Sair</button>`;
-  else acts=`<button class="btn ghost sm" data-act="auth" data-tab="login">Entrar</button><button class="btn sm" data-act="auth" data-tab="register">Cadastrar</button>`;
+  else acts=`<button class="btn sm" data-act="auth">Entrar / Cadastrar</button>`;
   $('#nav').innerHTML=`<button class="logo" data-act="toTop" aria-label="Início"><b>&lt;/&gt;</b>${esc(S.content.hero.site)}</button>
   <div class="links"><button data-act="goTab" data-tab="projetos" id="nl-projetos">Projetos</button><button data-act="goTab" data-tab="historia" id="nl-historia">História</button><button data-act="goTab" data-tab="contato" id="nl-contato">Contato</button></div>
   <div class="acts">${acts}</div>`;
@@ -410,7 +402,7 @@ function panelProjects(instant){
       <h3>${esc(p.title)}</h3><p>${esc(p.desc)}</p>
       <div class="foot"><span>${ico('up')}${v.up}</span><span>${ico('dn')}${v.dn}</span><span>${ico('msg')}${cmOf(p.id).length}</span><span class="host">${esc(host(p.url))}</span></div>
     </article>`}).join('');
-  return `<div class="phead rv${instant?' in':''}"><div><h2>Projetos, sites e ideias</h2><p>Qualquer pessoa pode abrir os links. Para comentar e reagir, entre na sua conta.</p></div>
+  return `<div class="phead rv${instant?' in':''}"><div><h2>Projetos, sites e ideias</h2><p>Qualquer pessoa pode abrir os links. Para comentar e reagir, entre com o Google.</p></div>
     ${adminOn?`<button class="btn" data-act="newProject">${ico('plus')} Novo projeto</button>`:''}</div>
     <div class="chips rv${instant?' in':''}">${tags.map(t=>`<button class="chip ${filter===t?'on':''}" data-act="filter" data-f="${t}">${t}</button>`).join('')}</div>
     ${list.length?`<div class="grid">${cards}</div>`:`<div class="empty">Nenhum item em "${esc(filter)}" por enquanto.</div>`}`;
@@ -439,7 +431,7 @@ function renderAll(instant){renderNav();renderHero();renderScrub();renderHub(ins
 let ticking=false;
 function updateScroll(force){
   const y=scrollY,H=innerHeight,max=document.documentElement.scrollHeight-H;
-  $('#bar').style.width=(max>0?y/max*100:0)+'%';
+  $('#bar'].style.width=(max>0?y/max*100:0)+'%';
   $('#nav').classList.toggle('solid',y>30);
   $('#top').classList.toggle('on',y>H*.8);
   const hp=clamp(y/H,0,1),hi=$('#heroin'),gb=$('#gridbg');
@@ -467,7 +459,7 @@ function watchReveals(){
 document.addEventListener('mousemove',e=>{const c=e.target.closest&&e.target.closest('.card');if(c){const r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px')}});
 
 /* ================= MODAL ================= */
-function openModal(html,wide){const m=$('#mbody');m.className='md'+(wide?' wide':'');m.innerHTML=`<button class="x" data-act="closeModal" aria-label="Fechar">${ico('x')}</button>`+html;$('#modal').classList.add('open');$('#modal').setAttribute('aria-hidden','false');const f=m.querySelector('input,textarea,select');if(f&&matchMedia('(pointer:fine)').matches)f.focus()}
+function openModal(html,wide){const m=$('#mbody');m.className='md'+(wide?' wide':'');m.innerHTML=`<button class="x" data-act="closeModal" aria-label="Fechar">${ico('x')}</button>`+html;$('#modal').classList.add('open');$('#modal').setAttribute('aria-hidden','false')}
 function closeModal(){$('#modal').classList.remove('open');$('#modal').setAttribute('aria-hidden','true');curPid=null}
 $('#modal').addEventListener('mousedown',e=>{if(e.target.id==='modal')closeModal()});
 addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#modal').classList.contains('open'))closeModal()});
@@ -483,69 +475,26 @@ function projectHTML(p){
   <div class="cm"><h3>Comentários (${cms.length})</h3>
   ${u?`<form data-form="comment"><label for="ct" class="hint" style="margin-top:0">Comentando como ${esc(u.name)}</label><textarea id="ct" name="t" maxlength="500" required placeholder="O que você achou deste projeto?"></textarea><div class="err" role="alert"></div><button class="btn sm">Comentar</button></form>`
   :adminOn?`<div class="lock">Você está no modo dono. Comentários e reações são dos visitantes cadastrados.</div>`
-  :`<div class="lock">Entre na sua conta para comentar e dar Gostei ou Não gostei.<br><button class="btn sm" data-act="auth" data-tab="login">Entrar ou cadastrar</button></div>`}
+  :`<div class="lock">Entre com sua conta Google para comentar e reagir.<br><button class="btn sm" style="margin-top:.8rem" data-act="googleLogin">Entrar com Google</button></div>`}
   <div style="margin-top:1rem">${cms.map(c=>`<div class="cmi"><header><b>${esc(c.name)}</b><span>${fdate(c.ts)}${adminOn?` <button class="btn danger sm" data-act="delComment" data-id="${c.id}" aria-label="Excluir comentário">${ico('del')}</button>`:''}</span></header><p>${esc(c.text).replace(/\n/g,'<br>')}</p></div>`).join('')||'<p class="hint">Ainda sem comentários. Seja a primeira pessoa a comentar.</p>'}</div></div>`;
 }
 function showProject(id){const p=S.projects.find(x=>x.id===id);if(!p)return;curPid=id;const keep=$('#modal').scrollTop;openModal(projectHTML(p),true);$('#modal').scrollTop=keep}
 function refreshProject(){if(curPid&&$('#modal').classList.contains('open')){const p=S.projects.find(x=>x.id===curPid);if(p){const keep=$('#modal').scrollTop;$('#mbody').innerHTML=`<button class="x" data-act="closeModal" aria-label="Fechar">${ico('x')}</button>`+projectHTML(p);$('#modal').scrollTop=keep}}if(tab==='projetos'&&!document.getElementById('admin').classList.contains('open'))renderHub(true)}
 
-/* ================= AUTENTICAÇÃO ================= */
-function openAuth(t,msg){
+/* ================= AUTENTICAÇÃO EXCLUSIVA GOOGLE ================= */
+function openAuth(msg){
   afterAuth=curPid;
-  const reg=t==='register';
-  openModal(`<h2>${reg?'Criar conta':'Entrar'}</h2><p class="sub">${esc(msg||(reg?'Cadastre-se para comentar e reagir aos projetos.':'Acesse sua conta de visitante.'))}</p>
+  openModal(`<h2>Acesse sua conta</h2><p class="sub">${esc(msg||'Entre com sua conta Google para comentar e reagir aos projetos.')}</p>
   
-  <!-- Botão de Login com Google -->
-  <button class="btn ghost" style="width:100%;margin-bottom:1rem;display:flex;align-items:center;justify-content:center;gap:8px;" data-act="googleLogin">
-    <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.95H1.19v3.15C3.17 21.31 7.23 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.25c-.25-.72-.38-1.49-.38-2.25s.13-1.53.38-2.25V6.6H1.19C.43 8.13 0 9.87 0 12s.43 3.87 1.19 5.4l4.09-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.23 0 3.17 2.69 1.19 6.6l4.09 3.15c.95-2.84 3.6-4.95 6.72-4.95z"/></svg>
+  <button class="btn" style="width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:0.9rem;" data-act="googleLogin">
+    <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.95H1.19v3.15C3.17 21.31 7.23 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.25c-.25-.72-.38-1.49-.38-2.25s.13-1.53.38-2.25V6.6H1.19C.43 8.13 0 9.87 0 12s.43 3.87 1.19 5.4l4.09-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.23 0 3.17 2.69 1.19 6.6l4.09 3.15c.95-2.84 3.6-4.95 6.72-4.95z"/></svg>
     Continuar com Google
-  </button>
-  <div style="text-align:center;color:var(--mut);font-size:0.85rem;margin-bottom:1rem">ou via e-mail</div>
+  </button>`);
+}
 
-  <div class="seg" role="tablist"><button class="${reg?'':'on'}" data-act="auth" data-tab="login">Entrar</button><button class="${reg?'on':''}" data-act="auth" data-tab="register">Cadastrar</button></div>
-  ${reg?`<form data-form="register"><label for="rn">Nome</label><input id="rn" name="name" autocomplete="name" minlength="2" maxlength="60" required>
-  <label for="re">E-mail</label><input id="re" name="email" type="email" autocomplete="email" required>
-  <label for="rp">Senha (mínimo 6 caracteres)</label><input id="rp" name="pass" type="password" autocomplete="new-password" minlength="6" required>
-  <label for="rp2">Repetir senha</label><input id="rp2" name="pass2" type="password" autocomplete="new-password" required>
-  <div class="err" role="alert"></div><button class="btn" style="width:100%">Criar conta e receber código</button><p class="hint" style="margin-top:.8rem">Cada e-mail só pode ter uma conta, e ela precisa ser confirmada por e-mail.</p></form>`
-  :`<form data-form="login"><label for="le">E-mail</label><input id="le" name="email" type="email" autocomplete="email" required>
-  <label for="lp">Senha</label><input id="lp" name="pass" type="password" autocomplete="current-password" required>
-  <div class="err" role="alert"></div><button class="btn" style="width:100%">Entrar</button></form>`}`);
-}
-function openVerify(userId,fresh){
-  const u=S.users.find(x=>x.id===userId);if(!u)return;
-  openModal(`<h2>Confirme seu e-mail</h2><p class="sub">Enviamos um código de 6 dígitos para <b>${esc(u.email)}</b>. Digite abaixo para ativar a conta.</p>
-  <div class="note">Modo demonstração: este arquivo não tem servidor de e-mail, então o código aparece aqui.<b class="code">${esc(u.code)}</b></div>
-  <form data-form="verify" data-uid="${u.id}"><label for="vc">Código</label><input id="vc" name="c" inputmode="numeric" maxlength="6" autocomplete="one-time-code" required>
-  <div class="err" role="alert"></div><button class="btn" style="width:100%">Confirmar e entrar</button></form>
-  <button class="btn ghost sm" style="margin-top:.8rem" data-act="resend" data-uid="${u.id}">Gerar novo código</button>`);
-  if(fresh)toast('Conta criada. Confirme o e-mail para entrar.');
-}
 const forms={
-  async login(f){
-    const email=f.email.value.trim().toLowerCase(),h=await hash(f.pass.value),u=S.users.find(x=>x.email===email);
-    if(!u||u.hash!==h)return err(f,'E-mail ou senha incorretos.');
-    if(!u.confirmed){u.code=code6();u.exp=Date.now()+15*60000;save();return openVerify(u.id)}
-    S.session.uid=u.id;save();const back=afterAuth;closeModal();renderAll(true);toast('Bem-vindo de volta, '+first(u.name)+'!');if(back)showProject(back);
-  },
-  async register(f){
-    const name=f.name.value.trim(),email=f.email.value.trim().toLowerCase(),p=f.pass.value;
-    if(name.length<2)return err(f,'Informe seu nome.');
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email))return err(f,'Digite um e-mail válido.');
-    if(p.length<6)return err(f,'A senha precisa ter pelo menos 6 caracteres.');
-    if(p!==f.pass2.value)return err(f,'As senhas não são iguais.');
-    if(S.users.some(x=>x.email===email)||email===S.admin.email.toLowerCase())return err(f,'Este e-mail já está cadastrado. Use a aba Entrar.');
-    const u={id:uid(),name,email,hash:await hash(p),confirmed:false,code:code6(),exp:Date.now()+15*60000,ts:Date.now()};
-    S.users.push(u);save();openVerify(u.id,true);
-  },
-  verify(f){
-    const u=S.users.find(x=>x.id===f.dataset.uid);if(!u)return;
-    if(Date.now()>u.exp)return err(f,'Este código expirou. Gere um novo código.');
-    if(f.c.value.trim()!==u.code)return err(f,'Código incorreto. Confira e tente de novo.');
-    u.confirmed=true;u.code='';S.session.uid=u.id;save();const back=afterAuth;closeModal();renderAll(true);toast('E-mail confirmado. Você já pode comentar e reagir.');if(back)showProject(back);
-  },
   comment(f){
-    const u=me();if(!u)return openAuth('login','Entre para comentar.');
+    const u=me();if(!u)return openAuth('Entre com o Google para comentar.');
     const t=f.t.value.trim();if(!t)return err(f,'Escreva algo antes de comentar.');
     S.comments.push({id:uid(),pid:curPid,uid:u.id,name:u.name,text:t.slice(0,500),ts:Date.now()});save();refreshProject();toast('Comentário publicado.');
   },
@@ -567,13 +516,12 @@ const forms={
     if(Date.now()<lockUntil)return err(f,'Muitas tentativas. Aguarde alguns segundos.');
     const ok=f.email.value.trim().toLowerCase()===S.admin.email.toLowerCase()&&(await hash(f.pass.value))===S.admin.hash;
     if(!ok){if(++tries>=5){lockUntil=Date.now()+30000;tries=0}return err(f,'Acesso negado. Esta área é somente para o dono.')}
-    tries=0;adminOn=true;S.session.uid=null;save();closeModal();renderAll(true);toast('Acesso do dono liberado.');openAdmin();
+    tries=0;adminOn=true;save();closeModal();renderAll(true);toast('Acesso do dono liberado.');openAdmin();
   },
   async security(f){
     if((await hash(f.cur.value))!==S.admin.hash)return err(f,'Senha atual incorreta.');
     const em=f.email.value.trim().toLowerCase();
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em))return err(f,'E-mail inválido.');
-    if(S.users.some(u=>u.email===em))return err(f,'Este e-mail já é de um visitante cadastrado.');
     S.admin.email=em;
     if(f.np.value){if(f.np.value.length<8)return err(f,'A nova senha precisa ter 8 caracteres ou mais.');S.admin.hash=await hash(f.np.value)}
     save();f.reset();err(f,'');toast('Dados do dono atualizados.');
@@ -606,17 +554,14 @@ function openAdmin(){$('#admin').classList.add('open');document.body.style.overf
 function closeAdmin(){$('#admin').classList.remove('open');document.body.style.overflow='';renderAll(true)}
 function afterAdminChange(){if($('#admin').classList.contains('open'))renderAdmin();else renderAll(true)}
 function renderAdmin(){
-  const tabs=[['resumo','chart','Resumo'],['projetos','grid','Projetos'],['usuarios','users','Usuários'],['reacoes','heart','Reações e comentários'],['pagina','edit','Editar a página'],['seguranca','lock','Segurança']];
+  const tabs=[['resumo','chart','Resumo'],['projetos','grid','Projetos'],['reacoes','heart','Reações e comentários'],['pagina','edit','Editar a página'],['seguranca','lock','Segurança']];
   const up=Object.values(S.votes).reduce((a,v)=>a+Object.values(v).filter(x=>x===1).length,0),dn=Object.values(S.votes).reduce((a,v)=>a+Object.values(v).filter(x=>x===-1).length,0);
   let main='';
-  if(adminTab==='resumo')main=`<h2>Resumo</h2><div class="stats">${[['Projetos',S.projects.length],['Usuários',S.users.length],['E-mail confirmado',S.users.filter(u=>u.confirmed).length],['Gostei',up],['Não gostei',dn],['Comentários',S.comments.length]].map(s=>`<div class="stat"><b>${s[1]}</b><span>${s[0]}</span></div>`).join('')}</div>`;
+  if(adminTab==='resumo')main=`<h2>Resumo</h2><div class="stats">${[['Projetos',S.projects.length],['Gostei',up],['Não gostei',dn],['Comentários',S.comments.length]].map(s=>`<div class="stat"><b>${s[1]}</b><span>${s[0]}</span></div>`).join('')}</div>`;
   if(adminTab==='projetos')main=`<h2>Projetos</h2><p style="margin-bottom:1rem"><button class="btn" data-act="newProject">${ico('plus')} Enviar novo projeto</button></p><div class="tbl"><table><tr><th>Título</th><th>Categoria</th><th>Gostei</th><th>Não gostei</th><th>Ações</th></tr>${S.projects.map(p=>{const v=votesOf(p.id);return `<tr><td>${esc(p.title)}<br><a href="${esc(fixUrl(p.url))}" target="_blank" rel="noopener" class="hint">${esc(host(p.url))}</a></td><td>${esc(p.tag)}</td><td>${v.up}</td><td>${v.dn}</td><td><div class="row"><button class="btn ghost sm" data-act="editProject" data-id="${p.id}">${ico('edit')} Editar</button><button class="btn danger sm" data-act="delProject" data-id="${p.id}">${ico('del')}</button></div></td></tr>`}).join('')||'<tr><td colspan="5">Nenhum projeto.</td></tr>'}</table></div>`;
-  if(adminTab==='usuarios')main=`<h2>Registros de usuários</h2><div class="tbl"><table><tr><th>Nome</th><th>E-mail</th><th>Status</th><th>Cadastro</th><th>Ações</th></tr>${S.users.map(u=>`<tr><td>${esc(u.name)}</td><td>${esc(u.email)}</td><td class="${u.confirmed?'ok':'pend'}">${u.confirmed?'Confirmado':'Pendente'}</td><td>${fdate(u.ts)}</td><td><div class="row">${u.confirmed?'':`<button class="btn ghost sm" data-act="confirmUser" data-id="${u.id}">Confirmar</button>`}<button class="btn danger sm" data-act="delUser" data-id="${u.id}">${ico('del')} Remover</button></div></td></tr>`).join('')||'<tr><td colspan="5">Ainda não há usuários cadastrados.</td></tr>'}</table></div>`;
   if(adminTab==='reacoes'){
-    const nm=id=>(S.users.find(u=>u.id===id)||{name:'(removido)'}).name;
-    main=`<h2>Reações e comentários</h2>${S.projects.map(p=>{const v=votesOf(p.id),t=v.up+v.dn,vs=S.votes[p.id]||{},ups=Object.keys(vs).filter(k=>vs[k]===1).map(nm),dns=Object.keys(vs).filter(k=>vs[k]===-1).map(nm),cms=cmOf(p.id).sort((a,b)=>b.ts-a.ts);
+    main=`<h2>Reações e comentários</h2>${S.projects.map(p=>{const v=votesOf(p.id),t=v.up+v.dn,cms=cmOf(p.id).sort((a,b)=>b.ts-a.ts);
     return `<div class="rx"><b>${esc(p.title)}</b><div class="bar2"><i style="width:${t?v.up/t*100:0}%;background:var(--ok)"></i><i style="width:${t?v.dn/t*100:0}%;background:var(--bad)"></i></div>
-    <small><span class="ok">Gostei (${v.up}):</span>${esc(ups.join(', ')||'ninguém ainda')}</small><small><span style="color:var(--bad);font-weight:800">Não gostei (${v.dn}):</span>${esc(dns.join(', ')||'ninguém ainda')}</small>
     <div style="margin-top:.8rem">${cms.map(c=>`<div class="cmi"><header><b>${esc(c.name)}</b><span>${fdate(c.ts)} <button class="btn danger sm" data-act="delComment" data-id="${c.id}">${ico('del')}</button></span></header><p>${esc(c.text)}</p></div>`).join('')||'<small>Sem comentários.</small>'}</div></div>`}).join('')||'<div class="empty">Sem projetos.</div>'}`;
   }
   if(adminTab==='pagina')main=`<h2>Editar a página</h2>${['hero','history','contact'].map(s=>`<div class="panel sec">${contentForm(s)}</div>`).join('')}`;
@@ -633,7 +578,7 @@ function adminLoginModal(){
   <div class="err" role="alert"></div><button class="btn" style="width:100%">Entrar como dono</button></form>`);
 }
 
-/* ================= AÇÕES (delegação de cliques) ================= */
+/* ================= AÇÕES ================= */
 const act={
   toTop(){scrollTo({top:0,behavior:'smooth'})},
   tab(d){tab=d.tab;renderHub(true);},
@@ -641,12 +586,12 @@ const act={
   filter(d){filter=d.f;renderHub(true)},
   openProject(d){showProject(d.id)},
   vote(d){
-    const u=me();if(!u){return openAuth('login','Entre na sua conta para dar Gostei ou Não gostei.')}
+    const u=me();if(!u){return openAuth('Entre com o Google para dar Gostei ou Não gostei.')}
     const v=+d.v;S.votes[curPid]=S.votes[curPid]||{};
     if(S.votes[curPid][u.id]===v)delete S.votes[curPid][u.id];else S.votes[curPid][u.id]=v;
     save();refreshProject();
   },
-  auth(d){openAuth(d.tab)},
+  auth(){openAuth()},
   async googleLogin(){
     try {
       const { error } = await _supabase.auth.signInWithOAuth({
@@ -658,13 +603,12 @@ const act={
       toast('Erro de conexão com o Supabase', true);
     }
   },
-  resend(d){const u=S.users.find(x=>x.id===d.uid);if(u){u.code=code6();u.exp=Date.now()+15*60000;save();openVerify(u.id);toast('Novo código gerado.')}},
   async logout(){
     if(supabaseUser){
       await _supabase.auth.signOut();
       supabaseUser=null;
     }
-    S.session.uid=null;adminOn=false;save();closeAdminQuiet();renderAll(true);toast('Você saiu da conta.');
+    adminOn=false;save();closeAdminQuiet();renderAll(true);toast('Você saiu da conta.');
   },
   adminLogin(){if(adminOn)openAdmin();else adminLoginModal()},
   openAdmin(){openAdmin()},closeAdmin(){closeAdmin()},closeModal(){closeModal()},
@@ -676,12 +620,6 @@ const act={
     S.projects=S.projects.filter(x=>x.id!==d.id);delete S.votes[d.id];S.comments=S.comments.filter(c=>c.pid!==d.id);save();toast('Projeto excluído.');afterAdminChange();
   },
   delComment(d){if(!adminOn||!confirm('Excluir este comentário?'))return;S.comments=S.comments.filter(c=>c.id!==d.id);save();if($('#admin').classList.contains('open'))renderAdmin();refreshProject()},
-  confirmUser(d){const u=S.users.find(x=>x.id===d.id);if(u){u.confirmed=true;u.code='';save();renderAdmin();toast('Usuário confirmado.')}},
-  delUser(d){
-    const u=S.users.find(x=>x.id===d.id);if(!u||!confirm(`Remover ${u.name}? Os comentários e reações dessa pessoa também serão apagados.`))return;
-    S.users=S.users.filter(x=>x.id!==d.id);S.comments=S.comments.filter(c=>c.uid!==d.id);for(const k in S.votes)delete S.votes[k][d.id];
-    if(S.session.uid===d.id)S.session.uid=null;save();renderAdmin();toast('Usuário removido.');
-  },
   editContent(d){openModal(contentForm(d.sec))},
   exportData(){const b=new Blob([JSON.stringify(S,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='my-dev-hub-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
 };
