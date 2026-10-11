@@ -228,7 +228,7 @@ td .row{display:flex;gap:.4rem;flex-wrap:wrap}
 
 /* ================= SUPABASE CONFIG ================= */
 const SUPABASE_URL = 'https://rfmksbtnzhrekngezpjj.supabase.co';
-const SUPABASE_ANON_KEY = 'SUA_CHAVE_ANON_PUBLIC_AQUI'; // Insira sua chave anon public do Supabase aqui
+const SUPABASE_ANON_KEY = 'sb_publishable_u5VrQof5gAWb0-7u76m-OQ_Rth0p3H8'; // Insira sua chave anon public do Supabase aqui
 const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 /* ================= CONFIGURAÇÃO DO DONO =================
@@ -283,7 +283,7 @@ function code6(){try{const a=new Uint32Array(1);crypto.getRandomValues(a);return
 /* ================= ESTADO ================= */
 let S;
 const save=()=>store.set(KEY,JSON.stringify(S));
-let adminOn=false;              // sessão do dono: só em memória (recarregar a página sai)
+let adminOn=false;
 let tab='projetos',filter='Todos',adminTab='resumo',curPid=null,afterAuth=null,supabaseUser=null;
 
 async function defaults(){
@@ -309,7 +309,6 @@ async function loadState(){
   S=await defaults();save();
 }
 
-// Checar sessão do Supabase ao iniciar
 async function initSupabaseAuth(){
   try {
     const { data: { session } } = await _supabase.auth.getSession();
@@ -625,7 +624,7 @@ function renderAdmin(){
   <label for="sn">Nova senha (deixe em branco para manter)</label><input id="sn" name="np" type="password" autocomplete="new-password"><label for="sc">Senha atual (obrigatória)</label><input id="sc" name="cur" type="password" autocomplete="current-password" required>
   <div class="err" role="alert"></div><button class="btn" style="margin-top:.8rem">Salvar acesso</button></form></div>
   <div class="panel sec"><h3>Backup dos dados</h3><p class="hint" style="margin-bottom:.8rem">Os dados ficam salvos neste navegador. Exporte um backup de tempos em tempos.</p><button class="btn ghost" data-act="exportData">Exportar backup (.json)</button></div>`;
-  $('#admin').innerHTML=`<aside><button class="logo" data-act="closeAdmin"><b>&lt;/&gt;</b>Painel</button>${tabs.map(t=>`<button class="t ${adminTab===t[0]?'on':''}" data-act="adminTab" data-t="${t[0]}">${ico(t[1场]\vert{}\vert{}t[1])} ${t[2]}</button>`).join('')}<button class="t" data-act="closeAdmin" style="margin-top:auto">${ico('back')} Voltar ao site</button></aside><main>${main}</main>`;
+  $('#admin').innerHTML=`<aside><button class="logo" data-act="closeAdmin"><b>&lt;/&gt;</b>Painel</button>${tabs.map(t=>`<button class="t ${adminTab===t[0]?'on':''}" data-act="adminTab" data-t="${t[0]}">${ico(t[1])}${t[2]}</button>`).join('')}<button class="t" data-act="closeAdmin" style="margin-top:auto">${ico('back')} Voltar ao site</button></aside><main>${main}</main>`;
 }
 function adminLoginModal(){
   openModal(`<h2>Área do dono</h2><p class="sub">Acesso restrito. Contas de visitantes não entram aqui.</p>
