@@ -511,16 +511,7 @@ function openAuth(t,msg){
   :`<form data-form="login"><label for="le">E-mail</label><input id="le" name="email" type="email" autocomplete="email" required>
   <label for="lp">Senha</label><input id="lp" name="pass" type="password" autocomplete="current-password" required>
   <div class="err" role="alert"></div><button class="btn" style="width:100%">Entrar</button></form>`}`);
-}
-function openVerify(userId,fresh){
-  const u=S.users.find(x=>x.id===userId);if(!u)return;
-  openModal(`<h2>Confirme seu e-mail</h2><p class="sub">Enviamos um código de 6 dígitos para <b>${esc(u.email)}</b>. Digite abaixo para ativar a conta.</p>
-  <div class="note">Modo demonstração: este arquivo não tem servidor de e-mail, então o código aparece aqui.<b class="code">${esc(u.code)}</b></div>
-  <form data-form="verify" data-uid="${u.id}"><label for="vc">Código</label><input id="vc" name="c" inputmode="numeric" maxlength="6" autocomplete="one-time-code" required>
-  <div class="err" role="alert"></div><button class="btn" style="width:100%">Confirmar e entrar</button></form>
-  <button class="btn ghost sm" style="margin-top:.8rem" data-act="resend" data-uid="${u.id}">Gerar novo código</button>`);
-  if(fresh)toast('Conta criada. Confirme o e-mail para entrar.');
-}
+
 const forms={
   async login(f){
     const email=f.email.value.trim().toLowerCase(),h=await hash(f.pass.value),u=S.users.find(x=>x.email===email);
