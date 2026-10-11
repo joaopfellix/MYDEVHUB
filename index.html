@@ -36,6 +36,8 @@ nav.top.solid{border-color:var(--line);background:rgba(0,0,0,.82)}
 .btn.blue{background:var(--blue);border-color:var(--blue);color:#fff}
 .btn.danger{background:transparent;color:var(--bad);border-color:rgba(255,93,122,.4)}
 .btn.danger:hover{box-shadow:0 0 18px rgba(255,93,122,.3);border-color:var(--bad)}
+.btn.kill{background:var(--bad);border-color:var(--bad);color:#fff}
+.btn.kill:hover{box-shadow:0 0 18px rgba(255,93,122,.45)}
 .btn.sm{padding:.42rem .8rem;font-size:.82rem;border-radius:8px}
 .btn[disabled]{opacity:.5;pointer-events:none}
 label{display:block;font-size:.85rem;font-weight:700;color:var(--mut);margin:.9rem 0 .3rem}
@@ -660,7 +662,7 @@ function renderAdmin(){
   let main='';
   if(adminTab==='resumo')main=`<h2>Resumo</h2><div class="stats">${[['Projetos',D.projects.length],['Usuários',D.profiles.length],['E-mail confirmado',D.profiles.filter(u=>u.confirmed).length],['Bloqueados',D.profiles.filter(u=>u.banned).length],['Gostei',up],['Não gostei',dn],['Comentários',D.comments.length]].map(s=>`<div class="stat"><b>${s[1]}</b><span>${s[0]}</span></div>`).join('')}</div>`;
   if(adminTab==='projetos')main=`<h2>Projetos</h2><p style="margin-bottom:1rem"><button class="btn" data-act="newProject">${ico('plus')} Enviar novo projeto</button></p><div class="tbl"><table><tr><th>Título</th><th>Categoria</th><th>Gostei</th><th>Não gostei</th><th>Comentários</th><th>Ações</th></tr>${D.projects.map(p=>{const v=votesOf(p.id);return `<tr><td>${esc(p.title)}<br><a href="${esc(fixUrl(p.url))}" target="_blank" rel="noopener" class="hint">${esc(host(p.url))}</a></td><td>${esc(p.tag)}</td><td>${v.up}</td><td>${v.dn}</td><td>${cmOf(p.id).length}</td><td><div class="row"><button class="btn ghost sm" data-act="editProject" data-id="${p.id}">${ico('edit')} Editar</button><button class="btn danger sm" data-act="delProject" data-id="${p.id}" aria-label="Excluir">${ico('del')}</button></div></td></tr>`}).join('')||'<tr><td colspan="6">Nenhum projeto.</td></tr>'}</table></div>`;
-  if(adminTab==='usuarios')main=`<h2>Registros de usuários</h2><p class="hint" style="margin-bottom:1rem">Bloquear impede a pessoa de comentar e reagir. "Apagar atividade" remove todos os comentários e reações dela.</p><div class="tbl"><table><tr><th>Nome</th><th>E-mail</th><th>Status</th><th>Cadastro</th><th>Ações</th></tr>${D.profiles.map(u=>{const self=u.id===user.id;return `<tr><td><span class="nameav">${avatar(u.name,u.avatar_url,30)}<span>${esc(u.name)}${self?' <span class="hint">(você)</span>':''}</span></span></td><td>${esc(u.email)}</td><td>${u.banned?'<span class="ban">Bloqueado</span>':u.confirmed?'<span class="ok">Confirmado</span>':'<span class="pend">Pendente</span>'}</td><td>${fdate(u.created_at)}</td><td>${self?'<span class="hint">—</span>':`<div class="row"><button class="btn ghost sm" data-act="toggleBan" data-id="${u.id}">${u.banned?'Desbloquear':'Bloquear'}</button><button class="btn danger sm" data-act="wipeUser" data-id="${u.id}">${ico('del')} Apagar atividade</button></div>`}</td></tr>`}).join('')||'<tr><td colspan="5">Ainda não há usuários cadastrados.</td></tr>'}</table></div>`;
+  if(adminTab==='usuarios')main=`<h2>Registros de usuários</h2><p class="hint" style="margin-bottom:1rem"><b>Bloquear</b> impede a pessoa de comentar e reagir. <b>Apagar atividade</b> remove os comentários e reações dela. <b>Excluir usuário</b> apaga a conta inteira (login, perfil, comentários e reações).</p><div class="tbl"><table><tr><th>Nome</th><th>E-mail</th><th>Status</th><th>Cadastro</th><th>Ações</th></tr>${D.profiles.map(u=>{const self=u.id===user.id;return `<tr><td><span class="nameav">${avatar(u.name,u.avatar_url,30)}<span>${esc(u.name)}${self?' <span class="hint">(você)</span>':''}</span></span></td><td>${esc(u.email)}</td><td>${u.banned?'<span class="ban">Bloqueado</span>':u.confirmed?'<span class="ok">Confirmado</span>':'<span class="pend">Pendente</span>'}</td><td>${fdate(u.created_at)}</td><td>${self?'<span class="hint">—</span>':`<div class="row"><button class="btn ghost sm" data-act="toggleBan" data-id="${u.id}">${u.banned?'Desbloquear':'Bloquear'}</button><button class="btn danger sm" data-act="wipeUser" data-id="${u.id}">${ico('del')} Apagar atividade</button><button class="btn kill sm" data-act="deleteUser" data-id="${u.id}">${ico('x')} Excluir usuário</button></div>`}</td></tr>`}).join('')||'<tr><td colspan="5">Ainda não há usuários cadastrados.</td></tr>'}</table></div>`;
   if(adminTab==='reacoes'){
     main=`<h2>Reações e comentários</h2>${D.projects.map(p=>{const v=votesOf(p.id),t=v.up+v.dn,vs=D.votes.filter(x=>x.project_id===p.id),ups=vs.filter(x=>x.value===1).map(x=>nameOf(x.user_id)),dns=vs.filter(x=>x.value===-1).map(x=>nameOf(x.user_id)),cms=cmOf(p.id);
     return `<div class="rx"><b>${esc(p.title)}</b><div class="bar2"><i style="width:${t?v.up/t*100:0}%;background:var(--ok)"></i><i style="width:${t?v.dn/t*100:0}%;background:var(--bad)"></i></div>
@@ -744,6 +746,16 @@ const act={
     const [a,b]=await Promise.all([sb.from('comments').delete().eq('user_id',u.id),sb.from('votes').delete().eq('user_id',u.id)]);
     if(a.error||b.error)return toast('Erro ao apagar: '+(a.error||b.error).message,true);
     await reload();toast('Atividade apagada.');
+  },
+  async deleteUser(d){
+    const u=D.profiles.find(x=>x.id===d.id);if(!u)return;
+    if(!confirm(`Excluir a conta de ${u.name} (${u.email})?\n\nIsso apaga o login, o perfil, os comentários e as reações dessa pessoa. Não dá para desfazer.`))return;
+    const {error}=await sb.rpc('admin_delete_user',{target:u.id});
+    if(error){
+      if(/admin_delete_user|function/i.test(error.message)&&/not find|does not exist|schema cache/i.test(error.message))return toast('Falta rodar o supabase-excluir-usuario.sql no Supabase.',true);
+      return toast('Não foi possível excluir: '+error.message,true);
+    }
+    await reload();toast('Usuário excluído.');
   },
   editContent(d){openModal(contentForm(d.sec))},
   exportData(){
