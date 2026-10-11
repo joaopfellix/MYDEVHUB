@@ -234,6 +234,22 @@ td .row{display:flex;gap:.4rem;flex-wrap:wrap}
 <script>
 "use strict";
 
+/* ================= MENSAGEM PARA QUEM ABRE O F12 ================= */
+(function(){
+  try{
+    const big='font:800 26px Unbounded,system-ui,sans-serif;color:#1ad1ff;text-shadow:0 0 12px rgba(26,209,255,.6)';
+    const txt='font:600 15px Manrope,system-ui,sans-serif;color:#f4f8ff;line-height:1.6';
+    const quote='font:italic 800 16px Manrope,system-ui,sans-serif;color:#1646ff';
+    const warn='font:800 14px Manrope,system-ui,sans-serif;color:#ff5d7a';
+    const mut='font:500 13px Manrope,system-ui,sans-serif;color:#8da2c8';
+    console.log('%c</> My Dev Hub',big);
+    console.log('%cCurioso, né? 👀\nPode olhar à vontade, aqui é tudo feito com carinho e código.\nSe gostou de algo, chama no WhatsApp que a gente conversa. 😉',txt);
+    console.log('%c"Ideias que viram códigos."',quote);
+    console.log('%c⚠ Atenção: se alguém pediu para você colar algum código aqui, é golpe. Não cole nada.',warn);
+    console.log('%cColar código neste console pode dar acesso à sua conta para outra pessoa.',mut);
+  }catch(e){}
+})();
+
 /* ================= SUPABASE =================
    Tudo (projetos, textos, usuários, reações e comentários) fica no banco,
    então o que o dono altera no painel aparece para todos os visitantes.
