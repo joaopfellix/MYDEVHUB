@@ -113,6 +113,18 @@ textarea{min-height:110px;resize:vertical}
 .foot{display:flex;gap:1rem;align-items:center;color:var(--mut);font-size:.85rem;flex-wrap:wrap}
 .foot span{display:inline-flex;align-items:center;gap:.35rem}
 .foot .host{margin-left:auto;color:var(--mut)}
+.foot2{display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;font-size:.82rem;color:var(--mut);border-top:1px solid var(--line);padding-top:.75rem}
+.foot2 .host{margin-left:auto;display:inline-flex;align-items:center;gap:.35rem}
+.langs{display:flex;gap:.4rem .8rem;flex-wrap:wrap}
+.lg{display:inline-flex;align-items:center;gap:.4rem;color:var(--white);font-weight:700;font-size:.82rem}
+.lg i{width:9px;height:9px;border-radius:50%;flex:none;box-shadow:0 0 0 1px rgba(255,255,255,.08)}
+.langbox{margin-top:1.1rem;padding:1rem 1.1rem;border:1px solid var(--line);border-radius:12px;background:var(--panel2)}
+.langbox h3{font-size:.95rem;margin-bottom:.75rem}
+.lbar{display:flex;height:8px;border-radius:6px;overflow:hidden;gap:2px;margin-bottom:.85rem}
+.lbar i{display:block;height:100%;min-width:3px}
+.llist{display:flex;flex-wrap:wrap;gap:.5rem 1.3rem}
+.llist .hint{font-weight:500}
+.langbox a{display:inline-flex;gap:.4rem;align-items:center;margin-top:.85rem;font-size:.85rem}
 .cadm{display:flex;gap:.4rem;position:absolute;top:.8rem;right:.8rem;z-index:2}
 .empty{border:1px dashed var(--line);border-radius:var(--r);padding:2.4rem;text-align:center;color:var(--mut)}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:clamp(1.2rem,3vw,2rem)}
@@ -277,6 +289,51 @@ function avatar(name,url,s){
   const img=(url&&/^https:\/\/[a-z0-9-]+\.googleusercontent\.com\//i.test(url))?`<img class="av" src="${esc(url)}" alt="" referrerpolicy="no-referrer" loading="lazy" onerror="this.remove()">`:'';
   return `<span class="avw" style="--s:${s}px" aria-hidden="true"><span class="av">${esc(initials(name))}</span>${img}</span>`;
 }
+/* ---------- Linguagens (cores iguais às do GitHub) ---------- */
+const LANG_COLORS={'HTML':'#e34c26','CSS':'#663399','JavaScript':'#f1e05a','TypeScript':'#3178c6','Python':'#3572A5','PHP':'#4F5D95','Java':'#b07219','C#':'#178600','C++':'#f34b7d','C':'#555555','Go':'#00ADD8','Rust':'#dea584','Ruby':'#701516','Dart':'#00B4AB','Kotlin':'#A97BFF','Swift':'#F05138','Vue':'#41b883','Svelte':'#ff3e00','Astro':'#ff5a03','SCSS':'#c6538c','Sass':'#a53b70','Less':'#1d365d','Shell':'#89e051','PowerShell':'#012456','Lua':'#000080','Jupyter Notebook':'#DA5B0B','Dockerfile':'#384d54','PLpgSQL':'#336790','SQL':'#e38c00','Elixir':'#6e4a7e','MDX':'#fcb32c','Markdown':'#083fa1','JSON':'#292929','Batchfile':'#C1F12E','R':'#198CE7','Scala':'#c22d40','Objective-C':'#438eff','Perl':'#0298c3','Haskell':'#5e5086','Solidity':'#AA6746','EJS':'#a91e50','Handlebars':'#f7931e','Pug':'#a86454','Blade':'#f7523f','Twig':'#c1d026'};
+const LANG_ALIAS={js:'JavaScript',javascript:'JavaScript',ts:'TypeScript',typescript:'TypeScript',html:'HTML',html5:'HTML',css:'CSS',css3:'CSS',py:'Python',python:'Python',php:'PHP',java:'Java','c#':'C#',csharp:'C#','c++':'C++',cpp:'C++',go:'Go',golang:'Go',rust:'Rust',ruby:'Ruby',dart:'Dart',kotlin:'Kotlin',swift:'Swift',vue:'Vue',svelte:'Svelte',scss:'SCSS',sass:'Sass',sql:'SQL',shell:'Shell',bash:'Shell'};
+const langColor=n=>LANG_COLORS[n]||'#8da2c8';
+const langsOf=p=>Array.isArray(p&&p.languages)?p.languages.filter(l=>l&&l.n):[];
+const pctTxt=v=>String(Math.round(Number(v)*10)/10).replace('.',',')+'%';
+function parseRepo(s){
+  s=String(s||'').trim();if(!s)return null;
+  let m=s.match(/github\.com[\/:]([\w.-]+)\/([\w.-]+?)(?:\.git)?(?:[\/?#]|$)/i);
+  if(!m)m=s.match(/^([\w.-]+)\/([\w.-]+?)(?:\.git)?\/?$/);
+  return m?m[1]+'/'+m[2]:null;
+}
+function manualLangs(s){
+  const seen=new Set();
+  return String(s||'').split(/[,;\/|]+/).map(x=>x.trim()).filter(Boolean)
+    .map(x=>LANG_ALIAS[x.toLowerCase()]||x).filter(x=>!seen.has(x.toLowerCase())&&seen.add(x.toLowerCase()))
+    .slice(0,12).map(n=>({n:n.slice(0,30),p:null}));
+}
+async function fetchLangs(repo){
+  let r;
+  try{r=await fetch('https://api.github.com/repos/'+repo+'/languages',{headers:{Accept:'application/vnd.github+json'}})}
+  catch(e){throw new Error('sem conexão com o GitHub.')}
+  if(r.status===404)throw new Error('repositório não encontrado ou privado.');
+  if(r.status===403||r.status===429)throw new Error('limite de consultas do GitHub atingido, tente em alguns minutos.');
+  if(!r.ok)throw new Error('o GitHub respondeu '+r.status+'.');
+  const d=await r.json(),tot=Object.values(d).reduce((a,b)=>a+b,0);
+  if(!tot)return [];
+  const all=Object.entries(d).sort((a,b)=>b[1]-a[1]).map(([n,b])=>({n,p:Math.round(b/tot*1000)/10}));
+  const main=all.filter(l=>l.p>=0.5).slice(0,8),rest=all.filter(l=>!main.includes(l));
+  if(rest.length){const s=Math.round(rest.reduce((a,l)=>a+l.p,0)*10)/10;if(s>0)main.push({n:'Outras',p:s})}
+  return main;
+}
+function langsInline(p){
+  const ls=langsOf(p);if(!ls.length)return '';
+  const top=ls.filter(l=>l.n!=='Outras').slice(0,3);
+  return `<span class="langs" aria-label="Linguagens">${top.map(l=>`<span class="lg"><i style="background:${langColor(l.n)}"></i>${esc(l.n)}</span>`).join('')}${ls.length>top.length+(ls.some(l=>l.n==='Outras')?1:0)?`<span class="hint">+${ls.length-top.length}</span>`:''}</span>`;
+}
+function langsBlock(p){
+  const ls=langsOf(p);if(!ls.length&&!p.repo)return '';
+  const hasP=ls.some(l=>l.p!=null&&!isNaN(l.p));
+  return `<div class="langbox"><h3>Linguagens</h3>
+    ${ls.length?`${hasP?`<div class="lbar">${ls.map(l=>`<i style="width:${Math.max(0,Math.min(100,Number(l.p)||0))}%;background:${langColor(l.n)}" title="${esc(l.n)} ${pctTxt(l.p||0)}"></i>`).join('')}</div>`:''}
+    <div class="llist">${ls.map(l=>`<span class="lg"><i style="background:${langColor(l.n)}"></i>${esc(l.n)}${l.p!=null?` <span class="hint">${pctTxt(l.p)}</span>`:''}</span>`).join('')}</div>`:'<p class="hint">Ainda sem linguagens detectadas.</p>'}
+    ${p.repo?`<a href="https://github.com/${esc(p.repo)}" target="_blank" rel="noopener">${ico('code')} Ver código no GitHub</a>`:''}</div>`;
+}
 const fixUrl=u=>{u=String(u||'').trim();return /^https?:\/\//i.test(u)?u:'https://'+u};
 const host=u=>{try{return new URL(fixUrl(u)).hostname.replace(/^www\./,'')}catch(e){return ''}};
 let toastT;function toast(m,bad){const t=$('#toast');t.textContent=m;t.className='on'+(bad?' bad':'');clearTimeout(toastT);toastT=setTimeout(()=>t.className='',3600)}
@@ -403,7 +460,8 @@ function panelProjects(instant){
       ${isAdmin?`<div class="cadm"><button class="btn ghost sm" data-act="editProject" data-id="${p.id}" aria-label="Editar">${ico('edit')}</button><button class="btn danger sm" data-act="delProject" data-id="${p.id}" aria-label="Excluir">${ico('del')}</button></div>`:''}
       <span class="tg t-${esc(p.tag)}">${esc(p.tag)}</span>
       <h3>${esc(p.title)}</h3><p>${esc(p.description)}</p>
-      <div class="foot"><span>${ico('up')}${v.up}</span><span>${ico('dn')}${v.dn}</span><span>${ico('msg')}${cmOf(p.id).length}</span><span class="host">${esc(host(p.url))}</span></div>
+      <div class="foot"><span>${ico('up')}${v.up}</span><span>${ico('dn')}${v.dn}</span><span>${ico('msg')}${cmOf(p.id).length}</span></div>
+      <div class="foot2">${langsInline(p)}<span class="host">${ico('link')}${esc(host(p.url))}</span></div>
     </article>`}).join('');
   const empty=D.projects.length?`Nenhum item em "${esc(filter)}" por enquanto.`:(isAdmin?'Nenhum projeto ainda. Clique em "Novo projeto" para adicionar o primeiro.':'Os projetos vão aparecer aqui em breve.');
   return `<div class="phead rv${instant?' in':''}"><div><h2>Projetos, sites e ideias</h2><p>Qualquer pessoa pode abrir os links. Para comentar e reagir, entre na sua conta.</p></div>
@@ -486,6 +544,7 @@ function projectHTML(p){
   return `<span class="tg t-${esc(p.tag)}">${esc(p.tag)}</span>
   <h2 style="margin-top:.6rem">${esc(p.title)}</h2><p class="sub">${esc(p.description)}</p>
   <div style="margin-top:1rem"><a class="btn" href="${esc(fixUrl(p.url))}" target="_blank" rel="noopener">${ico('link')} Abrir link</a> <span class="hint" style="margin-left:.5rem">${esc(host(p.url))}</span></div>
+  ${langsBlock(p)}
   <div class="react"><button class="rb up ${mine===1?'on':''}" data-act="vote" data-v="1">${ico('up')} Gostei · ${v.up}</button><button class="rb dn ${mine===-1?'on':''}" data-act="vote" data-v="-1">${ico('dn')} Não gostei · ${v.dn}</button></div>
   <div class="cm"><h3>Comentários (${cms.length})</h3>${box}
   <div style="margin-top:1rem">${cms.map(c=>`<div class="cmi">${avatar(c.name,c.avatar_url,38)}<div class="cmb"><header><b>${esc(c.name)}</b><span>${fdate(c.created_at)}${(isAdmin||(u&&c.user_id===u.id))?` <button class="btn danger sm" data-act="delComment" data-id="${c.id}" aria-label="Excluir comentário">${ico('del')}</button>`:''}</span></header><p>${esc(c.text).replace(/\n/g,'<br>')}</p></div></div>`).join('')||'<p class="hint">Ainda sem comentários. Seja a primeira pessoa a comentar.</p>'}</div></div>`;
@@ -589,12 +648,23 @@ const forms={
   async project(f){
     const d={title:f.title.value.trim().slice(0,80),description:f.desc.value.trim().slice(0,300),url:fixUrl(f.url.value),tag:f.tag.value};
     if(!d.title||!f.url.value.trim())return err(f,'Preencha o título e o link.');
+    const rawRepo=f.repo.value.trim(),repo=parseRepo(rawRepo)||parseRepo(f.url.value);
+    if(rawRepo&&!parseRepo(rawRepo))return err(f,'Repositório inválido. Use https://github.com/usuario/repositorio.');
     busy(f,true);
-    const id=f.dataset.id;
+    const id=f.dataset.id,old=id?D.projects.find(x=>x.id===id):null;
+    let languages=manualLangs(f.langs.value),warn='';
+    if(repo){
+      try{const gl=await fetchLangs(repo);if(gl.length)languages=gl;else warn='O GitHub não encontrou código nesse repositório.'}
+      catch(e){
+        warn='Não deu para puxar as linguagens: '+e.message;
+        if(!languages.length&&old&&old.repo===repo)languages=langsOf(old);
+      }
+    }
+    d.repo=repo;d.languages=languages;
     const r=id?await sb.from('projects').update(d).eq('id',id).select():await sb.from('projects').insert(d).select();
     if(r.error)return err(f,'Erro ao salvar: '+r.error.message);
     if(!r.data||!r.data.length)return err(f,'Nada foi salvo: sua conta não tem permissão de dono no banco (tabela admins).');
-    closeModal();await reload();toast(id?'Projeto atualizado.':'Projeto adicionado.');
+    closeModal();await reload();toast((id?'Projeto atualizado.':'Projeto adicionado.')+(warn?' '+warn:''),!!warn);
   },
   async content(f){
     const sec=f.dataset.sec,next=clone(D.content);
@@ -641,6 +711,9 @@ function projectForm(p){
   <form data-form="project" data-id="${p.id||''}"><label for="pt">Título</label><input id="pt" name="title" maxlength="80" value="${esc(p.title)}" required>
   <label for="pd">Descrição</label><textarea id="pd" name="desc" maxlength="300">${esc(p.description)}</textarea>
   <label for="pu">Link</label><input id="pu" name="url" placeholder="https://" value="${esc(p.url)}" required>
+  <label for="pr">Repositório no GitHub (opcional)</label><input id="pr" name="repo" maxlength="200" placeholder="https://github.com/usuario/repositorio" value="${esc(p.repo?'https://github.com/'+p.repo:'')}">
+  <p class="hint" style="margin-top:.35rem">Com o repositório, as linguagens e as porcentagens são puxadas sozinhas do GitHub (o repositório precisa ser público).</p>
+  <label for="pl">Linguagens (se não tiver GitHub)</label><input id="pl" name="langs" maxlength="200" placeholder="HTML, CSS, JavaScript" value="${esc(p.repo?'':langsOf(p).map(l=>l.n).join(', '))}">
   <label for="pg">Categoria</label><select id="pg" name="tag">${TAGS.map(t=>`<option ${p.tag===t?'selected':''}>${t}</option>`).join('')}</select>
   <div class="err" role="alert"></div><button class="btn" style="margin-top:.6rem">Salvar projeto</button></form>`;
 }
@@ -663,7 +736,7 @@ function renderAdmin(){
   const up=D.votes.filter(v=>v.value===1).length,dn=D.votes.filter(v=>v.value===-1).length;
   let main='';
   if(adminTab==='resumo')main=`<h2>Resumo</h2><div class="stats">${[['Projetos',D.projects.length],['Usuários',D.profiles.length],['E-mail confirmado',D.profiles.filter(u=>u.confirmed).length],['Bloqueados',D.profiles.filter(u=>u.banned).length],['Gostei',up],['Não gostei',dn],['Comentários',D.comments.length]].map(s=>`<div class="stat"><b>${s[1]}</b><span>${s[0]}</span></div>`).join('')}</div>`;
-  if(adminTab==='projetos')main=`<h2>Projetos</h2><p style="margin-bottom:1rem"><button class="btn" data-act="newProject">${ico('plus')} Enviar novo projeto</button></p><div class="tbl"><table><tr><th>Título</th><th>Categoria</th><th>Gostei</th><th>Não gostei</th><th>Comentários</th><th>Ações</th></tr>${D.projects.map(p=>{const v=votesOf(p.id);return `<tr><td>${esc(p.title)}<br><a href="${esc(fixUrl(p.url))}" target="_blank" rel="noopener" class="hint">${esc(host(p.url))}</a></td><td>${esc(p.tag)}</td><td>${v.up}</td><td>${v.dn}</td><td>${cmOf(p.id).length}</td><td><div class="row"><button class="btn ghost sm" data-act="editProject" data-id="${p.id}">${ico('edit')} Editar</button><button class="btn danger sm" data-act="delProject" data-id="${p.id}" aria-label="Excluir">${ico('del')}</button></div></td></tr>`}).join('')||'<tr><td colspan="6">Nenhum projeto.</td></tr>'}</table></div>`;
+  if(adminTab==='projetos')main=`<h2>Projetos</h2><p style="margin-bottom:1rem"><button class="btn" data-act="newProject">${ico('plus')} Enviar novo projeto</button> <button class="btn ghost" data-act="refreshLangs">${ico('code')} Atualizar linguagens do GitHub</button></p><div class="tbl"><table><tr><th>Título</th><th>Categoria</th><th>Linguagens</th><th>Gostei</th><th>Não gostei</th><th>Comentários</th><th>Ações</th></tr>${D.projects.map(p=>{const v=votesOf(p.id);return `<tr><td>${esc(p.title)}<br><a href="${esc(fixUrl(p.url))}" target="_blank" rel="noopener" class="hint">${esc(host(p.url))}</a></td><td>${esc(p.tag)}</td><td>${langsInline(p)||'<span class="hint">—</span>'}</td><td>${v.up}</td><td>${v.dn}</td><td>${cmOf(p.id).length}</td><td><div class="row"><button class="btn ghost sm" data-act="editProject" data-id="${p.id}">${ico('edit')} Editar</button><button class="btn danger sm" data-act="delProject" data-id="${p.id}" aria-label="Excluir">${ico('del')}</button></div></td></tr>`}).join('')||'<tr><td colspan="7">Nenhum projeto.</td></tr>'}</table></div>`;
   if(adminTab==='usuarios')main=`<h2>Registros de usuários</h2><p class="hint" style="margin-bottom:1rem"><b>Bloquear</b> impede a pessoa de comentar e reagir. <b>Apagar atividade</b> remove os comentários e reações dela. <b>Excluir usuário</b> apaga a conta inteira (login, perfil, comentários e reações).</p><div class="tbl"><table><tr><th>Nome</th><th>E-mail</th><th>Status</th><th>Cadastro</th><th>Ações</th></tr>${D.profiles.map(u=>{const self=u.id===user.id;return `<tr><td><span class="nameav">${avatar(u.name,u.avatar_url,30)}<span>${esc(u.name)}${self?' <span class="hint">(você)</span>':''}</span></span></td><td>${esc(u.email)}</td><td>${u.banned?'<span class="ban">Bloqueado</span>':u.confirmed?'<span class="ok">Confirmado</span>':'<span class="pend">Pendente</span>'}</td><td>${fdate(u.created_at)}</td><td>${self?'<span class="hint">—</span>':`<div class="row"><button class="btn ghost sm" data-act="toggleBan" data-id="${u.id}">${u.banned?'Desbloquear':'Bloquear'}</button><button class="btn danger sm" data-act="wipeUser" data-id="${u.id}">${ico('del')} Apagar atividade</button><button class="btn kill sm" data-act="deleteUser" data-id="${u.id}">${ico('x')} Excluir usuário</button></div>`}</td></tr>`}).join('')||'<tr><td colspan="5">Ainda não há usuários cadastrados.</td></tr>'}</table></div>`;
   if(adminTab==='reacoes'){
     main=`<h2>Reações e comentários</h2>${D.projects.map(p=>{const v=votesOf(p.id),t=v.up+v.dn,vs=D.votes.filter(x=>x.project_id===p.id),ups=vs.filter(x=>x.value===1).map(x=>nameOf(x.user_id)),dns=vs.filter(x=>x.value===-1).map(x=>nameOf(x.user_id)),cms=cmOf(p.id);
@@ -758,6 +831,22 @@ const act={
       return toast('Não foi possível excluir: '+error.message,true);
     }
     await reload();toast('Usuário excluído.');
+  },
+  async refreshLangs(){
+    const list=D.projects.filter(p=>p.repo);
+    if(!list.length)return toast('Nenhum projeto tem repositório do GitHub cadastrado.',true);
+    toast('Atualizando linguagens de '+list.length+' projeto(s)…');
+    let ok=0;const fails=[];
+    for(const p of list){
+      try{
+        const gl=await fetchLangs(p.repo);
+        const r=await sb.from('projects').update({languages:gl}).eq('id',p.id).select();
+        if(r.error||!r.data||!r.data.length)throw new Error('sem permissão para salvar.');
+        ok++;
+      }catch(e){fails.push(p.title+': '+e.message)}
+    }
+    await reload();
+    toast(fails.length?`${ok} atualizado(s). Falhou: ${fails.join(' | ')}`:`Linguagens atualizadas em ${ok} projeto(s).`,!!fails.length);
   },
   editContent(d){openModal(contentForm(d.sec))},
   exportData(){
