@@ -501,7 +501,7 @@ function panelContact(){
 }
 function renderFooter(){
   const h=D.content.hero;
-  $('#footer').innerHTML=`<span>© ${new Date().getFullYear()} ${esc(h.site)} · ${esc(h.name)} · ${esc(h.city)}</span><button data-act="adminLogin">${ico('lock')} Área do dono</button>`;
+  $('#footer').innerHTML=`<span>© ${new Date().getFullYear()} ${esc(h.site)} · ${esc(h.name)} · ${esc(h.city)}</span>`;
 }
 function renderAll(instant){
   renderNav();renderHero();renderScrub();renderHub(instant);renderFooter();
@@ -986,6 +986,9 @@ function startRealtime(){
   renderAll(false);watchReveals();
   if(denied){const g=await gateFail();toast(g.locked?DENIED_MSG+' Acesso bloqueado por 24 horas.':DENIED_MSG+(g.remaining===1?' Resta 1 tentativa.':' Restam '+g.remaining+' tentativas.'),true,7000)}
   if(wantAdmin&&isAdmin){wantAdmin=false;ss.del('wantAdmin');gateClear();openAdmin();toast('Acesso do dono liberado.')}
+  /* acesso escondido: mydevhub.club/#dono abre o login do dono */
+  const secret=()=>{if(location.hash==='#dono'){try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}act.adminLogin()}};
+  addEventListener('hashchange',secret);secret();
   startRealtime();
   sb.auth.onAuthStateChange((ev,s)=>{
     if(ev==='INITIAL_SESSION'||ev==='TOKEN_REFRESHED')return;
