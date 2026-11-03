@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Demonstração: vitrine de presentes de fim de ano da Elegance Intimates, com etiqueta em cada peça e pedido pelo WhatsApp.">
+<meta name="theme-color" content="#f6eee8">
+<title>Elegance · Presentes de fim de ano</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&family=Courier+Prime&display=swap">
+<style>
+:root{
+  --paper:#f6eee8;--paper2:#efe3db;--card:#fbf7f3;--line:#e2d2c8;
+  --ink:#2b1620;--ink2:#5b4450;--mute:#8d7880;
+  --berry:#a3195b;--berry2:#7d1043;--wine:#5a0f1d;--wine2:#3e0913;--blush:#f1cfd3;--rose:#d98a9c;
+  --serif:"Cormorant Garamond",Georgia,serif;--sans:"Jost",system-ui,sans-serif;--type:"Courier Prime",ui-monospace,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:300 17px/1.65 var(--sans);overflow-x:hidden}
+a{color:inherit}
+img{display:block;max-width:100%}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0;padding:0}
+:focus-visible{outline:1.5px solid var(--berry);outline-offset:4px}
+.w{max-width:1180px;margin:0 auto;padding:0 max(20px,env(safe-area-inset-left,0px))}
+.eyebrow{font:500 11px/1.4 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--berry)}
+h1,h2,h3{font-family:var(--serif);font-weight:400;margin:0;letter-spacing:-.01em;line-height:1.02}
+h2{font-size:clamp(40px,7vw,72px)}
+h2 i,h1 i{color:var(--berry)}
+p{margin:0}
+
+.demo{background:var(--ink);color:#f3e6ea;font:400 11.5px/1.35 var(--sans);letter-spacing:.03em;text-align:center;padding:9px 16px}
+.demo a{color:#f6c4d2}
+
+.top{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:border-color .3s}
+.top.s{border-color:var(--line)}
+.top .w{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{text-decoration:none;display:flex;flex-direction:column;line-height:1}
+.logo b{font:500 30px/1 var(--serif);color:var(--berry)}
+.logo b::after{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--berry);margin-left:3px;vertical-align:3px}
+.logo small{font:400 8.5px/1 var(--sans);letter-spacing:.32em;text-transform:uppercase;color:var(--mute);margin-top:4px}
+.top nav{display:flex;gap:28px;font-size:14px}
+.top nav a{text-decoration:none;color:var(--ink2)}
+.top nav a:hover{color:var(--berry)}
+.bagbtn{display:flex;align-items:center;gap:8px;font-size:14px;border:1px solid var(--ink);padding:9px 16px;border-radius:999px}
+.bagbtn span{display:inline-grid;place-items:center;min-width:20px;height:20px;border-radius:10px;background:var(--berry);color:#fff;font-size:11px;padding:0 5px}
+@media(max-width:760px){.top nav{display:none}}
+
+/* hero */
+.hero{padding:52px 0 56px}
+.hero .w{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+.hero h1{font-size:clamp(52px,7.6vw,100px);line-height:.94}
+.hero h1 i{display:block}
+.hero .lead{max-width:440px;margin-top:26px;color:var(--ink2);font-size:18px}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:54px;padding:0 28px;border-radius:999px;font-size:15px;font-weight:400;letter-spacing:.02em;text-decoration:none;transition:transform .2s,background .2s}
+.btn:active{transform:scale(.98)}
+.btn.p{background:var(--berry);color:#fff}
+.btn.p:hover{background:var(--berry2)}
+.btn.g{border:1px solid currentColor}
+.btn svg{width:18px;height:18px}
+.deadline{display:flex;gap:14px;align-items:center;margin-top:34px;font-size:13.5px;color:var(--ink2)}
+.deadline b{font:500 34px/1 var(--serif);color:var(--ink)}
+.deadline .sep{width:1px;height:34px;background:var(--line)}
+.stage{position:relative;padding:0 6% 10% 0;perspective:1100px}
+.stage .rig{position:relative;transform-style:preserve-3d;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateZ(var(--tz,0px));transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.stage .glow{position:absolute;inset:8% 4% 2% 10%;border-radius:999px 999px 0 0;background:radial-gradient(closest-side,rgba(163,25,91,.28),transparent);transform:translateZ(-80px) scale(1.15);filter:blur(10px)}
+.arch{position:relative;transform:translateZ(0);border-radius:999px 999px 6px 6px;overflow:hidden;aspect-ratio:4/5;background:var(--blush);box-shadow:0 40px 70px -40px rgba(43,22,32,.5)}
+.arch img{width:100%;height:100%;object-fit:cover;transform:scale(1.1) translate3d(var(--ix,0px),var(--iy,0px),0)}
+.arch::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,rgba(255,255,255,.28),transparent 40%);mix-blend-mode:soft-light;pointer-events:none}
+.polaroid{position:absolute;right:0;bottom:0;width:44%;background:#fff;padding:9px 9px 34px;transform:translateZ(90px) rotate(5deg);box-shadow:0 30px 50px -18px rgba(43,22,32,.5)}
+.stage .chip{position:absolute;left:-4%;top:14%;transform:translateZ(130px) rotate(-6deg);background:var(--wine);color:#fff;font:400 12px/1.25 var(--type);padding:10px 12px;box-shadow:0 18px 30px -12px rgba(62,9,19,.6)}
+.stage .chip b{display:block;font:500 19px/1.1 var(--serif);margin-top:2px}
+.polaroid img{aspect-ratio:1/1;object-fit:cover;width:100%}
+.polaroid span{position:absolute;left:0;right:0;bottom:9px;text-align:center;font:italic 400 15px var(--serif);color:var(--ink2)}
+@media(max-width:860px){
+  .hero{padding-top:24px}
+  .hero .w{grid-template-columns:1fr;gap:20px}
+  .stage{order:-1;max-width:340px;width:76%;margin:0 auto}
+  .stage .chip{font-size:10.5px;padding:8px 10px;left:-10%}.stage .chip b{font-size:16px}
+  .polaroid{padding:6px 6px 26px}.polaroid span{font-size:12px;bottom:6px}
+}
+
+.ribbon{border-block:1px solid var(--line);padding:16px 0;overflow:hidden;white-space:nowrap;font:italic 400 22px/1 var(--serif);color:var(--ink2)}
+.ribbon div{display:inline-block;animation:mq 40s linear infinite}
+.ribbon span{margin:0 26px;color:var(--rose);font-style:normal}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+section{padding:96px 0}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:36px;flex-wrap:wrap}
+.head p.sub{max-width:380px;color:var(--ink2)}
+.filters{display:flex;gap:8px;margin:0 -20px 28px;padding:0 20px;overflow-x:auto;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.filters button{flex:none;font-size:14px;padding:9px 18px;border:1px solid var(--line);border-radius:999px;color:var(--ink2);transition:.2s}
+.filters button[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+
+/* produtos com etiqueta */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:34px 22px}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr);gap:28px 14px}}
+.prod{display:flex;flex-direction:column}
+.tilt{perspective:900px}
+.ph{position:relative;aspect-ratio:4/5;background:var(--paper2);transform-style:preserve-3d;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .6s cubic-bezier(.2,.7,.2,1),box-shadow .6s;box-shadow:0 16px 30px -24px rgba(43,22,32,.5)}
+.ph .im{position:absolute;inset:0;overflow:hidden}
+.ph .gl{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at var(--gx,50%) var(--gy,0%),rgba(255,255,255,.35),transparent 55%);opacity:0;transition:opacity .4s;mix-blend-mode:soft-light}
+.prod.hov .ph{box-shadow:0 34px 50px -28px rgba(43,22,32,.6);transition:transform .12s linear,box-shadow .6s}
+.prod.hov .gl{opacity:1}
+.ph img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.prod.hov .ph img{transform:scale(1.05)}
+.etq{position:absolute;left:12px;top:0;width:118px;background:#fdfaf6;color:var(--ink);padding:24px 11px 11px;font:400 12px/1.3 var(--type);clip-path:polygon(0 12px,50% 0,100% 12px,100% 100%,0 100%);transform-origin:50% 0;transform:rotate(-4deg);box-shadow:0 10px 18px -8px rgba(0,0,0,.35);animation:sway 5s ease-in-out infinite;z-index:2}
+.etqz{position:absolute;inset:0 auto auto 0;transform:translateZ(46px);transform-style:preserve-3d;pointer-events:none}
+.ph .flag{transform:translateZ(30px)}
+.prod:nth-child(2n) .etq{animation-delay:-2.5s}
+.etq::before{content:"";position:absolute;left:50%;top:10px;width:8px;height:8px;margin-left:-4px;border-radius:50%;background:var(--paper2);box-shadow:inset 0 1px 2px rgba(0,0,0,.3)}
+.etq::after{content:"";position:absolute;left:50%;top:-12px;width:1px;height:24px;background:var(--berry);opacity:.7}
+.etq .c{display:block;color:var(--berry);letter-spacing:.06em}
+.etq .t{display:block;margin:4px 0 6px;font-size:11px;color:var(--ink2)}
+.etq .v{display:block;border-top:1px dashed #cbb7ad;padding-top:6px;font-size:15px;color:var(--ink)}
+@keyframes sway{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(-1deg)}}
+.ph .flag{z-index:2;position:absolute;right:10px;top:10px;font:500 9.5px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;background:var(--wine);color:#fff;padding:7px 8px}
+.pi{padding-top:14px}
+.pi h3{font-size:clamp(22px,3vw,28px)}
+.pi p{font-size:14px;color:var(--ink2);margin-top:2px}
+.sizes{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
+.sizes button{min-width:36px;height:34px;padding:0 8px;border:1px solid var(--line);font-size:13px;transition:.15s}
+.sizes button[aria-pressed=true]{border-color:var(--berry);color:var(--berry);background:#fdf1f4}
+.add{margin-top:12px;height:46px;width:100%;border-radius:999px;background:var(--ink);color:var(--paper);font-size:14px;display:flex;align-items:center;justify-content:space-between;padding:0 8px 0 20px;transition:background .2s}
+.add b{font-weight:400;background:rgba(255,255,255,.14);border-radius:999px;padding:6px 12px}
+.add:hover,.add.ok{background:var(--berry)}
+@media(max-width:520px){
+  .etq{width:88px;left:8px;padding:21px 7px 8px;font-size:10px}
+  .etq .t{font-size:9.5px}.etq .v{font-size:13px}
+  .pi h3{font-size:20px}.pi p{font-size:12.5px}
+  .add{font-size:13px;padding:0 6px 0 14px}.add b{padding:5px 9px}
+  .sizes button{min-width:31px;height:31px;font-size:12px;padding:0 5px}
+}
+.note{margin-top:28px;font-size:13px;color:var(--mute)}
+
+/* caixinha */
+.box{background:var(--card);border-block:1px solid var(--line)}
+.box .w{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center}
+.box .pic{aspect-ratio:1/1.05;overflow:hidden}
+.box .pic img{width:100%;height:100%;object-fit:cover}
+.box ul{list-style:none;padding:0;margin:26px 0 0;color:var(--ink2)}
+.box li{padding:12px 0;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px}
+.box li span:last-child{font-family:var(--type);font-size:14px;color:var(--ink)}
+.toggle{display:flex;align-items:center;gap:14px;margin-top:26px;cursor:pointer;user-select:none}
+.toggle input{appearance:none;width:52px;height:30px;border-radius:15px;background:var(--line);position:relative;transition:.25s;flex:none;margin:0;cursor:pointer}
+.toggle input::after{content:"";position:absolute;left:3px;top:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:.25s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.toggle input:checked{background:var(--berry)}
+.toggle input:checked::after{left:25px}
+@media(max-width:860px){.box .w{grid-template-columns:1fr;gap:36px}}
+
+/* chá */
+.cha{background:var(--wine);color:#f6e7ea}
+.cha .w{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.cha .eyebrow{color:#f2a7bf}
+.cha h2 i{color:#f7b6c9}
+.cha p.l{color:#e2c4cb;margin-top:22px;max-width:470px}
+.steps{list-style:none;margin:36px 0 0;padding:0;counter-reset:s}
+.steps li{display:grid;grid-template-columns:52px 1fr;padding:18px 0;border-top:1px solid rgba(255,255,255,.14);counter-increment:s}
+.steps li::before{content:"0" counter(s);font:italic 400 26px/1 var(--serif);color:#f2a7bf}
+.steps b{display:block;font-weight:400;color:#fff}
+.steps span{font-size:15px;color:#d4b1ba}
+.list{background:#fbf7f3;color:var(--ink);padding:34px 30px 30px;position:relative;transform:rotate(-1.2deg);box-shadow:0 40px 60px -30px rgba(0,0,0,.6)}
+.list::before{content:"";position:absolute;inset:10px;border:1px solid var(--line);pointer-events:none}
+.list .t{text-align:center}
+.list .t small{font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--mute)}
+.list .t h3{font-size:40px;margin-top:6px}
+.list .t p{font:italic 400 17px var(--serif);color:var(--ink2)}
+.list table{width:100%;border-collapse:collapse;margin-top:22px;font-size:14px}
+.list td{padding:10px 2px;border-top:1px solid var(--line)}
+.list td:first-child{font-family:var(--type);font-size:12px;color:var(--berry);width:56px}
+.list td:last-child{text-align:right;font-size:12px;letter-spacing:.04em}
+.list .got td:nth-child(2){color:var(--mute);text-decoration:line-through;text-decoration-color:var(--rose)}
+.list .who{color:var(--berry);font:italic 400 15px var(--serif)}
+@media(max-width:860px){.cha .w{grid-template-columns:1fr;gap:48px}.list{padding:30px 20px 24px}}
+
+/* cartão */
+.card-sec .w{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center}
+.gift{position:relative;max-width:500px}
+.gift .bg{position:absolute;inset:-6% -4% auto auto;width:62%;aspect-ratio:1;overflow:hidden;border-radius:4px;opacity:.95}
+.gift .bg img{width:100%;height:100%;object-fit:cover}
+.gift{perspective:1200px}
+.gift .flip{position:relative;margin-top:22%;width:88%;aspect-ratio:1.45/1;transform-style:preserve-3d;transform:rotateY(180deg) rotateZ(-4deg);transition:transform 1.4s cubic-bezier(.3,1.3,.4,1) .2s}
+.gift.in .flip{transform:rotateY(0) rotateZ(-2deg)}
+.gift .back{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:rotateY(180deg);background:var(--berry);display:grid;place-items:center;color:#fff;font:italic 500 40px var(--serif);box-shadow:0 30px 50px -30px rgba(43,22,32,.45)}
+.gift .c{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:#fffdfa;border:1px solid var(--line);padding:26px 28px;display:flex;flex-direction:column;box-shadow:0 30px 50px -30px rgba(43,22,32,.45)}
+.gift .bg{transform:translateZ(-1px)}
+.gift .to{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--mute)}
+.gift .msg{font:italic 400 clamp(21px,3.4vw,29px)/1.2 var(--serif);margin:auto 0;white-space:pre-wrap;word-break:break-word}
+.gift .from{font-size:13px;color:var(--ink2);text-align:right}
+.form{display:grid;gap:14px}
+.form label{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.form input,.form textarea{width:100%;background:transparent;border:0;border-bottom:1px solid var(--ink2);padding:10px 0 12px;font-size:18px;font-weight:300;resize:none;border-radius:0}
+.form input:focus,.form textarea:focus{outline:0;border-color:var(--berry)}
+.form .count{font-size:12px;color:var(--mute);text-align:right;margin-top:-8px}
+@media(max-width:860px){.card-sec .w{grid-template-columns:1fr;gap:40px}}
+
+.faq .w{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px}
+details{border-top:1px solid var(--line)}
+details:last-child{border-bottom:1px solid var(--line)}
+summary{list-style:none;cursor:pointer;padding:22px 0;font:400 24px/1.2 var(--serif);display:flex;justify-content:space-between;gap:18px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font:300 26px/1 var(--sans);color:var(--berry);transition:transform .25s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{padding:0 0 22px;color:var(--ink2);max-width:560px}
+@media(max-width:860px){.faq .w{grid-template-columns:1fr;gap:28px}}
+
+.end{text-align:center;padding:110px 0 130px;background:radial-gradient(ellipse at 50% 110%,var(--blush),transparent 60%)}
+.end h2{font-size:clamp(46px,9vw,96px)}
+.end p{color:var(--ink2);margin:20px auto 0;max-width:420px}
+.end .cta{justify-content:center}
+footer{border-top:1px solid var(--line);padding:30px 0 110px;font-size:13px;color:var(--mute)}
+footer .w{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* sacola */
+.dock{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:50;display:flex;align-items:center;gap:12px;background:var(--ink);color:var(--paper);padding:10px 10px 10px 20px;border-radius:999px;box-shadow:0 20px 40px -14px rgba(43,22,32,.6);transform:translateY(160%);transition:transform .45s cubic-bezier(.2,.8,.2,1);max-width:560px;margin:0 auto}
+.dock.on{transform:none}
+.dock .info{flex:1;min-width:0;font-size:13px;line-height:1.3}
+.dock .info b{display:block;font:500 20px/1.1 var(--serif)}
+.dock button{height:46px;padding:0 20px;border-radius:999px;background:var(--berry);color:#fff;font-size:14px;white-space:nowrap}
+.sheet{position:fixed;inset:0;z-index:80;display:flex;align-items:flex-end;justify-content:center;background:rgba(43,22,32,.45);opacity:0;pointer-events:none;transition:opacity .3s}
+.sheet.on{opacity:1;pointer-events:auto}
+.sheet .in{position:relative;background:var(--paper);width:100%;max-width:560px;max-height:88vh;overflow:auto;padding:26px 22px calc(24px + env(safe-area-inset-bottom,0px));border-radius:22px 22px 0 0;transform:translateY(30px);transition:transform .35s}
+.sheet.on .in{transform:none}
+.sheet h3{font-size:36px}
+.sheet .x{position:absolute;right:18px;top:16px;font-size:28px;line-height:1;color:var(--ink2)}
+.row{display:grid;grid-template-columns:52px 1fr auto;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line);font-size:15px}
+.row img{width:52px;height:64px;object-fit:cover}
+.row small{color:var(--mute);display:block;font-family:var(--type);font-size:12px}
+.row .q{display:flex;align-items:center;gap:10px}
+.row .q button{width:30px;height:30px;border:1px solid var(--line);border-radius:50%}
+.seg{display:flex;border:1px solid var(--line);border-radius:999px;padding:4px;margin:18px 0}
+.seg button{flex:1;height:40px;border-radius:999px;font-size:14px;color:var(--ink2)}
+.seg button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.total{display:flex;justify-content:space-between;align-items:baseline;padding:16px 0;border-top:1px solid var(--ink)}
+.total b{font:500 30px var(--serif)}
+.wa{width:100%;height:56px;border-radius:999px;background:var(--berry);color:#fff;display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;font-size:15px}
+.wa svg{width:20px;height:20px}
+.wa[aria-disabled=true]{opacity:.4;pointer-events:none}
+.prev{margin-top:14px;font:12px/1.5 var(--type);background:#fff;border:1px solid var(--line);padding:12px 14px;white-space:pre-wrap;color:var(--ink2)}
+.prev b{display:block;font:500 10px var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--mute);margin-bottom:6px}
+
+.rv{opacity:0;transform:perspective(900px) translate3d(0,34px,0) rotateX(14deg);transform-origin:50% 100%;transition:opacity .9s ease,transform 1s cubic-bezier(.2,.7,.2,1)}
+.grid .rv:nth-child(3n+2){transition-delay:.08s}.grid .rv:nth-child(3n){transition-delay:.16s}
+.rv.in{opacity:1;transform:none}
+.list{transition:transform .2s linear}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.top{background:var(--paper)}}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}.gift .flip{transform:none;transition:none}.stage .rig,.ph{transform:none!important}.ribbon div,.etq{animation:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<div class="demo">Demonstração feita pela <a href="https://mydevhub.club">My Dev Hub</a> para a Elegance · preços ilustrativos</div>
+
+<header class="top" id="top">
+  <div class="w">
+    <a class="logo" href="#"><b>Elegance</b><small>Intimates · Itumbiara</small></a>
+    <nav><a href="#pecas">Peças</a><a href="#caixinha">Caixinha</a><a href="#cha">Chá de lingerie</a><a href="#cartao">Cartão</a></nav>
+    <button class="bagbtn" id="bagTop" aria-label="Abrir sacola">Sacola <span id="bagN">0</span></button>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="w">
+    <div>
+      <p class="eyebrow">Presentes de fim de ano</p>
+      <h1>Nem todo presente<i>vem embrulhado.</i></h1>
+      <p class="lead">Escolha a peça pela etiqueta, peça a caixinha e escreva o cartão. A gente separa tudo e confirma com você no WhatsApp.</p>
+      <div class="cta">
+        <a class="btn p" href="#pecas">Ver as peças</a>
+        <a class="btn g" href="#cha">Chá de lingerie</a>
+      </div>
+      <div class="deadline"><b id="days">--</b><div class="sep"></div><div>dias para o Natal.<br>Retirada na loja até 23/12.</div></div>
+    </div>
+    <div class="stage" aria-hidden="true">
+      <div class="rig" id="rig">
+        <div class="glow"></div>
+        <div class="arch"><img id="heroImg" src="img/caixinha.jpg" alt="" fetchpriority="high"></div>
+        <div class="polaroid"><img src="img/cerejas.jpg" alt=""><span>com carinho, Elegance</span></div>
+        <div class="chip">EL-CX<b>Caixinha pronta</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="ribbon" aria-hidden="true"><div>
+  Caixinha pronta para presentear <span>✦</span> Troca de tamanho garantida <span>✦</span> Retirada na loja ou entrega em Itumbiara <span>✦</span> Pix ou cartão <span>✦</span>
+  Caixinha pronta para presentear <span>✦</span> Troca de tamanho garantida <span>✦</span> Retirada na loja ou entrega em Itumbiara <span>✦</span> Pix ou cartão <span>✦</span>
+</div></div>
+
+<section id="pecas">
+  <div class="w">
+    <div class="head rv">
+      <div><p class="eyebrow">A vitrine</p><h2>Escolha pela <i>etiqueta</i></h2></div>
+      <p class="sub">Cada peça tem seu código. Ele vai junto no pedido, então a loja sabe exatamente o que você escolheu, no tamanho certo.</p>
+    </div>
+    <div class="filters" role="group" aria-label="Filtrar">
+      <button aria-pressed="true" data-f="all">Tudo</button>
+      <button aria-pressed="false" data-f="conjunto">Conjuntos</button>
+      <button aria-pressed="false" data-f="camisola">Camisolas</button>
+      <button aria-pressed="false" data-f="mimo">Mimos</button>
+    </div>
+    <div class="grid" id="grid"></div>
+    <p class="note">Fotos do Instagram da Elegance. Preços de exemplo, só para a demonstração.</p>
+  </div>
+</section>
+
+<section class="box" id="caixinha">
+  <div class="w">
+    <div class="pic rv"><img src="img/caixinha.jpg" alt="Caixinha Elegance aberta com a peça embrulhada em papel de seda" loading="lazy"></div>
+    <div class="rv">
+      <p class="eyebrow">Embalagem</p>
+      <h2>Vai na <i>caixinha</i></h2>
+      <p style="color:var(--ink2);margin-top:20px;max-width:440px">Caixa kraft com papel de seda, adesivo da loja e o cartão escrito à mão. Chega pronta para entregar.</p>
+      <ul>
+        <li><span>Caixinha + papel de seda</span><span>EL-CX · R$ 19</span></li>
+        <li><span>Cartão escrito à mão</span><span>incluso</span></li>
+        <li><span>Sachê perfumado</span><span>incluso</span></li>
+      </ul>
+      <label class="toggle"><input type="checkbox" id="boxI" checked><span>Embalar meu pedido na caixinha</span></label>
+    </div>
+  </div>
+</section>
+
+<section class="cha" id="cha">
+  <div class="w">
+    <div class="rv">
+      <p class="eyebrow">Para noivas</p>
+      <h2>Chá de <i>lingerie</i></h2>
+      <p class="l">A noiva escolhe as peças, as convidadas reservam pelo código e ninguém dá presente repetido. Tudo embalado com o nome de quem deu.</p>
+      <ol class="steps">
+        <li><div><b>A noiva monta a lista</b><span>Na loja ou pelo WhatsApp, com tamanho e cor de cada peça.</span></div></li>
+        <li><div><b>As convidadas recebem o link</b><span>Cada uma escolhe um código e paga direto com a loja.</span></div></li>
+        <li><div><b>A Elegance embala tudo</b><span>Cada presente com o nome de quem deu, pronto para a brincadeira.</span></div></li>
+      </ol>
+      <div class="cta"><a class="btn p" id="chaBtn" href="#" target="_blank" rel="noopener">Quero organizar meu chá</a></div>
+    </div>
+    <div class="list rv" aria-label="Exemplo de lista do Chá de lingerie">
+      <div class="t"><small>Lista do chá · exemplo</small><h3>Mariana &amp; Lucas</h3><p>sábado, 13 de dezembro</p></div>
+      <table id="chaList"></table>
+    </div>
+  </div>
+</section>
+
+<section class="card-sec" id="cartao">
+  <div class="w">
+    <div class="rv">
+      <p class="eyebrow">Toque final</p>
+      <h2>Escreva o <i>cartão</i></h2>
+      <p style="color:var(--ink2);margin:20px 0 32px;max-width:420px">A loja escreve sua mensagem à mão no cartão da caixinha. Digite aqui e ela segue junto com o pedido.</p>
+      <div class="form">
+        <label for="toI">Para</label>
+        <input id="toI" maxlength="30" placeholder="Nome de quem recebe" autocomplete="off">
+        <label for="msgI">Mensagem</label>
+        <textarea id="msgI" rows="3" maxlength="140" placeholder="Feliz Natal, meu amor."></textarea>
+        <div class="count"><span id="cnt">0</span>/140</div>
+        <label for="fromI">De</label>
+        <input id="fromI" maxlength="30" placeholder="Seu nome" autocomplete="off">
+      </div>
+    </div>
+    <div class="gift rv" aria-live="polite">
+      <div class="bg"><img src="img/vela.jpg" alt="" loading="lazy"></div>
+      <div class="flip"><div class="back">Elegance</div><div class="c">
+        <div class="to">Para <span id="toO">você</span></div>
+        <div class="msg" id="msgO">Feliz Natal, meu amor.</div>
+        <div class="from">com carinho, <span id="fromO">…</span></div>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="duvidas">
+  <div class="w">
+    <div class="rv"><p class="eyebrow">Dúvidas</p><h2>Antes de <i>pedir</i></h2></div>
+    <div class="rv">
+      <details open><summary>E se o tamanho não servir?</summary><p>Troca garantida em até 30 dias, com a peça sem uso e com etiqueta. É só trazer na loja ou chamar no WhatsApp.</p></details>
+      <details><summary>Vocês entregam?</summary><p>Entregamos em Itumbiara e você também pode retirar na loja. Para outras cidades, o envio é combinado na conversa.</p></details>
+      <details><summary>Como pago?</summary><p>Pix ou cartão. O pedido é confirmado pelo WhatsApp e as peças ficam separadas no seu nome.</p></details>
+      <details><summary>A embalagem é discreta?</summary><p>Sim. Por fora é uma caixa kraft simples, sem nada escrito. A surpresa fica do lado de dentro.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="end">
+  <div class="w rv">
+    <p class="eyebrow">Elegance Intimates</p>
+    <h2>Ela vai <i>amar</i> abrir.</h2>
+    <p>Separe a peça agora e retire quando quiser até o dia 23.</p>
+    <div class="cta"><a class="btn p" href="#pecas">Escolher presente</a></div>
+  </div>
+</section>
+</main>
+
+<footer><div class="w"><span>Elegance Intimates · Itumbiara, GO</span><span>Página demonstrativa por <a href="https://mydevhub.club">My Dev Hub</a></span></div></footer>
+
+<div class="dock" id="dock" aria-live="polite">
+  <div class="info"><b id="dockT">R$ 0</b><span id="dockN">0 peças</span></div>
+  <button id="dockB">Revisar pedido</button>
+</div>
+
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="shT">
+  <div class="in">
+    <button class="x" id="shX" aria-label="Fechar">×</button>
+    <p class="eyebrow">Sua sacola</p>
+    <h3 id="shT">Pedido</h3>
+    <div id="rows" style="margin-top:16px"></div>
+    <div class="seg" role="group" aria-label="Como receber">
+      <button aria-pressed="true" data-r="Retirar na loja">Retirar na loja</button>
+      <button aria-pressed="false" data-r="Entrega em Itumbiara">Entrega</button>
+    </div>
+    <div class="total"><span>Total</span><b id="tot">R$ 0</b></div>
+    <a class="wa" id="wa" href="#" target="_blank" rel="noopener"></a>
+    <div class="prev"><b>A loja vai receber assim</b><span id="prev"></span></div>
+  </div>
+</div>
+
+<script>
+const PHONE="5564996684862";
+const WA_ICON='<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.4.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>';
+const $=id=>document.getElementById(id);
+const brl=v=>"R$ "+v.toLocaleString("pt-BR");
+const BOX=19;
+
+const P=[
+  {c:"EL-01",n:"Conjunto renda vermelha",t:"Sutiã + calcinha",cat:"conjunto",p:119,img:"vermelho",sz:["P","M","G","GG"],flag:"Natal"},
+  {c:"EL-02",n:"Conjunto renda magenta",t:"Sutiã com aro + calcinha",cat:"conjunto",p:129,img:"magenta",sz:["P","M","G","GG"]},
+  {c:"EL-03",n:"Conjunto branco com cinta",t:"Sutiã + calcinha + cinta-liga",cat:"conjunto",p:159,img:"renda-branca",sz:["P","M","G"],flag:"Noivas"},
+  {c:"EL-04",n:"Camisola tule vermelha",t:"Renda e tule, curta",cat:"camisola",p:149,img:"camisola-vermelha",sz:["P","M","G","GG"]},
+  {c:"EL-05",n:"Camisola cetim creme",t:"Alcinha fina, barra de renda",cat:"camisola",p:139,img:"camisola-creme",sz:["P","M","G","GG"]},
+  {c:"EL-06",n:"Vela para massagem",t:"Aroma frutas vermelhas",cat:"mimo",p:59,img:"vela",sz:["Único"]}
+];
+const pick={};P.forEach(x=>pick[x.c]=x.sz.includes("M")?"M":x.sz[0]);
+const state={bag:{},recv:"Retirar na loja"};
+
+function renderGrid(f="all"){
+  $("grid").innerHTML=P.filter(x=>f==="all"||x.cat===f).map(x=>`
+  <article class="prod tilt rv">
+    <div class="ph">
+      <div class="im"><img src="img/${x.img}.jpg" alt="${x.n}" loading="lazy" decoding="async"></div>
+      <div class="gl"></div>
+      <div class="etqz"><div class="etq" aria-hidden="true"><span class="c">${x.c}</span><span class="t">${x.n}</span><span class="v">${brl(x.p)}</span></div></div>
+      ${x.flag?`<span class="flag">${x.flag}</span>`:""}
+    </div>
+    <div class="pi">
+      <h3>${x.n}</h3><p>${x.t}</p>
+      <div class="sizes" role="group" aria-label="Tamanho de ${x.n}">${x.sz.map(s=>`<button data-k="${x.c}" data-s="${s}" aria-pressed="${pick[x.c]===s}">${s}</button>`).join("")}</div>
+      <button class="add" data-add="${x.c}"><span>Adicionar</span><b>${brl(x.p)}</b></button>
+    </div>
+  </article>`).join("");
+  observe();
+}
+
+function items(){return Object.entries(state.bag).filter(([,q])=>q>0).map(([key,q])=>{const [c,s]=key.split("|");return{key,x:P.find(p=>p.c===c),s,q}})}
+function card(){return{to:$("toI").value.trim(),msg:$("msgI").value.trim(),from:$("fromI").value.trim()}}
+const wa=t=>`https://wa.me/${PHONE}?text=${encodeURIComponent(t)}`;
+
+function update(){
+  const it=items(),n=it.reduce((a,b)=>a+b.q,0),box=$("boxI").checked&&n>0;
+  const t=it.reduce((a,b)=>a+b.q*b.x.p,0)+(box?BOX:0);
+  $("bagN").textContent=n;$("dockT").textContent=brl(t);$("dockN").textContent=n+(n===1?" peça":" peças")+(box?" + caixinha":"");
+  $("dock").classList.toggle("on",n>0);$("tot").textContent=brl(t);
+  $("rows").innerHTML=it.length?it.map(i=>`<div class="row"><img src="img/${i.x.img}.jpg" alt=""><div>${i.x.n}<small>${i.x.c} · tam. ${i.s} · ${brl(i.x.p)}</small></div><div class="q"><button data-q="${i.key}" data-d="-1" aria-label="Menos">−</button>${i.q}<button data-q="${i.key}" data-d="1" aria-label="Mais">+</button></div></div>`).join("")+(box?`<div class="row"><img src="img/caixinha.jpg" alt=""><div>Caixinha presente<small>EL-CX · ${brl(BOX)}</small></div><div></div></div>`:""):`<p style="color:var(--mute);padding:14px 0">Sua sacola está vazia.</p>`;
+  const c=card();
+  let m="Oi, Elegance! Vi a página de presentes e quero:\n"+it.map(i=>`• ${i.x.c} · ${i.x.n} · tam. ${i.s} · ${i.q}x ${brl(i.x.p)}`).join("\n");
+  if(box)m+=`\n• EL-CX · Caixinha presente · ${brl(BOX)}`;
+  m+=`\nTotal: ${brl(t)}\nRecebimento: ${state.recv}`;
+  if(c.msg)m+=`\n\nCartão${c.to?" para "+c.to:""}: "${c.msg}"${c.from?" (de "+c.from+")":""}`;
+  $("prev").textContent=m;
+  $("wa").href=wa(m);$("wa").innerHTML=WA_ICON+"Enviar pedido no WhatsApp";$("wa").setAttribute("aria-disabled",String(!n));
+}
+
+document.addEventListener("click",e=>{
+  const s=e.target.closest("[data-s]");if(s){pick[s.dataset.k]=s.dataset.s;s.parentElement.querySelectorAll("[data-s]").forEach(b=>b.setAttribute("aria-pressed",b===s));return}
+  const a=e.target.closest("[data-add]");if(a){const c=a.dataset.add,key=c+"|"+pick[c];state.bag[key]=(state.bag[key]||0)+1;update();const l=a.firstElementChild;l.textContent="Na sacola ✓";a.classList.add("ok");clearTimeout(a._t);a._t=setTimeout(()=>{l.textContent="Adicionar";a.classList.remove("ok")},1400);return}
+  const q=e.target.closest("[data-q]");if(q){state.bag[q.dataset.q]=Math.max(0,(state.bag[q.dataset.q]||0)+ +q.dataset.d);update();return}
+  const r=e.target.closest("[data-r]");if(r){state.recv=r.dataset.r;r.parentElement.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b===r));update();return}
+  const f=e.target.closest("[data-f]");if(f){f.parentElement.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b===f));renderGrid(f.dataset.f);return}
+});
+const openSheet=()=>{update();$("sheet").classList.add("on")},closeSheet=()=>$("sheet").classList.remove("on");
+$("dockB").onclick=openSheet;$("bagTop").onclick=openSheet;$("shX").onclick=closeSheet;
+$("sheet").addEventListener("click",e=>{if(e.target.id==="sheet")closeSheet()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeSheet()});
+$("boxI").addEventListener("change",update);
+
+["toI","msgI","fromI"].forEach(id=>$(id).addEventListener("input",()=>{const c=card();$("toO").textContent=c.to||"você";$("msgO").textContent=c.msg||"Feliz Natal, meu amor.";$("fromO").textContent=c.from||"…";$("cnt").textContent=$("msgI").value.length;update()}));
+
+/* lista do chá (exemplo) usa os mesmos códigos */
+$("chaList").innerHTML=[["EL-03","Conjunto branco com cinta · M","Ana"],["EL-05","Camisola cetim creme · M","Tia Rô"],["EL-01","Conjunto renda vermelha · M",""],["EL-04","Camisola tule vermelha · M","Bia"],["EL-06","Vela para massagem",""],["EL-02","Conjunto renda magenta · M",""]]
+  .map(([c,n,w])=>`<tr class="${w?"got":""}"><td>${c}</td><td>${n}</td><td>${w?`<span class="who">${w}</span>`:"disponível"}</td></tr>`).join("");
+const cb=$("chaBtn");cb.innerHTML=WA_ICON+"Quero organizar meu chá";cb.href=wa("Oi, Elegance! Vi a página de presentes e quero organizar meu Chá de lingerie com vocês. Como funciona?");
+
+(()=>{const n=new Date(),x=new Date(n.getFullYear(),11,25);if(n>x)x.setFullYear(x.getFullYear()+1);$("days").textContent=Math.ceil((x-n)/864e5)})();
+
+/* movimento 3D: só transform, um único requestAnimationFrame, pausa fora da tela */
+const topEl=$("top"),rig=$("rig"),hi=$("heroImg"),list=document.querySelector(".list");
+const still=matchMedia("(prefers-reduced-motion:reduce)").matches,fine=matchMedia("(hover:hover) and (pointer:fine)").matches;
+let px=0,py=0,ticking=false;
+function frame(){
+  ticking=false;const y=scrollY,vh=innerHeight;
+  topEl.classList.toggle("s",y>8);
+  if(still)return;
+  if(y<vh*1.2){
+    const p=Math.min(1,y/vh);
+    rig.style.setProperty("--rx",(p*16-py*6).toFixed(2)+"deg");
+    rig.style.setProperty("--ry",(px*9+(fine?0:-p*8)).toFixed(2)+"deg");
+    rig.style.setProperty("--tz",(-p*120).toFixed(1)+"px");
+    hi.style.setProperty("--ix",(-px*10).toFixed(1)+"px");hi.style.setProperty("--iy",(y*.05-py*8).toFixed(1)+"px");
+  }
+  const r=list.getBoundingClientRect();
+  if(r.top<vh&&r.bottom>0){const k=(r.top+r.height/2-vh/2)/vh;list.style.transform=`perspective(1000px) rotateX(${(k*14).toFixed(2)}deg) rotateZ(${(-1.2+k*2).toFixed(2)}deg)`}
+}
+const req=()=>{if(!ticking){ticking=true;requestAnimationFrame(frame)}};
+addEventListener("scroll",req,{passive:true});addEventListener("resize",req);
+if(fine&&!still){
+  addEventListener("pointermove",e=>{px=e.clientX/innerWidth-.5;py=e.clientY/innerHeight-.5;req()},{passive:true});
+  /* inclinação das fotos com brilho */
+  $("grid").addEventListener("pointermove",e=>{
+    const pr=e.target.closest(".prod");if(!pr)return;const ph=pr.querySelector(".ph"),b=ph.getBoundingClientRect();
+    const x=(e.clientX-b.left)/b.width,yy=(e.clientY-b.top)/b.height;if(x<0||x>1||yy<0||yy>1)return;
+    pr.classList.add("hov");ph.style.setProperty("--ry",((x-.5)*14).toFixed(2)+"deg");ph.style.setProperty("--rx",((.5-yy)*12).toFixed(2)+"deg");
+    ph.style.setProperty("--gx",x*100+"%");ph.style.setProperty("--gy",yy*100+"%");
+  });
+  $("grid").addEventListener("pointerout",e=>{const pr=e.target.closest(".prod");if(pr&&!pr.contains(e.relatedTarget)){pr.classList.remove("hov");const ph=pr.querySelector(".ph");ph.style.setProperty("--rx","0deg");ph.style.setProperty("--ry","0deg")}});
+}
+/* celular: toque inclina a foto por um instante */
+if(!fine&&!still){
+  $("grid").addEventListener("touchstart",e=>{const pr=e.target.closest(".prod");if(!pr||!e.target.closest(".ph"))return;const ph=pr.querySelector(".ph"),b=ph.getBoundingClientRect(),t=e.touches[0];
+    const x=(t.clientX-b.left)/b.width,yy=(t.clientY-b.top)/b.height;ph.style.setProperty("--ry",((x-.5)*12)+"deg");ph.style.setProperty("--rx",((.5-yy)*10)+"deg");ph.style.setProperty("--gx",x*100+"%");ph.style.setProperty("--gy",yy*100+"%");pr.classList.add("hov");
+    clearTimeout(ph._t);ph._t=setTimeout(()=>{pr.classList.remove("hov");ph.style.setProperty("--rx","0deg");ph.style.setProperty("--ry","0deg")},650)},{passive:true});
+}
+req();
+
+let io;function observe(){io=io||new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.1});document.querySelectorAll(".rv:not(.in)").forEach(el=>io.observe(el))}
+renderGrid();update();
+</script>
+</body>
+</html>
