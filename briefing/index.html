@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Briefing do Site · My Dev Hub</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231646ff'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='5.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M24 20 12 32l12 12M40 20l12 12-12 12'/%3E%3C/g%3E%3C/svg%3E">
+<meta name="theme-color" content="#000000">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#000;--panel:#050912;--panel2:#091020;--line:#13233f;--blue:#1646ff;--neon:#1ad1ff;--white:#f4f8ff;--mut:#8da2c8;--ok:#2be6a0;--bad:#ff5d7a}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font:400 1rem/1.6 Manrope,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh;overflow-x:hidden}
+h1,h2,h3{font-family:Unbounded,system-ui,sans-serif;line-height:1.15;font-weight:700}
+a{color:var(--neon)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--neon);outline-offset:3px;border-radius:6px}
+[hidden]{display:none!important}
+.bgfx{position:fixed;inset:0;pointer-events:none;z-index:0}
+.bgfx:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(26,209,255,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(26,209,255,.09) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 10%,transparent 65%);mask-image:radial-gradient(ellipse at 50% 0%,#000 10%,transparent 65%)}
+.bgfx:after{content:"";position:absolute;width:70vmax;height:70vmax;left:50%;top:-30vmax;transform:translateX(-50%);background:radial-gradient(circle,rgba(22,70,255,.35),transparent 60%);filter:blur(30px)}
+#bar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--blue),var(--neon));box-shadow:0 0 14px var(--neon);z-index:50;transition:width .4s}
+.wrap{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:1.2rem 16px 6rem}
+header.top{display:flex;align-items:center;gap:.6rem;padding:.6rem 0 1.4rem}
+.logo{font:800 1rem Unbounded,system-ui,sans-serif;color:var(--white);text-decoration:none;display:flex;align-items:center;gap:.5rem}
+.logo b{display:inline-grid;place-items:center;width:1.9rem;height:1.9rem;border-radius:8px;background:var(--blue);box-shadow:0 0 16px rgba(26,209,255,.6)}
+.logo b svg{width:1.05rem;height:1.05rem}
+.step-tag{margin-left:auto;font-size:.8rem;color:var(--mut);font-weight:700;border:1px solid var(--line);border-radius:999px;padding:.25rem .7rem;background:rgba(5,9,18,.7)}
+.intro h1{font-size:clamp(1.6rem,6.5vw,2.4rem);letter-spacing:-.02em;text-shadow:0 0 30px rgba(26,209,255,.35)}
+.intro h1 span{color:var(--neon)}
+.intro p{color:var(--mut);margin-top:.8rem}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.1rem 0 0}
+.chip{font-size:.8rem;font-weight:700;padding:.35rem .7rem;border-radius:999px;border:1px solid var(--line);color:var(--mut);background:rgba(5,9,18,.7)}
+.chip b{color:var(--white)}
+.card{min-width:0;background:linear-gradient(180deg,rgba(9,16,32,.92),rgba(5,9,18,.92));border:1px solid var(--line);border-radius:18px;padding:1.4rem 1.2rem;margin-top:1.4rem;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.card h2{font-size:1.15rem;display:flex;gap:.6rem;align-items:center}
+.card h2 .n{display:inline-grid;place-items:center;min-width:2rem;height:2rem;border-radius:9px;background:rgba(22,70,255,.18);border:1px solid rgba(26,209,255,.35);color:var(--neon);font-size:.85rem}
+.card .sub{color:var(--mut);font-size:.9rem;margin:.5rem 0 .2rem}
+.f{margin-top:1.15rem}
+.f>label,.f>.lb{display:block;font-weight:700;font-size:.93rem;margin-bottom:.4rem}
+.f .req{color:var(--neon)}
+.f small{display:block;color:var(--mut);font-size:.8rem;margin:-.2rem 0 .45rem}
+input[type=text],input[type=tel],input[type=email],input[type=url],input[type=date],input[type=number],textarea,select{width:100%;background:#02050c;border:1px solid var(--line);color:var(--white);border-radius:11px;padding:.8rem .9rem;font:inherit;font-size:16px;transition:border-color .2s,box-shadow .2s}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--neon);box-shadow:0 0 0 3px rgba(26,209,255,.18)}
+textarea{min-height:96px;resize:vertical}
+.f.bad input,.f.bad textarea,.f.bad .opts{border-color:var(--bad)!important;box-shadow:0 0 0 3px rgba(255,93,122,.15)}
+.f .msg{color:var(--bad);font-size:.82rem;margin-top:.35rem;display:none}
+.f.bad .msg{display:block}
+.opts{display:grid;gap:.5rem;border-radius:12px}
+.opts.two{grid-template-columns:1fr 1fr}
+@media(max-width:420px){.opts.two{grid-template-columns:1fr}}
+.opt{display:flex;gap:.65rem;align-items:flex-start;padding:.7rem .85rem;border:1px solid var(--line);border-radius:11px;background:#02050c;cursor:pointer;transition:border-color .2s,background .2s;font-size:.93rem}
+.opt input{appearance:none;-webkit-appearance:none;flex:none;width:1.15rem;height:1.15rem;margin-top:.15rem;border:2px solid var(--mut);border-radius:5px;display:grid;place-items:center;background:transparent}
+.opt input[type=radio]{border-radius:50%}
+.opt input:checked{border-color:var(--neon);background:var(--neon);box-shadow:0 0 10px rgba(26,209,255,.6)}
+.opt input:checked:after{content:"";width:.4rem;height:.4rem;border-radius:2px;background:#001018}
+.opt:has(input:checked){border-color:rgba(26,209,255,.6);background:rgba(26,209,255,.07)}
+.terms{list-style:none;display:grid;gap:.55rem;margin-top:.9rem;counter-reset:t}
+.terms li{position:relative;padding:.75rem .85rem .75rem 2.6rem;border:1px solid var(--line);border-radius:11px;background:#02050c;font-size:.9rem;color:#d6e2fb;counter-increment:t}
+.terms li:before{content:counter(t);position:absolute;left:.8rem;top:.75rem;width:1.3rem;height:1.3rem;border-radius:6px;background:rgba(22,70,255,.25);color:var(--neon);font:700 .72rem Unbounded,sans-serif;display:grid;place-items:center}
+.terms b{color:var(--white)}
+.deal{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:1rem}
+.deal div{min-width:0;overflow-wrap:anywhere;border:1px solid var(--line);border-radius:12px;padding:.7rem .85rem;background:#02050c}
+.deal div.full{grid-column:1/-1}
+.deal span{display:block;font-size:.75rem;color:var(--mut);font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.deal strong{font-size:1rem}
+.deal strong.big{font:700 clamp(1rem,4.6vw,1.35rem) Unbounded,sans-serif;color:var(--neon)}
+.nav{display:flex;gap:.6rem;margin-top:1.5rem}
+.btn{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.9rem 1.1rem;border-radius:12px;border:1px solid var(--neon);background:var(--neon);color:#001018;font-weight:800;font-size:1rem;cursor:pointer;text-decoration:none;transition:box-shadow .2s,transform .2s}
+.btn:hover{box-shadow:0 0 0 3px rgba(26,209,255,.2),0 0 26px rgba(26,209,255,.55)}
+.btn.ghost{background:transparent;color:var(--white);border-color:var(--line);flex:0 0 auto}
+.btn.wa{background:#25d366;border-color:#25d366;color:#04210f}
+.btn svg{width:1.2em;height:1.2em}
+.saved{font-size:.78rem;color:var(--mut);text-align:center;margin-top:.8rem}
+.done{text-align:center}
+.done .ok{width:64px;height:64px;margin:0 auto 1rem;border-radius:18px;display:grid;place-items:center;background:rgba(43,230,160,.12);border:1px solid rgba(43,230,160,.5);color:var(--ok);font-size:2rem}
+.done p{color:var(--mut);margin-top:.6rem}
+.done .col{display:grid;gap:.6rem;margin-top:1.3rem}
+pre.out{white-space:pre-wrap;text-align:left;font:500 .8rem/1.5 ui-monospace,Menlo,monospace;background:#02050c;border:1px solid var(--line);border-radius:12px;padding:1rem;margin-top:1rem;max-height:340px;overflow:auto;color:#cfdcf7}
+.foot{text-align:center;color:var(--mut);font-size:.78rem;margin-top:2rem}
+/* gerador de link (uso do João) */
+.gen .f{margin-top:.8rem}
+.gen .row{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.gen textarea{min-height:70px;font-size:.85rem}
+@media print{
+  body{background:#fff;color:#000}
+  .bgfx,#bar,.nav,.saved,.done .col,.done .ok,header.top .step-tag{display:none!important}
+  .card{border:1px solid #ccc;box-shadow:none;background:#fff}
+  pre.out{max-height:none;border:none;color:#000;font-size:10pt}
+}
+</style>
+</head>
+<body>
+<div class="bgfx" aria-hidden="true"></div>
+<div id="bar"></div>
+<main class="wrap">
+  <header class="top">
+    <a class="logo" href="/"><b><svg viewBox="0 0 64 64" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M24 20 12 32l12 12M40 20l12 12-12 12"/></svg></b>My Dev Hub</a>
+    <span class="step-tag" id="tag">Briefing</span>
+  </header>
+  <div id="app"></div>
+  <p class="foot">My Dev Hub · Ideias que viram códigos · João Pedro Félix</p>
+</main>
+
+<script>
+/* ===== Configuração ===== */
+const WHATS = '5564992718193';           // WhatsApp que recebe o briefing
+const KEY = 'mdh-briefing-v1';           // rascunho salvo no aparelho do cliente
+
+/* Dados do acordo vêm pelo link: /briefing/?nome=...&plano=...&valor=...  (use /briefing/#gerar para montar) */
+const Q = new URLSearchParams(location.search);
+const DEAL = {
+  nome:   Q.get('nome')   || '',
+  plano:  Q.get('plano')  || '',
+  valor:  Q.get('valor')  || '',
+  pag:    Q.get('pag')    || '50% de entrada para iniciar + 50% na entrega, antes da publicação',
+  mensal: Q.get('mensal') || '',
+  dominio:Q.get('dominio')|| '',
+  prazo:  Q.get('prazo')  || '7 a 10 dias úteis após receber todo o material',
+  esboco: Q.get('esboco') || '3 dias úteis',
+  rev:    Q.get('rev')    || '2',
+  obs:    Q.get('obs')    || ''
+};
+const brl = v => { if(!v) return ''; const n = Number(String(v).replace(/\./g,'').replace(',','.')); return isNaN(n) ? v : n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); };
+
+/* ===== Perguntas ===== */
+const STEPS = [
+ { t:'Sobre você e o negócio', s:'Quem é você e o que o seu negócio faz.', f:[
+   {id:'resp', l:'Seu nome completo', req:1, ph:'Nome e sobrenome', val:()=>DEAL.nome},
+   {id:'doc', l:'CPF ou CNPJ', h:'Usado só para o recibo e para registrar o domínio no seu nome.', ph:'000.000.000-00'},
+   {id:'negocio', l:'Nome do negócio (como deve aparecer no site)', req:1},
+   {id:'ramo', l:'Ramo / o que você vende ou faz', req:1, ph:'Ex.: arquitetura, hamburgueria, moda íntima'},
+   {id:'cidade', l:'Cidade / estado', req:1},
+   {id:'whats', l:'WhatsApp para contato', type:'tel', req:1, ph:'(64) 9 0000-0000'},
+   {id:'email', l:'E-mail', type:'email'},
+   {id:'insta', l:'Instagram do negócio', ph:'@seuperfil'},
+   {id:'sobre', l:'Conte em poucas linhas a história do negócio', type:'area', req:1, ph:'Como começou, há quanto tempo, o que te diferencia...'},
+   {id:'difer', l:'Por que o cliente deveria escolher você e não o concorrente?', type:'area'}
+ ]},
+ { t:'Objetivo do site', s:'O que o site precisa fazer por você.', f:[
+   {id:'objetivo', l:'Qual o principal objetivo do site?', type:'radio', req:1, o:['Vender / receber pedidos pelo WhatsApp','Mostrar meu trabalho (portfólio)','Gerar orçamentos e contatos','Agendamentos','Passar credibilidade / informar','Outro']},
+   {id:'acao', l:'Quando alguém entrar no site, o que você mais quer que essa pessoa faça?', req:1, ph:'Ex.: me chamar no WhatsApp pedindo orçamento'},
+   {id:'publico', l:'Quem é o seu cliente ideal?', type:'area', req:1, ph:'Idade, região, estilo, poder de compra, o que procura...'},
+   {id:'concorr', l:'Concorrentes ou perfis que você admira', h:'Nome, @ ou link. Ajuda a entender o mercado.', type:'area'}
+ ]},
+ { t:'Páginas e conteúdo do site', s:'Marque o que o seu site precisa ter.', f:[
+   {id:'secoes', l:'Seções do site', type:'check', req:1, cols:2, o:['Início (capa)','Sobre mim / a empresa','Serviços','Produtos / catálogo','Portfólio / galeria de fotos','Depoimentos de clientes','Perguntas frequentes','Localização / mapa','Contato / WhatsApp','Agendamento','Redes sociais','Outra']},
+   {id:'itens', l:'Quantos produtos, serviços ou projetos vão aparecer (aproximadamente)?', ph:'Ex.: 8 projetos, 30 produtos'},
+   {id:'extras', l:'Precisa de algo a mais?', h:'Ex.: botão de pedido com carrinho, formulário, área de cupons, vídeo, mais de um idioma.', type:'area'}
+ ]},
+ { t:'Visual e identidade', s:'O jeito que o site vai ter.', f:[
+   {id:'logo', l:'Você já tem logo?', type:'radio', req:1, cols:2, o:['Sim, tenho em boa qualidade','Tenho, mas em baixa qualidade','Não tenho']},
+   {id:'cores', l:'Cores da marca (ou cores que você gosta)', ph:'Ex.: preto, dourado e branco'},
+   {id:'evitar', l:'Alguma cor ou estilo que você NÃO quer?'},
+   {id:'estilo', l:'Qual estilo combina mais com o seu negócio?', type:'check', cols:2, o:['Moderno','Elegante / sofisticado','Minimalista / clean','Colorido / divertido','Rústico / artesanal','Tecnológico','Feminino / delicado','Forte / impactante']},
+   {id:'refs', l:'Sites ou perfis de referência que você gosta', h:'Cole os links e diga o que gostou em cada um.', type:'area'}
+ ]},
+ { t:'Material que você vai enviar', s:'O site é montado com o seu material. O prazo começa a contar quando tudo chegar.', f:[
+   {id:'material', l:'O que você consegue me enviar?', type:'check', req:1, o:['Logo (PNG ou PDF)','Fotos dos produtos / serviços / projetos','Fotos suas, da equipe ou do espaço','Textos (sobre, serviços, descrições)','Lista de produtos ou serviços com preços','Endereço e horário de funcionamento','Depoimentos de clientes','Links das redes sociais']},
+   {id:'textos', l:'Quem vai escrever os textos do site?', type:'radio', req:1, o:['Eu envio os textos prontos','Eu passo as informações e você escreve','Ainda não sei']},
+   {id:'fotos', l:'Suas fotos são próprias e com boa qualidade?', type:'radio', req:1, o:['Sim, todas próprias','Algumas, vou precisar de imagens de banco','Não tenho fotos ainda']},
+   {id:'quando', l:'Até quando consegue enviar todo o material?', type:'date', req:1}
+ ]},
+ { t:'Domínio e endereço do site', s:'O domínio é o endereço, tipo seunegocio.com.br.', f:[
+   {id:'temdom', l:'Você já tem um domínio?', type:'radio', req:1, o:['Sim, já tenho','Não, quero que você registre no meu nome','Não sei o que é isso']},
+   {id:'dom1', l:'Qual endereço você gostaria? (1ª opção)', ph:'seunegocio.com.br'},
+   {id:'dom2', l:'2ª opção, caso a primeira esteja ocupada', ph:'seunegocioitumbiara.com.br'},
+   {id:'emailprof', l:'Quer e-mail profissional (contato@seunegocio.com.br)?', type:'radio', cols:2, o:['Sim, quero orçamento','Não preciso']}
+ ]},
+ { t:'Acordo e regras do projeto', s:'Leia com atenção. Isso protege você e eu.', deal:true, f:[
+   {id:'pagto', l:'Forma de pagamento preferida', type:'radio', req:1, cols:2, o:['Pix','Cartão (com taxa da maquininha)','Transferência','Outra']},
+   {id:'aceite', l:'Confirmação', type:'check', req:1, all:true, o:[
+     'Li e concordo com o valor, a forma de pagamento e o prazo acima.',
+     'Entendo que o prazo só começa após o pagamento da entrada e o envio de todo o material.',
+     'Entendo que estão inclusas as rodadas de ajustes acima e que mudanças fora do combinado são orçadas à parte.',
+     'Declaro que tenho direito de uso sobre as fotos, textos e logo que eu enviar.'
+   ]},
+   {id:'portf', l:'Autoriza que o site apareça no portfólio da My Dev Hub?', type:'radio', req:1, cols:2, o:['Sim, autorizo','Prefiro que não']},
+   {id:'obscli', l:'Alguma observação ou dúvida antes de começarmos?', type:'area'},
+   {id:'assin', l:'Assinatura: digite seu nome completo', req:1, h:'Vale como sua confirmação deste briefing, com data e hora do envio.'}
+ ]}
+];
+
+const TERMS = () => [
+ `<b>Início:</b> o projeto começa após o pagamento da entrada e o recebimento de todo o material listado no passo 5.`,
+ `<b>Esboço:</b> você recebe a primeira versão em até ${DEAL.esboco} para aprovar o visual antes da versão final.`,
+ `<b>Ajustes:</b> estão inclusas <b>${DEAL.rev} rodadas de ajustes</b> (textos, fotos, cores, ordem das seções). Pedidos novos ou mudança de escopo depois da aprovação são orçados à parte.`,
+ `<b>Prazo:</b> ${DEAL.prazo}. Atrasos no envio de material, respostas ou pagamentos adiam a entrega na mesma proporção.`,
+ `<b>Publicação:</b> o site vai ao ar após a quitação do valor total. Até lá ele fica num link de prévia.`,
+ `<b>Domínio:</b> registrado no nome e CPF/CNPJ do cliente${DEAL.dominio ? ` (${DEAL.dominio})` : ''}. O domínio é seu.`,
+ `<b>Manutenção:</b> ${DEAL.mensal ? `${brl(DEAL.mensal)}/mês, cobre hospedagem, segurança e pequenas atualizações. Pode ser cancelada com 30 dias de aviso.` : 'hospedagem e atualizações mensais são combinadas à parte, se você quiser.'}`,
+ `<b>Desistência:</b> se o cliente desistir após o início do esboço, a entrada não é devolvida, pois cobre o trabalho já feito.`,
+ `<b>Conteúdo:</b> fotos, textos e logo enviados são de responsabilidade do cliente, inclusive direitos de uso.`
+];
+
+/* ===== Estado ===== */
+let S = {step:-1, a:{}};
+try { const r = JSON.parse(localStorage.getItem(KEY)||'null'); if(r && r.a) S = r; } catch(e){}
+if(S.step >= STEPS.length) S.step = STEPS.length;
+STEPS.flatMap(s=>s.f).forEach(f=>{ if(f.val && !S.a[f.id] && f.val()) S.a[f.id]=f.val(); });
+const save = () => { try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} };
+const esc = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const app = document.getElementById('app'), bar = document.getElementById('bar'), tag = document.getElementById('tag');
+const WA_ICO = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.4-.5c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>';
+
+function field(f){
+  const v = S.a[f.id];
+  const lab = `${esc(f.l)}${f.req?' <span class="req">*</span>':''}`;
+  const hint = f.h ? `<small>${esc(f.h)}</small>` : '';
+  let inner;
+  if(f.type==='radio' || f.type==='check'){
+    const t = f.type==='radio'?'radio':'checkbox';
+    const sel = Array.isArray(v) ? v : (v?[v]:[]);
+    inner = `<div class="opts ${f.cols===2?'two':''}" role="group">${f.o.map(o=>`<label class="opt"><input type="${t}" name="${f.id}" value="${esc(o)}" ${sel.includes(o)?'checked':''}><span>${esc(o)}</span></label>`).join('')}</div>`;
+    return `<div class="f" data-id="${f.id}"><span class="lb">${lab}</span>${hint}${inner}<div class="msg">${f.all?'Marque todas as confirmações para continuar.':'Escolha pelo menos uma opção.'}</div></div>`;
+  }
+  if(f.type==='area') inner = `<textarea id="${f.id}" name="${f.id}" placeholder="${esc(f.ph||'')}">${esc(v||'')}</textarea>`;
+  else inner = `<input id="${f.id}" name="${f.id}" type="${f.type||'text'}" placeholder="${esc(f.ph||'')}" value="${esc(v||'')}" ${f.type==='tel'?'inputmode="tel" autocomplete="tel"':''} ${f.id==='resp'?'autocomplete="name"':''}>`;
+  return `<div class="f" data-id="${f.id}"><label for="${f.id}">${lab}</label>${hint}${inner}<div class="msg">Preencha este campo.</div></div>`;
+}
+
+function dealBox(){
+  const cells = [];
+  if(DEAL.plano) cells.push(`<div class="full"><span>Projeto</span><strong>${esc(DEAL.plano)}</strong></div>`);
+  if(DEAL.valor) cells.push(`<div><span>Valor do site</span><strong class="big">${esc(brl(DEAL.valor))}</strong></div>`);
+  if(DEAL.mensal) cells.push(`<div><span>Manutenção</span><strong class="big">${esc(brl(DEAL.mensal))}<small style="display:block;font:700 .72rem Manrope,sans-serif;color:var(--mut)">por mês</small></strong></div>`);
+  cells.push(`<div class="full"><span>Pagamento</span><strong>${esc(DEAL.pag)}</strong></div>`);
+  cells.push(`<div><span>Primeiro esboço</span><strong>${esc(DEAL.esboco)}</strong></div>`);
+  cells.push(`<div><span>Rodadas de ajustes</span><strong>${esc(DEAL.rev)} inclusas</strong></div>`);
+  cells.push(`<div class="full"><span>Prazo de entrega</span><strong>${esc(DEAL.prazo)}</strong></div>`);
+  if(DEAL.obs) cells.push(`<div class="full"><span>Combinado também</span><strong>${esc(DEAL.obs)}</strong></div>`);
+  return `<div class="deal">${cells.join('')}</div><ul class="terms">${TERMS().map(t=>`<li>${t}</li>`).join('')}</ul>`;
+}
+
+function render(){
+  window.scrollTo({top:0,behavior:'smooth'});
+  const n = STEPS.length;
+  bar.style.width = (S.step<0?0:Math.min(S.step,n)/n*100)+'%';
+  if(S.step<0){
+    tag.textContent='Briefing';
+    app.innerHTML = `<section class="intro">
+      <h1>Vamos tirar o seu site <span>do papel</span>${DEAL.nome?`, ${esc(DEAL.nome.split(' ')[0])}`:''}.</h1>
+      <p>Este briefing reúne tudo o que eu preciso para criar o seu site e deixa registrado o que combinamos. Leva uns <b style="color:#fff">10 minutos</b>, e você pode parar e voltar depois: as respostas ficam salvas neste aparelho.</p>
+      <div class="chips"><span class="chip"><b>7</b> etapas</span><span class="chip">Feito para celular</span><span class="chip">Envio direto no WhatsApp</span></div>
+    </section>
+    <div class="card"><h2><span class="n">✓</span>Como funciona</h2>
+      <ul class="terms" style="margin-top:1rem">
+        <li>Você responde sobre o seu negócio, o objetivo e o visual do site.</li>
+        <li>Diz quais materiais vai enviar (logo, fotos, textos).</li>
+        <li>Confere o valor, o prazo e as regras do projeto, e confirma.</li>
+        <li>Toca em <b>Enviar pelo WhatsApp</b> e a gente começa.</li>
+      </ul>
+      <div class="nav"><button class="btn" id="go">${Object.keys(S.a).length>2?'Continuar de onde parei':'Começar briefing'} →</button></div>
+    </div>`;
+    document.getElementById('go').onclick = ()=>{ S.step = Math.max(0, S.step); if(S.step<0) S.step=0; save(); render(); };
+    return;
+  }
+  if(S.step>=n){ renderDone(); return; }
+  const st = STEPS[S.step];
+  tag.textContent = `Etapa ${S.step+1} de ${n}`;
+  app.innerHTML = `<form class="card" id="frm" novalidate>
+    <h2><span class="n">${S.step+1}</span>${esc(st.t)}</h2><p class="sub">${esc(st.s)}</p>
+    ${st.deal?dealBox():''}
+    ${st.f.map(field).join('')}
+    <div class="nav">${S.step>0?'<button type="button" class="btn ghost" id="back">← Voltar</button>':''}
+    <button class="btn" type="submit">${S.step===n-1?'Revisar e enviar':'Próximo'} →</button></div>
+    <p class="saved">Suas respostas ficam salvas automaticamente neste aparelho.</p>
+  </form>`;
+  const frm = document.getElementById('frm');
+  frm.addEventListener('input', ()=>{ collect(st); save(); });
+  frm.addEventListener('change', ()=>{ collect(st); save(); });
+  const b = document.getElementById('back'); if(b) b.onclick = ()=>{ collect(st); S.step--; save(); render(); };
+  frm.onsubmit = e=>{ e.preventDefault(); collect(st); save(); if(validate(st)){ S.step++; save(); render(); } };
+}
+
+function collect(st){
+  st.f.forEach(f=>{
+    if(f.type==='radio'){ const c = app.querySelector(`input[name="${f.id}"]:checked`); S.a[f.id] = c?c.value:''; }
+    else if(f.type==='check'){ S.a[f.id] = [...app.querySelectorAll(`input[name="${f.id}"]:checked`)].map(i=>i.value); }
+    else { const el = document.getElementById(f.id); if(el) S.a[f.id] = el.value.trim(); }
+  });
+}
+function validate(st){
+  let first=null;
+  st.f.forEach(f=>{
+    const box = app.querySelector(`.f[data-id="${f.id}"]`); const v = S.a[f.id];
+    let ok = true;
+    if(f.req){ ok = Array.isArray(v) ? (f.all ? v.length===f.o.length : v.length>0) : !!v; }
+    if(ok && f.type==='email' && v) ok = /^\S+@\S+\.\S+$/.test(v);
+    box.classList.toggle('bad', !ok); if(!ok && !first) first = box;
+  });
+  if(first) first.scrollIntoView({behavior:'smooth',block:'center'});
+  return !first;
+}
+
+function fmtDate(d){ if(!d) return ''; const [y,m,dd]=d.split('-'); return `${dd}/${m}/${y}`; }
+function summary(){
+  const now = new Date();
+  const L = [];
+  L.push('*BRIEFING DO SITE · MY DEV HUB*');
+  L.push(`Enviado em ${now.toLocaleDateString('pt-BR')} às ${now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}`);
+  L.push('');
+  L.push('*ACORDO*');
+  if(DEAL.plano) L.push(`Projeto: ${DEAL.plano}`);
+  if(DEAL.valor) L.push(`Valor do site: ${brl(DEAL.valor)}`);
+  if(DEAL.mensal) L.push(`Manutenção: ${brl(DEAL.mensal)}/mês`);
+  L.push(`Pagamento: ${DEAL.pag}`);
+  L.push(`Esboço: ${DEAL.esboco} · Ajustes inclusos: ${DEAL.rev} rodadas`);
+  L.push(`Prazo: ${DEAL.prazo}`);
+  if(DEAL.obs) L.push(`Combinado também: ${DEAL.obs}`);
+  STEPS.forEach((st,i)=>{
+    L.push(''); L.push(`*${i+1}. ${st.t.toUpperCase()}*`);
+    st.f.forEach(f=>{
+      let v = S.a[f.id];
+      if(f.id==='aceite') { v = (v||[]).length===f.o.length ? 'Concordo com todas as regras do projeto ✔' : ''; }
+      else if(Array.isArray(v)) v = v.join(', ');
+      if(f.type==='date') v = fmtDate(v);
+      if(v) L.push(`• ${f.l.replace(/\?$/,'')}: ${v}`);
+    });
+  });
+  L.push(''); L.push('*REGRAS ACEITAS*');
+  TERMS().forEach((t,i)=>L.push(`${i+1}. ${t.replace(/<[^>]+>/g,'')}`));
+  return L.join('\n');
+}
+
+function renderDone(){
+  tag.textContent = 'Pronto!'; bar.style.width='100%';
+  const txt = summary();
+  const nome = (S.a.resp||'').split(' ')[0];
+  app.innerHTML = `<section class="card done">
+    <div class="ok">✓</div>
+    <h2 style="justify-content:center">Tudo certo${nome?', '+esc(nome):''}!</h2>
+    <p>Toque no botão abaixo para me enviar o briefing pelo WhatsApp. A mensagem já vai pronta, é só apertar enviar.</p>
+    <div class="col">
+      <a class="btn wa" id="send" href="https://wa.me/${WHATS}?text=${encodeURIComponent(txt)}" target="_blank" rel="noopener">${WA_ICO} Enviar pelo WhatsApp</a>
+      <button class="btn ghost" id="copy" style="flex:1">Copiar respostas</button>
+      <button class="btn ghost" id="pdf" style="flex:1">Salvar cópia em PDF</button>
+      <button class="btn ghost" id="edit" style="flex:1">← Revisar respostas</button>
+    </div>
+    <pre class="out">${esc(txt)}</pre>
+  </section>`;
+  document.getElementById('copy').onclick = async e=>{ try{ await navigator.clipboard.writeText(txt); e.target.textContent='Copiado ✓'; }catch(_){ e.target.textContent='Selecione o texto abaixo e copie'; } };
+  document.getElementById('pdf').onclick = ()=>window.print();
+  document.getElementById('edit').onclick = ()=>{ S.step = 0; save(); render(); };
+}
+
+/* ===== Gerador de link (uso interno): mydevhub.club/briefing/#gerar ===== */
+function renderGen(){
+  tag.textContent = 'Gerar link';
+  const F = [['nome','Nome do cliente','Ana Júlia Félix'],['plano','Projeto','Site portfólio de arquitetura'],['valor','Valor do site (R$)','397'],['mensal','Manutenção mensal (R$)','50'],['pag','Pagamento',DEAL.pag],['prazo','Prazo',DEAL.prazo],['esboco','Esboço',DEAL.esboco],['rev','Rodadas de ajustes',DEAL.rev],['dominio','Domínio',''],['obs','Combinado também','Domínio incluso no 1º ano']];
+  app.innerHTML = `<form class="card gen" id="g"><h2><span class="n">⚙</span>Gerar link do briefing</h2><p class="sub">Preencha o que foi combinado com o cliente e mande o link para ele.</p>
+    ${F.map(([k,l,ph])=>`<div class="f"><label for="g_${k}">${l}</label><input id="g_${k}" type="text" placeholder="${esc(ph)}" value="${['pag','prazo','esboco','rev'].includes(k)?esc(ph):''}"></div>`).join('')}
+    <div class="f"><label>Link para o cliente</label><textarea id="g_out" readonly></textarea></div>
+    <div class="nav"><button type="button" class="btn" id="g_copy">Copiar link</button><a class="btn wa" id="g_wa" target="_blank" rel="noopener">${WA_ICO} Mandar</a></div></form>`;
+  const upd = ()=>{
+    const p = new URLSearchParams();
+    F.forEach(([k])=>{ const v = document.getElementById('g_'+k).value.trim(); if(v && v!==({pag:DEAL.pag,prazo:DEAL.prazo,esboco:DEAL.esboco,rev:DEAL.rev})[k]) p.set(k,v); });
+    const url = `${location.origin}${location.pathname}${p.toString()?'?'+p:''}`;
+    document.getElementById('g_out').value = url;
+    const nome = document.getElementById('g_nome').value.trim().split(' ')[0];
+    document.getElementById('g_wa').href = 'https://wa.me/?text='+encodeURIComponent(`Oi${nome?' '+nome:''}! Para começarmos o seu site, preencha este briefing rapidinho (uns 10 min). Ele deixa registrado tudo o que combinamos:\n${url}`);
+  };
+  document.getElementById('g').addEventListener('input', upd); upd();
+  document.getElementById('g_copy').onclick = async e=>{ try{ await navigator.clipboard.writeText(document.getElementById('g_out').value); e.target.textContent='Copiado ✓'; }catch(_){ document.getElementById('g_out').select(); } };
+}
+
+/* Se o link trouxer outro cliente, começa um briefing novo */
+if(DEAL.nome && S.deal && S.deal!==location.search){ S = {step:-1,a:{resp:DEAL.nome}}; }
+S.deal = location.search; save();
+if(location.hash==='#gerar') renderGen(); else render();
+</script>
+</body>
+</html>
