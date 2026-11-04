@@ -108,7 +108,7 @@ pre.out{white-space:pre-wrap;text-align:left;font:500 .8rem/1.5 ui-monospace,Men
 <body>
 <div class="bgfx" aria-hidden="true"></div>
 <div id="bar"></div>
-<div class="wm" aria-hidden="true"><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span></div>
+<div class="wm" aria-hidden="true"><span>MY DEV HUB · CLUB</span><span>MY DEV HUB · CLUB</span><span>MY DEV HUB · CLUB</span><span>MY DEV HUB · CLUB</span><span>MY DEV HUB · CLUB</span><span>MY DEV HUB · CLUB</span><span>MY DEV HUB · CLUB</span><span>MY DEV HUB · CLUB</span><span>MY DEV HUB · CLUB</span><span>MY DEV HUB · CLUB</span><span>MY DEV HUB · CLUB</span><span>MY DEV HUB · CLUB</span><span>MY DEV HUB · CLUB</span><span>MY DEV HUB · CLUB</span><span>MY DEV HUB · CLUB</span><span>MY DEV HUB · CLUB</span><span>MY DEV HUB · CLUB</span><span>MY DEV HUB · CLUB</span><span>MY DEV HUB · CLUB</span><span>MY DEV HUB · CLUB</span><span>MY DEV HUB · CLUB</span><span>MY DEV HUB · CLUB</span><span>MY DEV HUB · CLUB</span><span>MY DEV HUB · CLUB</span></div>
 <main class="wrap">
   <header class="top">
     <a class="logo" href="/"><b><svg viewBox="0 0 64 64" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M24 20 12 32l12 12M40 20l12 12-12 12"/></svg></b>My Dev Hub</a>
@@ -287,7 +287,7 @@ function render(){
   frm.addEventListener('input', ()=>{ collect(st); save(); });
   frm.addEventListener('change', ()=>{ collect(st); save(); });
   const b = document.getElementById('back'); if(b) b.onclick = ()=>{ collect(st); S.step--; save(); render(); };
-  frm.onsubmit = e=>{ e.preventDefault(); collect(st); save(); if(validate(st)){ S.step++; if(S.step===n){ S.lastTxt=null; S.mailed=false; } save(); render(); if(S.step===n) sendEmail(); } };
+  frm.onsubmit = e=>{ e.preventDefault(); collect(st); save(); if(validate(st)){ S.step++; if(S.step===n){ S.lastTxt=null; S.mailed=false; renderDone.tried=false; } save(); render(); } };
 }
 
 function collect(st){
@@ -361,6 +361,7 @@ function renderDone(){
     <pre class="out">${esc(txt).replace(/\*([^*\n]+)\*/g,'<strong>$1</strong>')}</pre>
   </section>`;
   document.getElementById('copy').onclick = async e=>{ try{ await navigator.clipboard.writeText(txt); e.target.textContent='Copiado ✓'; }catch(_){ e.target.textContent='Selecione o texto abaixo e copie'; } };
+  if(!S.mailed && !renderDone.tried){ renderDone.tried = true; setTimeout(sendEmail, 50); }
   document.getElementById('pdf').onclick = ()=>window.print();
   document.getElementById('edit').onclick = ()=>{ S.step = 0; save(); render(); };
 }
@@ -377,9 +378,11 @@ function sendEmail(){
   };
   if(S.a.email) body._replyto = S.a.email;
   const st = document.getElementById('mailst');
-  fetch('https://formsubmit.co/ajax/'+EMAIL,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(body)})
-    .then(r=>r.json()).then(j=>{ try{ localStorage.setItem('mdh-mail-status', new Date().toLocaleString('pt-BR')+' · '+JSON.stringify(j)); }catch(e){} const ok = j && (j.success===true||j.success==='true'); S.mailed = ok; save(); if(st) st.textContent = ok?'Uma cópia já foi enviada para a My Dev Hub ✓':''; })
-    .catch(e=>{ try{ localStorage.setItem('mdh-mail-status', new Date().toLocaleString('pt-BR')+' · erro: '+e); }catch(_){} });
+  const log = m => { try{ localStorage.setItem('mdh-mail-status', new Date().toLocaleString('pt-BR')+' · '+m); }catch(e){} };
+  log('enviando...');
+  fetch('https://formsubmit.co/ajax/'+EMAIL,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(body),keepalive:true})
+    .then(r=>r.json()).then(j=>{ log(JSON.stringify(j)); const ok = j && (j.success===true||j.success==='true'); S.mailed = ok; save(); if(st) st.textContent = ok?'Uma cópia já foi enviada para a My Dev Hub ✓':''; })
+    .catch(e=>{ log('erro: '+e); });
 }
 
 /* ===== Gerador de link (uso interno): mydevhub.club/briefing/#gerar ===== */
