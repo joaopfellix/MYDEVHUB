@@ -86,10 +86,17 @@ pre.out{white-space:pre-wrap;text-align:left;font:500 .8rem/1.5 ui-monospace,Men
 .gen .row{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
 .gen textarea{min-height:70px;font-size:.85rem}
 @media print{
-  body{background:#fff;color:#000}
-  .bgfx,#bar,.nav,.saved,.done .col,.done .ok,header.top .step-tag{display:none!important}
-  .card{border:1px solid #ccc;box-shadow:none;background:#fff}
-  pre.out{max-height:none;border:none;color:#000;font-size:10pt}
+  @page{margin:16mm 14mm}
+  html,body{background:#fff!important;color:#111!important}
+  *{box-shadow:none!important;text-shadow:none!important}
+  .bgfx,#bar,.nav,.saved,.done .col,.done .ok,.done>p,.done h2,header.top .step-tag,.foot{display:none!important}
+  .wrap{max-width:none;padding:0}
+  header.top{padding:0 0 4mm;border-bottom:2px solid #1646ff;margin-bottom:6mm}
+  .logo{color:#111!important}
+  .card{border:0!important;background:#fff!important;padding:0!important;margin:0!important}
+  .done:before{content:"Briefing do Site";display:block;font:700 18pt Unbounded,sans-serif;color:#111;text-align:left;margin-bottom:4mm}
+  pre.out strong{font-family:Unbounded,sans-serif;font-size:10pt;color:#1646ff!important}
+  pre.out{max-height:none!important;overflow:visible!important;border:0!important;background:#fff!important;color:#111!important;padding:0!important;margin:0!important;font:10.5pt/1.55 Manrope,system-ui,sans-serif!important;white-space:pre-wrap}
 }
 </style>
 </head>
@@ -342,7 +349,7 @@ function renderDone(){
       <button class="btn ghost" id="edit" style="flex:1">← Revisar respostas</button>
     </div>
     <p class="saved" id="mailst">${S.mailed?'Uma cópia já foi enviada para a My Dev Hub ✓':''}</p>
-    <pre class="out">${esc(txt)}</pre>
+    <pre class="out">${esc(txt).replace(/\*([^*\n]+)\*/g,'<strong>$1</strong>')}</pre>
   </section>`;
   document.getElementById('copy').onclick = async e=>{ try{ await navigator.clipboard.writeText(txt); e.target.textContent='Copiado ✓'; }catch(_){ e.target.textContent='Selecione o texto abaixo e copie'; } };
   document.getElementById('pdf').onclick = ()=>window.print();
@@ -361,8 +368,8 @@ function sendEmail(){
   if(S.a.email) body._replyto = S.a.email;
   const st = document.getElementById('mailst');
   fetch('https://formsubmit.co/ajax/'+EMAIL,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(body)})
-    .then(r=>r.json()).then(j=>{ const ok = j && (j.success===true||j.success==='true'); S.mailed = ok; save(); if(st) st.textContent = ok?'Uma cópia já foi enviada para a My Dev Hub ✓':''; })
-    .catch(()=>{});
+    .then(r=>r.json()).then(j=>{ try{ localStorage.setItem('mdh-mail-status', new Date().toLocaleString('pt-BR')+' · '+JSON.stringify(j)); }catch(e){} const ok = j && (j.success===true||j.success==='true'); S.mailed = ok; save(); if(st) st.textContent = ok?'Uma cópia já foi enviada para a My Dev Hub ✓':''; })
+    .catch(e=>{ try{ localStorage.setItem('mdh-mail-status', new Date().toLocaleString('pt-BR')+' · erro: '+e); }catch(_){} });
 }
 
 /* ===== Gerador de link (uso interno): mydevhub.club/briefing/#gerar ===== */
@@ -371,6 +378,7 @@ function renderGen(){
   const F = [['nome','Nome do cliente','Ana Júlia Félix'],['plano','Projeto','Site portfólio de arquitetura'],['valor','Valor do site (R$)','397'],['mensal','Manutenção mensal (R$)','50'],['pag','Pagamento',DEAL.pag],['prazo','Prazo',DEAL.prazo],['esboco','Esboço',DEAL.esboco],['rev','Rodadas de ajustes',DEAL.rev],['dominio','Domínio',''],['obs','Combinado também','Domínio incluso no 1º ano']];
   app.innerHTML = `<form class="card gen" id="g"><h2><span class="n">⚙</span>Gerar link do briefing</h2><p class="sub">Preencha o que foi combinado com o cliente e mande o link para ele.</p>
     ${F.map(([k,l,ph])=>`<div class="f"><label for="g_${k}">${l}</label><input id="g_${k}" type="text" placeholder="${esc(ph)}" value="${['pag','prazo','esboco','rev'].includes(k)?esc(ph):''}"></div>`).join('')}
+    <div class="f"><label>Último envio de e-mail neste aparelho</label><small id="g_mail"></small></div>
     <div class="f"><label>Link para o cliente</label><textarea id="g_out" readonly></textarea></div>
     <div class="nav"><button type="button" class="btn" id="g_copy">Copiar link</button><a class="btn wa" id="g_wa" target="_blank" rel="noopener">${WA_ICO} Mandar</a></div></form>`;
   const upd = ()=>{
@@ -382,6 +390,7 @@ function renderGen(){
     document.getElementById('g_wa').href = 'https://wa.me/?text='+encodeURIComponent(`Oi${nome?' '+nome:''}! Para começarmos o seu site, preencha este briefing rapidinho (uns 10 min). Ele deixa registrado tudo o que combinamos:\n${url}`);
   };
   document.getElementById('g').addEventListener('input', upd); upd();
+  let ms=''; try{ ms = localStorage.getItem('mdh-mail-status')||''; }catch(e){} document.getElementById('g_mail').textContent = ms || 'Nenhum envio ainda.';
   document.getElementById('g_copy').onclick = async e=>{ try{ await navigator.clipboard.writeText(document.getElementById('g_out').value); e.target.textContent='Copiado ✓'; }catch(_){ document.getElementById('g_out').select(); } };
 }
 
