@@ -80,6 +80,7 @@ textarea{min-height:96px;resize:vertical}
 .done p{color:var(--mut);margin-top:.6rem}
 .done .col{display:grid;gap:.6rem;margin-top:1.3rem}
 pre.out{white-space:pre-wrap;text-align:left;font:500 .8rem/1.5 ui-monospace,Menlo,monospace;background:#02050c;border:1px solid var(--line);border-radius:12px;padding:1rem;margin-top:1rem;max-height:340px;overflow:auto;color:#cfdcf7}
+.wm,.vcode{display:none}
 .foot{text-align:center;color:var(--mut);font-size:.78rem;margin-top:2rem}
 /* gerador de link (uso do João) */
 .gen .f{margin-top:.8rem}
@@ -95,6 +96,10 @@ pre.out{white-space:pre-wrap;text-align:left;font:500 .8rem/1.5 ui-monospace,Men
   .logo{color:#111!important}
   .card{border:0!important;background:#fff!important;padding:0!important;margin:0!important}
   .done:before{content:"Briefing do Site";display:block;font:700 18pt Unbounded,sans-serif;color:#111;text-align:left;margin-bottom:4mm}
+  .wm{display:block;position:fixed;inset:-20% -20%;z-index:5;pointer-events:none;transform:rotate(-30deg);display:flex;flex-wrap:wrap;align-content:space-around;justify-content:space-around;gap:18mm 10mm}
+  .wm span{font:800 22pt Unbounded,sans-serif;color:rgba(22,70,255,.10)!important;white-space:nowrap;letter-spacing:.04em}
+  .vcode{display:block;margin-top:6mm;padding:3mm 4mm;border:1.5px solid #1646ff;border-radius:3mm;font:600 9.5pt/1.5 Manrope,sans-serif;color:#111}
+  .vcode b{white-space:nowrap;font-family:ui-monospace,Menlo,monospace;font-size:11pt;color:#1646ff;letter-spacing:.08em}
   pre.out strong{font-family:Unbounded,sans-serif;font-size:10pt;color:#1646ff!important}
   pre.out{max-height:none!important;overflow:visible!important;border:0!important;background:#fff!important;color:#111!important;padding:0!important;margin:0!important;font:10.5pt/1.55 Manrope,system-ui,sans-serif!important;white-space:pre-wrap}
 }
@@ -103,6 +108,7 @@ pre.out{white-space:pre-wrap;text-align:left;font:500 .8rem/1.5 ui-monospace,Men
 <body>
 <div class="bgfx" aria-hidden="true"></div>
 <div id="bar"></div>
+<div class="wm" aria-hidden="true"><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span><span>MY DEV HUB · ORIGINAL</span></div>
 <main class="wrap">
   <header class="top">
     <a class="logo" href="/"><b><svg viewBox="0 0 64 64" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M24 20 12 32l12 12M40 20l12 12-12 12"/></svg></b>My Dev Hub</a>
@@ -281,7 +287,7 @@ function render(){
   frm.addEventListener('input', ()=>{ collect(st); save(); });
   frm.addEventListener('change', ()=>{ collect(st); save(); });
   const b = document.getElementById('back'); if(b) b.onclick = ()=>{ collect(st); S.step--; save(); render(); };
-  frm.onsubmit = e=>{ e.preventDefault(); collect(st); save(); if(validate(st)){ S.step++; save(); render(); if(S.step===n) sendEmail(); } };
+  frm.onsubmit = e=>{ e.preventDefault(); collect(st); save(); if(validate(st)){ S.step++; if(S.step===n){ S.lastTxt=null; S.mailed=false; } save(); render(); if(S.step===n) sendEmail(); } };
 }
 
 function collect(st){
@@ -304,6 +310,7 @@ function validate(st){
   return !first;
 }
 
+function vcode(t){ let h1=0x811c9dc5, h2=0x01000193; for(let i=0;i<t.length;i++){ const c=t.charCodeAt(i); h1=Math.imul(h1^c,16777619)>>>0; h2=Math.imul(h2^c,2246822519)>>>0; } return ((h1.toString(16).padStart(8,'0'))+(h2.toString(16).padStart(8,'0'))).toUpperCase().match(/.{4}/g).join('-'); }
 function fmtDate(d){ if(!d) return ''; const [y,m,dd]=d.split('-'); return `${dd}/${m}/${y}`; }
 function summary(){
   const now = new Date();
@@ -336,7 +343,8 @@ function summary(){
 
 function renderDone(){
   tag.textContent = 'Pronto!'; bar.style.width='100%';
-  const txt = summary();
+  if(!S.lastTxt){ const base = summary(); S.code = vcode(base); S.lastTxt = base + `\n\nCÓDIGO DE VERIFICAÇÃO: ${S.code}`; save(); }
+  const txt = S.lastTxt, code = S.code;
   const nome = (S.a.resp||'').split(' ')[0];
   app.innerHTML = `<section class="card done">
     <div class="ok">✓</div>
@@ -349,6 +357,7 @@ function renderDone(){
       <button class="btn ghost" id="edit" style="flex:1">← Revisar respostas</button>
     </div>
     <p class="saved" id="mailst">${S.mailed?'Uma cópia já foi enviada para a My Dev Hub ✓':''}</p>
+    <div class="vcode">Documento original gerado em mydevhub.club/briefing. Código de verificação: <b>${code}</b><br>A mesma cópia foi enviada para a My Dev Hub. Qualquer alteração neste PDF não corresponde ao original registrado.</div>
     <pre class="out">${esc(txt).replace(/\*([^*\n]+)\*/g,'<strong>$1</strong>')}</pre>
   </section>`;
   document.getElementById('copy').onclick = async e=>{ try{ await navigator.clipboard.writeText(txt); e.target.textContent='Copiado ✓'; }catch(_){ e.target.textContent='Selecione o texto abaixo e copie'; } };
@@ -363,7 +372,8 @@ function sendEmail(){
     _template: 'box', _captcha: 'false',
     'Cliente': S.a.resp||'', 'Negócio': S.a.negocio||'', 'WhatsApp': S.a.whats||'',
     'Projeto': DEAL.plano||'', 'Valor': brl(DEAL.valor)||'', 'Manutenção': DEAL.mensal?brl(DEAL.mensal)+'/mês':'',
-    'Briefing completo': summary().replace(/\*/g,'')
+    'Código de verificação': S.code||'',
+    'Briefing completo': (S.lastTxt||summary()).replace(/\*/g,'')
   };
   if(S.a.email) body._replyto = S.a.email;
   const st = document.getElementById('mailst');
