@@ -368,15 +368,37 @@ function renderDone(){
 
 /* ===== Cópia automática por e-mail ===== */
 function sendEmail(){
+  const nome = S.a.resp||'Cliente', neg = S.a.negocio||'';
+  const zap = String(S.a.whats||'').replace(/\D/g,'');
+  const now = new Date();
   const body = {
     access_key: W3F_KEY,
-    subject: `Briefing: ${S.a.negocio||''} (${S.a.resp||''})`,
-    from_name: 'Briefing My Dev Hub',
-    'Cliente': S.a.resp||'', 'Negócio': S.a.negocio||'', 'WhatsApp': S.a.whats||'',
-    'Projeto': DEAL.plano||'', 'Valor': brl(DEAL.valor)||'', 'Manutenção': DEAL.mensal?brl(DEAL.mensal)+'/mês':'',
-    'Código de verificação': S.code||'',
-    'Briefing completo': (S.lastTxt||summary()).replace(/\*/g,'')
+    subject: `✅ Briefing preenchido: ${nome}${neg?' · '+neg:''}`,
+    from_name: 'My Dev Hub · Briefing'
   };
+  const add = (k,v)=>{ if(v) body[k]=v; };
+  add('📩 Aviso', `${nome} preencheu o briefing do site em ${now.toLocaleDateString('pt-BR')} às ${now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})} e aceitou as regras do projeto.`);
+  add('👤 Cliente', nome);
+  add('🏷️ Negócio', neg + (S.a.ramo?` (${S.a.ramo})`:''));
+  add('📱 WhatsApp', zap ? `${S.a.whats} · https://wa.me/${zap.length<=11?'55':''}${zap}` : '');
+  add('✉️ E-mail', S.a.email);
+  add('💼 Projeto', DEAL.plano);
+  add('💰 Valor do site', brl(DEAL.valor));
+  add('🔁 Manutenção', DEAL.mensal ? brl(DEAL.mensal)+'/mês' : '');
+  add('💳 Pagamento preferido', S.a.pagto);
+  add('📦 Material chega até', fmtDate(S.a.quando));
+  add('🔐 Código de verificação', S.code);
+  STEPS.forEach((st,i)=>{
+    const lines = [];
+    st.f.forEach(f=>{
+      let v = S.a[f.id];
+      if(f.id==='aceite') v = (v||[]).length===f.o.length ? 'Concordo com todas as regras ✔' : '';
+      else if(Array.isArray(v)) v = v.join(', ');
+      if(f.type==='date') v = fmtDate(v);
+      if(v) lines.push(`• ${f.l.replace(/\?$/,'')}: ${v}`);
+    });
+    add(`${i+1}. ${st.t}`, lines.join('\n'));
+  });
   if(S.a.email) body.replyto = S.a.email;
   const st = document.getElementById('mailst');
   const log = m => { try{ localStorage.setItem('mdh-mail-status', new Date().toLocaleString('pt-BR')+' · '+m); }catch(e){} };
@@ -391,7 +413,7 @@ function renderGen(){
   tag.textContent = 'Gerar link';
   const F = [['nome','Nome do cliente','João Félix'],['plano','Projeto','Site portfólio de arquitetura'],['valor','Valor do site (R$)','397'],['mensal','Manutenção mensal (R$)','50'],['pag','Pagamento',DEAL.pag],['prazo','Prazo',DEAL.prazo],['esboco','Esboço',DEAL.esboco],['rev','Rodadas de ajustes',DEAL.rev],['dominio','Domínio',''],['obs','Combinado também','Domínio incluso no 1º ano']];
   app.innerHTML = `<form class="card gen" id="g"><h2><span class="n">⚙</span>Gerar link do briefing</h2><p class="sub">Preencha o que foi combinado com o cliente e mande o link para ele.</p>
-    ${F.map(([k,l,ph])=>`<div class="f"><label for="g_${k}">${l}</label><input id="g_${k}" type="text" placeholder="${esc(ph)}" value="${['pag','prazo','esboco','rev'].includes(k)?esc(ph):''}"></div>`).join('')}
+    ${F.map(([k,l,ph])=>`<div class="f"><label for="g_${k}">${l}</label><input id="g_${k}" type="text" ${['valor','mensal','rev'].includes(k)?'inputmode="decimal"':''} placeholder="${esc(ph)}" value="${['pag','prazo','esboco','rev'].includes(k)?esc(ph):''}"></div>`).join('')}
     <div class="f"><label>Último envio de e-mail neste aparelho</label><small id="g_mail"></small></div>
     <div class="f"><label>Link para o cliente</label><textarea id="g_out" readonly></textarea></div>
     <div class="nav"><button type="button" class="btn" id="g_copy">Copiar link</button><a class="btn wa" id="g_wa" target="_blank" rel="noopener">${WA_ICO} Mandar</a></div></form>`;
