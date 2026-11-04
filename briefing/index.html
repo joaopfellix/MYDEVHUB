@@ -122,7 +122,7 @@ pre.out{white-space:pre-wrap;text-align:left;font:500 .8rem/1.5 ui-monospace,Men
 /* ===== Configuração ===== */
 const WHATS = '5564992718193';           // WhatsApp que recebe o briefing
 const KEY = 'mdh-briefing-v1';
-const EMAIL = 'joaopedrofelix.dev@outlook.com'; // recebe cópia automática (via FormSubmit)           // rascunho salvo no aparelho do cliente
+const W3F_KEY = 'c8b6a871-167e-4699-879c-6574c928b910'; // Web3Forms: cópia automática vai para o Gmail da My Dev Hub           // rascunho salvo no aparelho do cliente
 
 /* Dados do acordo vêm pelo link: /briefing/?nome=...&plano=...&valor=...  (use /briefing/#gerar para montar) */
 const Q = new URLSearchParams(location.search);
@@ -369,18 +369,19 @@ function renderDone(){
 /* ===== Cópia automática por e-mail ===== */
 function sendEmail(){
   const body = {
-    _subject: `Briefing: ${S.a.negocio||''} (${S.a.resp||''})`,
-    _template: 'box', _captcha: 'false',
+    access_key: W3F_KEY,
+    subject: `Briefing: ${S.a.negocio||''} (${S.a.resp||''})`,
+    from_name: 'Briefing My Dev Hub',
     'Cliente': S.a.resp||'', 'Negócio': S.a.negocio||'', 'WhatsApp': S.a.whats||'',
     'Projeto': DEAL.plano||'', 'Valor': brl(DEAL.valor)||'', 'Manutenção': DEAL.mensal?brl(DEAL.mensal)+'/mês':'',
     'Código de verificação': S.code||'',
     'Briefing completo': (S.lastTxt||summary()).replace(/\*/g,'')
   };
-  if(S.a.email) body._replyto = S.a.email;
+  if(S.a.email) body.replyto = S.a.email;
   const st = document.getElementById('mailst');
   const log = m => { try{ localStorage.setItem('mdh-mail-status', new Date().toLocaleString('pt-BR')+' · '+m); }catch(e){} };
   log('enviando...');
-  fetch('https://formsubmit.co/ajax/'+EMAIL,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(body),keepalive:true})
+  fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(body),keepalive:true})
     .then(r=>r.json()).then(j=>{ log(JSON.stringify(j)); const ok = j && (j.success===true||j.success==='true'); S.mailed = ok; save(); if(st) st.textContent = ok?'Uma cópia já foi enviada para a My Dev Hub ✓':''; })
     .catch(e=>{ log('erro: '+e); });
 }
