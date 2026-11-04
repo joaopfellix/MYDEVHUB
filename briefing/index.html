@@ -108,7 +108,8 @@ pre.out{white-space:pre-wrap;text-align:left;font:500 .8rem/1.5 ui-monospace,Men
 <script>
 /* ===== Configuração ===== */
 const WHATS = '5564992718193';           // WhatsApp que recebe o briefing
-const KEY = 'mdh-briefing-v1';           // rascunho salvo no aparelho do cliente
+const KEY = 'mdh-briefing-v1';
+const EMAIL = 'joaopedrofelix.dev@outlook.com'; // recebe cópia automática (via FormSubmit)           // rascunho salvo no aparelho do cliente
 
 /* Dados do acordo vêm pelo link: /briefing/?nome=...&plano=...&valor=...  (use /briefing/#gerar para montar) */
 const Q = new URLSearchParams(location.search);
@@ -273,7 +274,7 @@ function render(){
   frm.addEventListener('input', ()=>{ collect(st); save(); });
   frm.addEventListener('change', ()=>{ collect(st); save(); });
   const b = document.getElementById('back'); if(b) b.onclick = ()=>{ collect(st); S.step--; save(); render(); };
-  frm.onsubmit = e=>{ e.preventDefault(); collect(st); save(); if(validate(st)){ S.step++; save(); render(); } };
+  frm.onsubmit = e=>{ e.preventDefault(); collect(st); save(); if(validate(st)){ S.step++; save(); render(); if(S.step===n) sendEmail(); } };
 }
 
 function collect(st){
@@ -333,18 +334,35 @@ function renderDone(){
   app.innerHTML = `<section class="card done">
     <div class="ok">✓</div>
     <h2 style="justify-content:center">Tudo certo${nome?', '+esc(nome):''}!</h2>
-    <p>Toque no botão abaixo para me enviar o briefing pelo WhatsApp. A mensagem já vai pronta, é só apertar enviar.</p>
+    <p>Recebi suas respostas. Toque no botão abaixo para me avisar pelo WhatsApp, a mensagem já vai pronta.</p>
     <div class="col">
       <a class="btn wa" id="send" href="https://wa.me/${WHATS}?text=${encodeURIComponent(txt)}" target="_blank" rel="noopener">${WA_ICO} Enviar pelo WhatsApp</a>
       <button class="btn ghost" id="copy" style="flex:1">Copiar respostas</button>
       <button class="btn ghost" id="pdf" style="flex:1">Salvar cópia em PDF</button>
       <button class="btn ghost" id="edit" style="flex:1">← Revisar respostas</button>
     </div>
+    <p class="saved" id="mailst">${S.mailed?'Uma cópia já foi enviada para a My Dev Hub ✓':''}</p>
     <pre class="out">${esc(txt)}</pre>
   </section>`;
   document.getElementById('copy').onclick = async e=>{ try{ await navigator.clipboard.writeText(txt); e.target.textContent='Copiado ✓'; }catch(_){ e.target.textContent='Selecione o texto abaixo e copie'; } };
   document.getElementById('pdf').onclick = ()=>window.print();
   document.getElementById('edit').onclick = ()=>{ S.step = 0; save(); render(); };
+}
+
+/* ===== Cópia automática por e-mail ===== */
+function sendEmail(){
+  const body = {
+    _subject: `Briefing: ${S.a.negocio||''} (${S.a.resp||''})`,
+    _template: 'box', _captcha: 'false',
+    'Cliente': S.a.resp||'', 'Negócio': S.a.negocio||'', 'WhatsApp': S.a.whats||'',
+    'Projeto': DEAL.plano||'', 'Valor': brl(DEAL.valor)||'', 'Manutenção': DEAL.mensal?brl(DEAL.mensal)+'/mês':'',
+    'Briefing completo': summary().replace(/\*/g,'')
+  };
+  if(S.a.email) body._replyto = S.a.email;
+  const st = document.getElementById('mailst');
+  fetch('https://formsubmit.co/ajax/'+EMAIL,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(body)})
+    .then(r=>r.json()).then(j=>{ const ok = j && (j.success===true||j.success==='true'); S.mailed = ok; save(); if(st) st.textContent = ok?'Uma cópia já foi enviada para a My Dev Hub ✓':''; })
+    .catch(()=>{});
 }
 
 /* ===== Gerador de link (uso interno): mydevhub.club/briefing/#gerar ===== */
