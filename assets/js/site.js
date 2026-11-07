@@ -18,6 +18,12 @@
     a.href = waLink(a.dataset.wa || 'Olá, João! Vim pelo site da My Dev Hub.');
     a.target = '_blank'; a.rel = 'noopener noreferrer';
   });
+  // compra: o link do checkout fica num só lugar, em <body data-checkout="...">
+  const checkout = (document.body.dataset.checkout || '').trim();
+  $$('[data-buy]').forEach(a => {
+    if (/^https:\/\//.test(checkout)) { a.href = checkout; a.removeAttribute('target'); }
+    else { a.href = waLink(a.dataset.buy); a.target = '_blank'; a.rel = 'noopener noreferrer'; }
+  });
   $$('a[target="_blank"]').forEach(a => { a.rel = 'noopener noreferrer'; });
   $$('[data-year]').forEach(e => { e.textContent = new Date().getFullYear(); });
 
@@ -36,7 +42,7 @@
   // indicador que desliza entre as abas
   const tabs = $('.tabs'), ind = $('.tab-ind');
   if (tabs && ind) {
-    const cur = $('a[aria-current="page"]', tabs);
+    const cur = $('a[aria-current]', tabs);
     const moveTo = a => {
       if (!a) { ind.style.opacity = 0; return; }
       ind.style.width = a.offsetWidth + 'px';
@@ -57,6 +63,7 @@
 
   let lastY = scrollY;
   const waFloat = $('.wa-float');
+  const buyTop = $('#topo-compra'), buybar = buyTop && $('.buybar'), offer = $('#comprar'), foot = $('.foot');
   const onScroll = () => {
     const y = scrollY, max = document.documentElement.scrollHeight - innerHeight;
     if (bar) bar.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
@@ -66,6 +73,12 @@
       else if (y < lastY - 4 || y < 480) head.classList.remove('away');
     }
     if (waFloat) waFloat.classList.toggle('on', y > innerHeight * 0.4);
+    if (buybar) {
+      const vh = innerHeight, a = buyTop.getBoundingClientRect(), o = offer && offer.getBoundingClientRect(), f = foot && foot.getBoundingClientRect();
+      const show = a.bottom < 0 && !(o && o.top < vh && o.bottom > 0) && !(f && f.top < vh);
+      buybar.classList.toggle('on', show);
+      buybar.setAttribute('aria-hidden', String(!show));
+    }
     lastY = y;
   };
   addEventListener('scroll', onScroll, { passive: true });
@@ -205,6 +218,8 @@
   const track = $('.track'), modules = track ? $$('.module', track) : [], meter = $('.meter');
   const meterVal = meter && $('.val b', meter), meterLine = meter && $('.line', meter);
   const fmt = v => v.toLocaleString('pt-BR');
+  const steps = meter && meter.dataset.steps ? meter.dataset.steps.split(',').map(Number) : [100, 1000];
+  const stepAt = p => { const n = steps.length - 1, x = p * n, i = Math.min(n - 1, Math.floor(x)); return lerp(steps[i], steps[i + 1], x - i); };
 
   /* ---------- parallax leve das fotos ---------- */
   const pars = $$('[data-par]');
@@ -225,7 +240,7 @@
       let best = 0, bd = 1e9;
       modules.forEach((m, i) => { const mr = m.getBoundingClientRect(); const d = Math.abs(mr.top + mr.height / 2 - vh * 0.5); if (d < bd) { bd = d; best = i; } });
       modules.forEach((m, i) => m.classList.toggle('active', i === best));
-      if (meterVal) meterVal.textContent = fmt(Math.round((100 + p * 900) / 10) * 10);
+      if (meterVal) meterVal.textContent = fmt(Math.round(stepAt(p) / 10) * 10);
       if (meterLine) meterLine.style.setProperty('--p', (0.1 + p * 0.9).toFixed(3));
     }
     pars.forEach(img => {
@@ -254,6 +269,28 @@
       b.style.setProperty('--bx', (e.clientX - r.left) + 'px'); b.style.setProperty('--by', (e.clientY - r.top) + 'px');
     }));
   }
+
+  /* ---------- capas que inclinam com o mouse ---------- */
+  if (FINE && !RM) $$('[data-tilt]').forEach(el => {
+    const inner = el.firstElementChild, max = parseFloat(el.dataset.tilt) || 6;
+    let tx = 0, ty = 0, x = 0, y = 0, raf = 0;
+    const tick = () => {
+      x = lerp(x, tx, 0.12); y = lerp(y, ty, 0.12);
+      inner.style.setProperty('--rx', (-y * max).toFixed(2) + 'deg');
+      inner.style.setProperty('--ry', (x * max).toFixed(2) + 'deg');
+      inner.style.setProperty('--gx', ((x + 1) * 50).toFixed(1) + '%');
+      inner.style.setProperty('--gy', ((y + 1) * 50).toFixed(1) + '%');
+      raf = Math.abs(x - tx) + Math.abs(y - ty) > 0.002 ? requestAnimationFrame(tick) : 0;
+    };
+    const go = () => { if (!raf) raf = requestAnimationFrame(tick); };
+    el.addEventListener('pointermove', e => {
+      const r = el.getBoundingClientRect();
+      tx = clamp((e.clientX - r.left) / r.width * 2 - 1, -1, 1);
+      ty = clamp((e.clientY - r.top) / r.height * 2 - 1, -1, 1);
+      el.classList.add('tilting'); go();
+    });
+    el.addEventListener('pointerleave', () => { tx = ty = 0; el.classList.remove('tilting'); go(); });
+  });
 
   /* ---------- portfólio: a página rola dentro do navegador ---------- */
   $$('.case').forEach(c => {

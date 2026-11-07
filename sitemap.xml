@@ -2,6 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://mydevhub.club/</loc><lastmod>2026-11-07</lastmod><priority>1.0</priority></url>
   <url><loc>https://mydevhub.club/cursos/</loc><lastmod>2026-11-07</lastmod><priority>0.9</priority></url>
+  <url><loc>https://mydevhub.club/cursos/plano-inicial/</loc><lastmod>2026-11-07</lastmod><priority>0.9</priority></url>
+  <url><loc>https://mydevhub.club/cursos/plano-intermediario/</loc><lastmod>2026-11-07</lastmod><priority>0.9</priority></url>
+  <url><loc>https://mydevhub.club/cursos/plano-avancado/</loc><lastmod>2026-11-07</lastmod><priority>0.9</priority></url>
   <url><loc>https://mydevhub.club/servicos/</loc><lastmod>2026-11-07</lastmod><priority>0.8</priority></url>
   <url><loc>https://mydevhub.club/portfolio/</loc><lastmod>2026-11-07</lastmod><priority>0.6</priority></url>
   <url><loc>https://mydevhub.club/sobre/</loc><lastmod>2026-11-07</lastmod><priority>0.6</priority></url>
