@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /demo/
+Disallow: /demoElegance/
+Disallow: /briefing/
+
+Sitemap: https://mydevhub.club/sitemap.xml
