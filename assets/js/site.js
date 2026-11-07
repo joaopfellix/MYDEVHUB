@@ -1,373 +1,298 @@
 /* =========================================================
-   My Dev Hub · animações e interações do site
-   Sem bibliotecas externas, sem rastreadores, sem chaves.
+   My Dev Hub · interações do site (v2)
+   Sem bibliotecas, sem rastreadores, sem chaves no código.
    ========================================================= */
 (() => {
   'use strict';
   const $ = (s, c = document) => c.querySelector(s);
   const $$ = (s, c = document) => [...c.querySelectorAll(s)];
   const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const FINE = matchMedia('(pointer: fine)').matches;
+  const FINE = matchMedia('(hover: hover) and (pointer: fine)').matches;
   const WA = '5564992718193';
-  const lerp = (a, b, t) => a + (b - a) * t;
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const waLink = msg => 'https://wa.me/' + WA + '?text=' + encodeURIComponent(msg);
 
-  /* ---------- links de WhatsApp ---------- */
+  /* ---------- links ---------- */
   $$('[data-wa]').forEach(a => {
-    const msg = a.dataset.wa || 'Olá, João! Vim pelo site da My Dev Hub.';
-    a.href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(msg);
-    a.target = '_blank';
-    a.rel = 'noopener noreferrer';
+    a.href = waLink(a.dataset.wa || 'Olá, João! Vim pelo site da My Dev Hub.');
+    a.target = '_blank'; a.rel = 'noopener noreferrer';
   });
   $$('a[target="_blank"]').forEach(a => { a.rel = 'noopener noreferrer'; });
   $$('[data-year]').forEach(e => { e.textContent = new Date().getFullYear(); });
 
-  /* ---------- navegação ---------- */
-  const nav = $('.nav');
-  const burger = $('.burger');
-  const bar = $('#bar');
-  let lastY = scrollY;
+  /* ---------- cabeçalho de vidro ---------- */
+  const head = $('.head'), headIn = $('.head-in'), menuBtn = $('.menu-btn'), bar = $('#bar');
   const setMenu = open => {
-    nav.classList.toggle('open', open);
-    burger && burger.setAttribute('aria-expanded', String(open));
-    document.body.style.overflow = open ? 'hidden' : '';
+    head.classList.toggle('open', open);
+    menuBtn && menuBtn.setAttribute('aria-expanded', String(open));
+    menuBtn && (menuBtn.querySelector('b').textContent = open ? 'Fechar' : 'Menu');
   };
-  burger && burger.addEventListener('click', () => setMenu(!nav.classList.contains('open')));
-  $$('.menu a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+  menuBtn && menuBtn.addEventListener('click', () => setMenu(!head.classList.contains('open')));
+  $$('.sheet a').forEach((a, i) => a.style.setProperty('--d', (0.04 + i * 0.035).toFixed(3) + 's'));
   addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+  document.addEventListener('click', e => { if (head.classList.contains('open') && !head.contains(e.target)) setMenu(false); });
 
+  // indicador que desliza entre as abas
+  const tabs = $('.tabs'), ind = $('.tab-ind');
+  if (tabs && ind) {
+    const cur = $('a[aria-current="page"]', tabs);
+    const moveTo = a => {
+      if (!a) { ind.style.opacity = 0; return; }
+      ind.style.width = a.offsetWidth + 'px';
+      ind.style.transform = `translateX(${a.offsetLeft}px)`;
+      ind.style.opacity = 1;
+    };
+    $$('a', tabs).forEach(a => a.addEventListener('pointerenter', () => moveTo(a)));
+    tabs.addEventListener('pointerleave', () => moveTo(cur));
+    const place = () => { ind.style.transition = 'none'; moveTo(cur); ind.offsetWidth; ind.style.transition = ''; };
+    (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(place);
+    addEventListener('resize', place);
+  }
+  // brilho na borda do vidro acompanha o mouse
+  if (headIn && FINE && !RM) headIn.addEventListener('pointermove', e => {
+    const r = headIn.getBoundingClientRect();
+    headIn.style.setProperty('--sheen', (100 - (e.clientX - r.left) / r.width * 100).toFixed(1) + '%');
+  });
+
+  let lastY = scrollY;
   const waFloat = $('.wa-float');
   const onScroll = () => {
-    const y = scrollY;
-    const max = document.documentElement.scrollHeight - innerHeight;
+    const y = scrollY, max = document.documentElement.scrollHeight - innerHeight;
     if (bar) bar.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
-    if (nav) {
-      nav.classList.toggle('solid', y > 20);
-      if (!nav.classList.contains('open')) nav.classList.toggle('hide', y > 400 && y > lastY + 2);
-      if (y < lastY - 2) nav.classList.remove('hide');
+    head.classList.toggle('scrolled', y > 24);
+    if (!head.classList.contains('open')) {
+      if (y > 480 && y > lastY + 4) head.classList.add('away');
+      else if (y < lastY - 4 || y < 480) head.classList.remove('away');
     }
-    if (waFloat) waFloat.classList.toggle('on', y > innerHeight * 0.55);
+    if (waFloat) waFloat.classList.toggle('on', y > innerHeight * 0.4);
     lastY = y;
   };
   addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  // item ativo do menu conforme a seção visível
-  const links = $$('.menu a[href^="#"]');
-  if (links.length && 'IntersectionObserver' in window) {
-    const map = new Map(links.map(a => [a.getAttribute('href').slice(1), a]));
-    const io = new IntersectionObserver(es => {
-      es.forEach(e => {
-        if (e.isIntersecting) {
-          links.forEach(l => l.classList.remove('on'));
-          const l = map.get(e.target.id);
-          l && l.classList.add('on');
-        }
-      });
-    }, { rootMargin: '-45% 0px -50% 0px' });
-    map.forEach((_, id) => { const s = document.getElementById(id); s && io.observe(s); });
+  /* ---------- grade de pontos que acende sob o cursor ---------- */
+  const lit = $('.dots-lit');
+  if (lit && FINE && !RM) {
+    let tx = innerWidth / 2, ty = innerHeight / 2, x = tx, y = ty, running = false, idle;
+    const tick = () => {
+      x = lerp(x, tx, 0.14); y = lerp(y, ty, 0.14);
+      lit.style.setProperty('--cx', x.toFixed(1) + 'px'); lit.style.setProperty('--cy', y.toFixed(1) + 'px');
+      if (Math.abs(x - tx) + Math.abs(y - ty) > 0.4) requestAnimationFrame(tick); else running = false;
+    };
+    addEventListener('pointermove', e => {
+      tx = e.clientX; ty = e.clientY; lit.classList.add('on');
+      clearTimeout(idle); idle = setTimeout(() => lit.classList.remove('on'), 1800);
+      if (!running) { running = true; requestAnimationFrame(tick); }
+    }, { passive: true });
+    document.addEventListener('pointerleave', () => lit.classList.remove('on'));
   }
 
-  /* ---------- texto que sobe palavra por palavra ---------- */
-  $$('[data-split]').forEach(el => {
+  /* ---------- odômetro (R$1.000 rolando) ---------- */
+  $$('.odo').forEach(o => {
+    const txt = o.textContent.trim();
+    o.setAttribute('aria-label', txt);
+    o.textContent = '';
+    let k = 0;
+    [...txt].forEach(ch => {
+      if (/\d/.test(ch)) {
+        const col = document.createElement('span'); col.className = 'col'; col.setAttribute('aria-hidden', 'true');
+        const strip = document.createElement('span');
+        for (let i = 0; i < 20; i++) { const d = document.createElement('i'); d.textContent = i % 10; strip.append(d); }
+        strip.dataset.to = 10 + +ch;
+        strip.style.setProperty('--d', (k++ * 0.12).toFixed(2) + 's');
+        col.append(strip); o.append(col);
+      } else { const s = document.createElement('span'); s.setAttribute('aria-hidden', 'true'); s.textContent = ch; o.append(s); }
+    });
+  });
+  const rollOdo = root => $$('.odo .col>span', root).forEach(s => {
+    s.style.transform = `translateY(${-1.06 * s.dataset.to}em)`;
+    const w = s.children[s.dataset.to].offsetWidth; if (w) s.parentNode.style.width = w + 'px';
+  });
+
+  /* ---------- títulos que sobem palavra por palavra ---------- */
+  $$('[data-sp]').forEach(el => {
     const parts = [];
     el.childNodes.forEach(n => {
       if (n.nodeType === 3) n.textContent.split(/(\s+)/).forEach(t => parts.push(t));
       else if (n.nodeType === 1 && n.children.length === 0 && /\s/.test(n.textContent.trim())) {
-        // destaque com várias palavras: cada palavra ganha sua própria cópia do elemento
         n.textContent.split(/(\s+)/).forEach(t => {
-          if (!t || /^\s+$/.test(t)) { if (t) parts.push(t); return; }
+          if (!t) return;
+          if (/^\s+$/.test(t)) { parts.push(t); return; }
           const c = n.cloneNode(false); c.textContent = t; parts.push(c);
         });
-      }
-      else parts.push(n.cloneNode(true));
+      } else parts.push(n);
     });
     el.textContent = '';
+    const base = parseFloat(el.dataset.sp) || 0;
     let i = 0;
-    const base = parseFloat(el.dataset.delay || 0);
     parts.forEach(p => {
-      if (typeof p === 'string') {
-        if (!p) return;
-        if (/^\s+$/.test(p)) { el.append(p.includes('\n') ? ' ' : p); return; }
-      }
-      if (p.nodeName === 'BR') { el.append(p); return; }
+      if (typeof p === 'string') { if (!p) return; if (/^\s+$/.test(p)) { el.append(' '); return; } }
+      else if (p.nodeName === 'BR') { el.append(p); return; }
       const w = document.createElement('span'); w.className = 'w';
       const inner = document.createElement('span');
-      inner.style.setProperty('--d', (base + i * 0.06).toFixed(2) + 's');
+      inner.style.setProperty('--d', (base + i++ * 0.055).toFixed(3) + 's');
       typeof p === 'string' ? (inner.textContent = p) : inner.append(p);
-      w.append(inner); el.append(w); i++;
+      w.append(inner); el.append(w);
     });
-    el.classList.add('split');
+    el.classList.add('sp');
   });
 
   /* ---------- revelar ao rolar ---------- */
-  $$('[data-stagger]').forEach(g => {
-    const step = parseFloat(g.dataset.stagger) || 0.1;
-    $$(':scope > [data-reveal]', g).forEach((c, i) => c.style.setProperty('--d', (i * step).toFixed(2) + 's'));
+  $$('[data-st]').forEach(g => {
+    const step = parseFloat(g.dataset.st) || 0.08;
+    $$(':scope > [data-r]', g).forEach((c, i) => c.style.setProperty('--d', (i * step).toFixed(2) + 's'));
   });
-  $$('[data-delay]:not([data-split])').forEach(e => e.style.setProperty('--d', e.dataset.delay + 's'));
-  const revealEls = $$('[data-reveal], .split:not(.hero .split), [data-count], .code-win');
+  $$('[data-d]').forEach(e => e.style.setProperty('--d', e.dataset.d + 's'));
+  const hero = $('.hero');
+  const inHero = el => hero && hero.contains(el);
   const onReveal = el => {
     el.classList.add('in');
+    if ($('.odo', el)) rollOdo(el);
     if (el.dataset.count !== undefined) countUp(el);
-    if (el.classList.contains('code-win')) typeCode(el);
+    if (el.classList.contains('app')) runApp(el);
   };
+  const targets = $$('[data-r], .sp, [data-count], .app').filter(el => !inHero(el) || el.classList.contains('app'));
   if ('IntersectionObserver' in window && !RM) {
-    const io = new IntersectionObserver(es => es.forEach(e => {
-      if (e.isIntersecting) { onReveal(e.target); io.unobserve(e.target); }
-    }), { threshold: 0.14, rootMargin: '0px 0px -6% 0px' });
-    revealEls.forEach(el => io.observe(el));
-  } else revealEls.forEach(onReveal);
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { onReveal(e.target); io.unobserve(e.target); } }), { threshold: 0.12, rootMargin: '0px 0px -5% 0px' });
+    targets.forEach(el => io.observe(el));
+  } else targets.forEach(onReveal);
 
-  /* ---------- contadores ---------- */
-  function countUp(el) {
-    const to = parseFloat(el.dataset.count);
-    if (RM) { el.textContent = to; return; }
-    const dur = 1600, t0 = performance.now();
-    const tick = t => {
-      const k = clamp((t - t0) / dur, 0, 1);
-      el.textContent = Math.round(to * (1 - Math.pow(1 - k, 4)));
-      if (k < 1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  }
-
-  /* ---------- efeito "decodificar" ---------- */
-  const GLYPHS = '</>{}[]#*&$%01';
-  function scramble(el) {
-    const final = el.textContent;
-    if (RM) return;
-    let frame = 0;
-    const total = 26;
-    const tick = () => {
-      el.textContent = final.split('').map((ch, i) => {
-        if (ch === ' ') return ' ';
-        return frame / total > i / final.length ? ch : GLYPHS[(Math.random() * GLYPHS.length) | 0];
-      }).join('');
-      if (++frame <= total) setTimeout(tick, 42);
-      else el.textContent = final;
-    };
-    tick();
-  }
-
-  /* ---------- entrada do herói ---------- */
-  const hero = $('.hero, .page-hero');
+  // herói: entra quando as fontes carregam
   const startHero = () => {
     if (!hero) return;
     hero.classList.add('ready');
-    $$('.split', hero).forEach(s => s.classList.add('in'));
-    $$('[data-scramble]', hero).forEach(s => setTimeout(() => scramble(s), 650));
+    $$('.sp', hero).forEach(s => s.classList.add('in'));
+    setTimeout(() => rollOdo(hero), 500);
   };
-  const fontsReady = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
-  Promise.race([fontsReady, new Promise(r => setTimeout(r, 900))]).then(() => requestAnimationFrame(startHero));
+  Promise.race([document.fonts ? document.fonts.ready : Promise.resolve(), new Promise(r => setTimeout(r, 900))]).then(() => requestAnimationFrame(startHero));
 
-  /* ---------- canvas do herói: grade neon + partículas ---------- */
-  const cv = $('#hero-canvas');
-  if (cv) {
-    const ctx = cv.getContext('2d');
-    let W = 0, H = 0, dpr = 1, running = true, t0 = performance.now();
-    const mouse = { x: -9999, y: -9999, tx: -9999, ty: -9999 };
-    let pts = [];
-    const resize = () => {
-      dpr = Math.min(devicePixelRatio || 1, 1.5);
-      W = cv.clientWidth; H = cv.clientHeight;
-      cv.width = W * dpr; cv.height = H * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const n = Math.round(clamp(W * H / 16000, 26, 90));
-      let seed = 7;
-      const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
-      pts = Array.from({ length: n }, () => ({ x: rnd() * W, y: rnd() * H, vx: (rnd() - .5) * .25, vy: -(.08 + rnd() * .3), r: .6 + rnd() * 1.6 }));
-    };
-    const draw = now => {
-      const t = (now - t0) / 1000;
-      ctx.clearRect(0, 0, W, H);
-      // chão em perspectiva
-      const hz = H * 0.6, vx = W / 2;
-      const g = ctx.createLinearGradient(0, hz, 0, H);
-      g.addColorStop(0, 'rgba(22,70,255,0)'); g.addColorStop(1, 'rgba(22,70,255,.5)');
-      ctx.strokeStyle = g; ctx.lineWidth = 1;
-      ctx.beginPath();
-      for (let i = -16; i <= 16; i++) { ctx.moveTo(vx + i * 14, hz); ctx.lineTo(vx + i * W * 0.16, H); }
-      const off = (t * 0.35) % 1;
-      for (let j = 0; j < 14; j++) {
-        const k = (j + off) / 14, y = hz + (H - hz) * k * k;
-        ctx.moveTo(0, y); ctx.lineTo(W, y);
-      }
-      ctx.stroke();
-      // brilho no horizonte
-      const hg = ctx.createRadialGradient(vx, hz, 0, vx, hz, Math.max(W, H) * 0.42);
-      hg.addColorStop(0, 'rgba(26,209,255,.2)'); hg.addColorStop(1, 'rgba(26,209,255,0)');
-      ctx.fillStyle = hg; ctx.fillRect(0, 0, W, H);
-      // partículas
-      mouse.x = lerp(mouse.x, mouse.tx, .12); mouse.y = lerp(mouse.y, mouse.ty, .12);
-      for (const p of pts) {
-        p.x += p.vx; p.y += p.vy;
-        const dx = p.x - mouse.x, dy = p.y - mouse.y, d2 = dx * dx + dy * dy;
-        if (d2 < 14000) { p.x += dx * .015; p.y += dy * .015; }
-        if (p.y < -10) { p.y = H + 10; p.x = Math.random() * W; }
-        if (p.x < -10) p.x = W + 10; else if (p.x > W + 10) p.x = -10;
-      }
-      ctx.lineWidth = .6;
-      for (let i = 0; i < pts.length; i++) {
-        const a = pts[i];
-        for (let j = i + 1; j < pts.length; j++) {
-          const b = pts[j], dx = a.x - b.x, dy = a.y - b.y, d2 = dx * dx + dy * dy;
-          if (d2 < 9000) { ctx.strokeStyle = `rgba(26,209,255,${.16 * (1 - d2 / 9000)})`; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
-        }
-      }
-      for (const p of pts) {
-        ctx.fillStyle = 'rgba(160,230,255,.85)';
-        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.283); ctx.fill();
-      }
-    };
-    const loop = now => { if (!running) return; draw(now); requestAnimationFrame(loop); };
-    resize();
-    addEventListener('resize', () => { resize(); if (RM) draw(performance.now()); });
-    if (RM) draw(performance.now());
-    else {
-      const io = new IntersectionObserver(([e]) => {
-        const was = running; running = e.isIntersecting && !document.hidden;
-        if (running && !was) requestAnimationFrame(loop);
-      });
-      io.observe(cv);
-      document.addEventListener('visibilitychange', () => {
-        const was = running; running = !document.hidden;
-        if (running && !was) requestAnimationFrame(loop);
-      });
-      requestAnimationFrame(loop);
-      cv.parentElement.addEventListener('pointermove', e => {
-        const r = cv.getBoundingClientRect(); mouse.tx = e.clientX - r.left; mouse.ty = e.clientY - r.top;
-      });
-      cv.parentElement.addEventListener('pointerleave', () => { mouse.tx = mouse.ty = -9999; });
-    }
+  function countUp(el) {
+    const to = parseFloat(el.dataset.count), pre = el.dataset.pre || '';
+    if (RM) { el.textContent = pre + to; return; }
+    const t0 = performance.now(), dur = 1500;
+    const tick = t => { const k = clamp((t - t0) / dur, 0, 1); el.textContent = pre + Math.round(to * (1 - Math.pow(1 - k, 4))); if (k < 1) requestAnimationFrame(tick); };
+    requestAnimationFrame(tick);
   }
 
-  /* ---------- foto do herói acompanha o mouse ---------- */
-  const portrait = $('.portrait');
-  if (portrait && FINE && !RM) {
-    const img = $('img', portrait), chips = $$('.chip', portrait);
-    let tx = 0, ty = 0, x = 0, y = 0;
-    portrait.closest('section').addEventListener('pointermove', e => {
-      tx = (e.clientX / innerWidth - .5); ty = (e.clientY / innerHeight - .5);
-    });
-    const tick = () => {
-      x = lerp(x, tx, .08); y = lerp(y, ty, .08);
-      portrait.style.transition = 'none'; if (img) img.style.transition = 'none';
-      portrait.style.transform = `perspective(1000px) rotateY(${x * 8}deg) rotateX(${-y * 6}deg)`;
-      if (img) img.style.transform = `scale(1.06) translate(${x * -10}px,${y * -10}px)`;
-      chips.forEach((c, i) => { c.style.transform = `translate(${x * (18 + i * 10)}px,${y * (14 + i * 8)}px)`; });
-      requestAnimationFrame(tick);
-    };
-    setTimeout(() => requestAnimationFrame(tick), 1400);
-  }
-
-  /* ---------- cards: brilho que segue o mouse + inclinação 3D ---------- */
-  if (FINE) {
-    $$('.card').forEach(c => {
-      const tilt = c.hasAttribute('data-tilt') && !RM;
-      c.addEventListener('pointermove', e => {
-        const r = c.getBoundingClientRect();
-        const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
-        c.style.setProperty('--mx', (px * 100) + '%'); c.style.setProperty('--my', (py * 100) + '%');
-        if (tilt) c.style.transform = `perspective(900px) rotateX(${(.5 - py) * 7}deg) rotateY(${(px - .5) * 7}deg) translateY(-4px)`;
-      });
-      c.addEventListener('pointerleave', () => { if (tilt) c.style.transform = ''; });
+  /* ---------- painel do curso ganhando vida ---------- */
+  function runApp(app) {
+    app.classList.add('live');
+    const items = $$('.mods li', app);
+    if (RM) { items.slice(0, 2).forEach(li => li.classList.add('done')); items[2] && items[2].classList.add('now'); return; }
+    items.forEach((li, i) => {
+      if (i < 2) setTimeout(() => { li.classList.remove('now'); li.classList.add('done'); }, 700 + i * 650);
+      if (i <= 2) setTimeout(() => { li.classList.add('now'); }, 350 + i * 650);
     });
   }
 
-  /* ---------- botões magnéticos ---------- */
-  if (FINE && !RM) {
-    $$('[data-magnetic]').forEach(b => {
-      b.addEventListener('pointermove', e => {
-        const r = b.getBoundingClientRect();
-        b.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * .22}px,${(e.clientY - r.top - r.height / 2) * .3}px)`;
-      });
-      b.addEventListener('pointerleave', () => { b.style.transform = ''; });
+  /* ---------- texto que acende conforme rola ---------- */
+  const rts = $$('.reveal-text');
+  rts.forEach(rt => {
+    const parts = [];
+    rt.childNodes.forEach(n => {
+      const hl = n.nodeType === 1;
+      n.textContent.split(/(\s+)/).forEach(t => { if (t) parts.push([t, hl]); });
     });
-  }
-
-  /* ---------- brilho que segue o cursor ---------- */
-  const glow = $('.glow-cursor');
-  if (glow && FINE && !RM) {
-    let gx = innerWidth / 2, gy = innerHeight / 2, cx = gx, cy = gy;
-    addEventListener('pointermove', e => { gx = e.clientX; gy = e.clientY; glow.style.opacity = 1; }, { passive: true });
-    const tick = () => { cx = lerp(cx, gx, .1); cy = lerp(cy, gy, .1); glow.style.transform = `translate(${cx}px,${cy}px)`; requestAnimationFrame(tick); };
-    tick();
-  }
-
-  /* ---------- parallax e linha do processo ---------- */
-  const para = $$('[data-parallax]');
-  const steps = $('.steps');
-  const stepEls = steps ? $$('.step', steps) : [];
-  const line = steps ? $('.line', steps) : null;
-  let ticking = false;
-  const onFrame = () => {
-    ticking = false;
-    para.forEach(el => {
-      const r = el.parentElement.getBoundingClientRect();
-      const k = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
-      el.style.transform = `scale(1.07) translateY(${k * -22}px)`;
+    rt.textContent = '';
+    parts.forEach(([t, hl]) => {
+      if (/^\s+$/.test(t)) { rt.append(' '); return; }
+      const s = document.createElement('span'); s.className = 'wd' + (hl ? ' hl' : ''); s.textContent = t; rt.append(s);
     });
-    if (steps && line) {
-      const r = steps.getBoundingClientRect();
-      const p = clamp((innerHeight * .7 - r.top) / (r.height + innerHeight * .1), 0, 1);
-      line.style.setProperty('--p', p.toFixed(3));
-      stepEls.forEach((s, i) => s.classList.toggle('lit', p >= (i / stepEls.length) + .02 || p > .97));
-    }
-  };
-  if (!RM && (para.length || steps)) {
-    addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onFrame); } }, { passive: true });
-    onFrame();
-  } else if (steps) { stepEls.forEach(s => s.classList.add('lit')); line && line.style.setProperty('--p', 1); }
-
-  /* ---------- faixa rolante infinita ---------- */
-  $$('.marquee-track').forEach(t => {
-    const clone = t.innerHTML;
-    t.insertAdjacentHTML('beforeend', clone);
-    $$(':scope > span', t).slice(t.children.length / 2).forEach(s => s.setAttribute('aria-hidden', 'true'));
   });
 
-  /* ---------- janela de código digitando ---------- */
-  function typeCode(win) {
-    if (win.dataset.typed) return; win.dataset.typed = '1';
-    const pre = $('pre', win);
-    const code = [
-      ['c', '// seu próximo site, em 4 linhas\n'],
-      ['k', 'const '], ['f', 'site'], ['o', ' = '], ['k', 'new '], ['f', 'Site'], ['o', '({\n'],
-      ['', '  negocio: '], ['s', '"Sua marca"'], ['o', ',\n'],
-      ['', '  visual: '], ['s', '"premium e rápido"'], ['o', ',\n'],
-      ['', '  whatsapp: '], ['k', 'true'], ['o', ',\n'],
-      ['', '  google: '], ['s', '"aparecendo"'], ['o', '\n});\n\n'],
-      ['f', 'site'], ['o', '.'], ['f', 'publicar'], ['o', '();\n'],
-      ['c', '// ✓ no ar em 7 a 10 dias úteis']
-    ];
-    pre.textContent = '';
-    const caret = document.createElement('span'); caret.className = 'caret';
-    if (RM) {
-      code.forEach(([c, t]) => { const s = document.createElement('span'); if (c) s.className = c; s.textContent = t; pre.append(s); });
-      pre.append(caret); return;
+  /* ---------- módulos + medidor ---------- */
+  const track = $('.track'), modules = track ? $$('.module', track) : [], meter = $('.meter');
+  const meterVal = meter && $('.val b', meter), meterLine = meter && $('.line', meter);
+  const fmt = v => v.toLocaleString('pt-BR');
+
+  /* ---------- parallax leve das fotos ---------- */
+  const pars = $$('[data-par]');
+
+  let ticking = false;
+  const frame = () => {
+    ticking = false;
+    const vh = innerHeight;
+    rts.forEach(rt => {
+      const r = rt.getBoundingClientRect();
+      const p = clamp((vh * 0.85 - r.top) / (r.height + vh * 0.35), 0, 1);
+      const ws = rt.children, n = Math.round(p * ws.length);
+      for (let i = 0; i < ws.length; i++) ws[i].classList.toggle('on', i < n);
+    });
+    if (track) {
+      const r = track.getBoundingClientRect();
+      const p = clamp((vh * 0.5 - r.top) / (r.height - vh * 0.3), 0, 1);
+      let best = 0, bd = 1e9;
+      modules.forEach((m, i) => { const mr = m.getBoundingClientRect(); const d = Math.abs(mr.top + mr.height / 2 - vh * 0.5); if (d < bd) { bd = d; best = i; } });
+      modules.forEach((m, i) => m.classList.toggle('active', i === best));
+      if (meterVal) meterVal.textContent = fmt(Math.round((100 + p * 900) / 10) * 10);
+      if (meterLine) meterLine.style.setProperty('--p', (0.1 + p * 0.9).toFixed(3));
     }
-    pre.append(caret);
-    let i = 0, j = 0, span = null;
-    const tick = () => {
-      if (i >= code.length) return;
-      const [c, t] = code[i];
-      if (!span) { span = document.createElement('span'); if (c) span.className = c; pre.insertBefore(span, caret); }
-      span.textContent += t[j++];
-      if (j >= t.length) { i++; j = 0; span = null; }
-      setTimeout(tick, t[j - 1] === '\n' ? 140 : 22 + Math.random() * 40);
-    };
-    setTimeout(tick, 400);
+    pars.forEach(img => {
+      const r = img.parentElement.getBoundingClientRect();
+      const k = (r.top + r.height / 2 - vh / 2) / vh;
+      img.style.transform = `scale(1.06) translateY(${(k * -18).toFixed(1)}px)`;
+    });
+  };
+  if (!RM && (rts.length || track || pars.length)) {
+    addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }, { passive: true });
+    addEventListener('resize', frame);
+    frame();
+  } else {
+    rts.forEach(rt => $$('.wd', rt).forEach(w => w.classList.add('on')));
+    modules.forEach(m => m.classList.add('active'));
   }
 
-  /* ---------- FAQ: abre um por vez ---------- */
-  $$('.faq details').forEach(d => d.addEventListener('toggle', () => {
-    if (d.open) $$('.faq details').forEach(o => { if (o !== d) o.open = false; });
-  }));
+  /* ---------- cards e botões: luz que segue o cursor ---------- */
+  if (FINE) {
+    $$('.card').forEach(c => c.addEventListener('pointermove', e => {
+      const r = c.getBoundingClientRect();
+      c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    }));
+    $$('.btn').forEach(b => b.addEventListener('pointermove', e => {
+      const r = b.getBoundingClientRect();
+      b.style.setProperty('--bx', (e.clientX - r.left) + 'px'); b.style.setProperty('--by', (e.clientY - r.top) + 'px');
+    }));
+  }
+
+  /* ---------- portfólio: a página rola dentro do navegador ---------- */
+  $$('.case').forEach(c => {
+    const scr = $('.screen', c), img = $('.screen img', c);
+    if (!scr || !img) return;
+    const set = () => c.style.setProperty('--scroll', Math.min(0, -(img.offsetHeight - scr.offsetHeight + 34)) + 'px');
+    img.complete ? set() : img.addEventListener('load', set);
+    addEventListener('resize', set);
+  });
+
+  /* ---------- perguntas: abre e fecha com suavidade ---------- */
+  $$('.faq details').forEach(d => {
+    const sum = $('summary', d), ans = $('.ans', d);
+    sum.addEventListener('click', e => {
+      if (RM || !ans.animate) return;
+      e.preventDefault();
+      if (d.open) {
+        const a = ans.animate([{ height: ans.offsetHeight + 'px' }, { height: '0px' }], { duration: 380, easing: 'cubic-bezier(.4,0,.2,1)' });
+        a.onfinish = () => { d.open = false; };
+      } else {
+        $$('.faq details[open]').forEach(o => { if (o !== d) o.open = false; });
+        d.open = true;
+        ans.animate([{ height: '0px', opacity: 0 }, { height: ans.offsetHeight + 'px', opacity: 1 }], { duration: 480, easing: 'cubic-bezier(.16,1,.3,1)' });
+      }
+    });
+  });
+
+  /* ---------- contato: monta a mensagem e abre o WhatsApp ---------- */
+  const form = $('#zap-form');
+  if (form) form.addEventListener('submit', e => {
+    e.preventDefault();
+    const nome = form.nome.value.trim(), assunto = (form.querySelector('input[name="assunto"]:checked') || {}).value || 'Outro', msg = form.msg.value.trim();
+    if (!nome) { form.nome.focus(); return; }
+    const txt = `Olá, João! Me chamo ${nome}.\nAssunto: ${assunto}` + (msg ? `\n\n${msg}` : '') + '\n\n(Enviado pelo site mydevhub.club)';
+    window.open(waLink(txt), '_blank', 'noopener');
+  });
 
   /* ---------- aviso de cookies (LGPD) ---------- */
-  const KEY = 'mdh_consent_v1';
-  const box = $('.cookie');
+  const KEY = 'mdh_consent_v1', box = $('.cookie');
   const store = {
     get() { try { return JSON.parse(localStorage.getItem(KEY)); } catch (e) { return null; } },
     set(v) { try { localStorage.setItem(KEY, JSON.stringify({ v, t: new Date().toISOString().slice(0, 10) })); } catch (e) {} }
@@ -375,15 +300,14 @@
   const showCookie = on => {
     if (!box) return;
     box.hidden = false;
-    requestAnimationFrame(() => {
+    requestAnimationFrame(() => requestAnimationFrame(() => {
       box.classList.toggle('on', on);
-      document.body.classList.toggle('has-cookie', on);
-      document.body.style.setProperty('--cookie-h', on ? (box.offsetHeight + 16) + 'px' : '0px');
-    });
+      document.body.classList.toggle('cookie-open', on);
+      document.body.style.setProperty('--ch', on ? (box.offsetHeight + 14) + 'px' : '0px');
+    }));
   };
   $$('[data-cookie]').forEach(b => b.addEventListener('click', () => { store.set(b.dataset.cookie); showCookie(false); }));
   $$('[data-cookie-open]').forEach(b => b.addEventListener('click', () => showCookie(true)));
-  if (box && !store.get()) setTimeout(() => showCookie(true), 1400);
-  // Para o futuro: só carregar ferramentas de medição se window.MDH.consent() === 'all'
+  if (box && !store.get()) setTimeout(() => showCookie(true), 1600);
   window.MDH = Object.freeze({ consent: () => (store.get() || {}).v || null });
 })();
