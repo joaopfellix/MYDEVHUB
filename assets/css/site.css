@@ -600,3 +600,11 @@ body.cookie-open .buybar{bottom:calc(16px + var(--ch,0px))}
 @media(max-width:760px){.steps.s3{grid-template-columns:1fr}}
 .thanks+.sec .ctas{margin-top:2rem}
 @media(max-width:480px){.lvls a{padding:.55rem .6rem;letter-spacing:.08em}.lvls a b{font-size:.8rem}.trust{font-size:.8rem}}
+
+/* preço dos planos */
+.buy .pp{display:flex;align-items:baseline;gap:.8rem;margin:0}
+.buy .pp b{font:600 clamp(2rem,3.4vw,2.5rem)/1 var(--disp);letter-spacing:-.04em}
+.buy .pp small{font:500 .68rem var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.offer .price b{font-size:clamp(2.2rem,4.4vw,3rem);letter-spacing:-.04em}
+.course .pr b{display:block;font:600 1.35rem/1.1 var(--disp);letter-spacing:-.03em}
+.course .pr small{display:block;margin-top:.2rem;font:500 .66rem var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
