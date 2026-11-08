@@ -8,7 +8,7 @@
   const $$ = (s, c = document) => [...c.querySelectorAll(s)];
   const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const FINE = matchMedia('(hover: hover) and (pointer: fine)').matches;
-  const WA = '5564992718193';
+  const WA = '5561985450132';
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
   const lerp = (a, b, t) => a + (b - a) * t;
   const waLink = msg => 'https://wa.me/' + WA + '?text=' + encodeURIComponent(msg);
