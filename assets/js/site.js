@@ -329,7 +329,7 @@
   });
 
   /* ---------- aviso de cookies (LGPD) ---------- */
-  const KEY = 'mdh_consent_v1', box = $('.cookie');
+  const KEY = 'mdh_consent_v2', box = $('.cookie');
   const store = {
     get() { try { return JSON.parse(localStorage.getItem(KEY)); } catch (e) { return null; } },
     set(v) { try { localStorage.setItem(KEY, JSON.stringify({ v, t: new Date().toISOString().slice(0, 10) })); } catch (e) {} }
@@ -343,7 +343,7 @@
       document.body.style.setProperty('--ch', on ? (box.offsetHeight + 14) + 'px' : '0px');
     }));
   };
-  $$('[data-cookie]').forEach(b => b.addEventListener('click', () => { store.set(b.dataset.cookie); showCookie(false); }));
+  $$('[data-cookie]').forEach(b => b.addEventListener('click', () => { store.set(b.dataset.cookie); showCookie(false); document.dispatchEvent(new CustomEvent('mdh:consent', { detail: b.dataset.cookie })); }));
   $$('[data-cookie-open]').forEach(b => b.addEventListener('click', () => showCookie(true)));
   if (box && !store.get()) setTimeout(() => showCookie(true), 1600);
   window.MDH = Object.freeze({ consent: () => (store.get() || {}).v || null });

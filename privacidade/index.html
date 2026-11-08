@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://connect.facebook.net https://tracker.metricool.com; style-src 'self'; img-src 'self' data: https://www.facebook.com https://tracker.metricool.com; font-src 'self'; connect-src 'self' https://www.facebook.com https://connect.facebook.net https://tracker.metricool.com; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Política de privacidade | My Dev Hub</title>
 <meta name="description" content="Como o site mydevhub.club trata seus dados, de acordo com a LGPD.">
@@ -29,6 +29,7 @@
 <link rel="stylesheet" href="../assets/css/site.css">
 <script src="../assets/js/boot.js"></script>
 <script defer src="../assets/js/site.js"></script>
+<script defer src="../assets/js/track.js"></script>
 <script defer src="../assets/js/shader.js"></script>
 </head>
 <body>
@@ -55,7 +56,7 @@
  <div class="wrap">
   <nav class="crumbs" data-h aria-label="Você está em"><a href="../">Início</a><span>/</span><span>Privacidade</span></nav>
   <h1 class="page-title" id="pt" data-sp=".1">Política de <em>privacidade.</em></h1>
-  <p class="lead" data-h data-d=".45">Atualizada em 7 de novembro de 2026. Em linguagem simples, de acordo com a Lei Geral de Proteção de Dados (Lei 13.709/2018).</p>
+  <p class="lead" data-h data-d=".45">Atualizada em 8 de novembro de 2026. Em linguagem simples, de acordo com a Lei Geral de Proteção de Dados (Lei 13.709/2018).</p>
   
  </div>
 </section>
@@ -67,7 +68,7 @@
   <h2>2. O que este site coleta</h2>
   <p>Ao navegar pelo mydevhub.club, <b>nenhum dado pessoal é coletado</b> por este site. Não há cadastro, não há ferramentas de análise de visitas e não há anúncios ou pixels de rastreamento. Fontes, imagens e códigos são servidos pelo próprio site, sem chamar serviços de terceiros.</p>
   <h2>3. Cookies e armazenamento local</h2>
-  <p>Não usamos cookies. Guardamos apenas a sua escolha no aviso de cookies, no armazenamento do seu próprio navegador, para não perguntar de novo. Essa informação não sai do seu aparelho. Você pode mudar a escolha em <button type="button" data-cookie-open>Preferências de cookies</button>.</p>
+  <p>Guardamos a sua escolha no aviso de cookies no armazenamento do seu próprio navegador, para não perguntar de novo. Se você clicar em “Aceitar”, o site carrega duas ferramentas de medição: o <strong>Pixel da Meta</strong> (Facebook e Instagram), que mede quem chegou pelos anúncios e ajuda a mostrar os anúncios para as pessoas certas, e o <strong>Metricool</strong>, que conta as visitas e de onde elas vieram. Elas podem usar cookies e seguem as políticas de privacidade da Meta e do Metricool. Se você escolher “Só o essencial”, nenhuma delas é carregada. Você pode mudar a escolha em <button type="button" data-cookie-open>Preferências de cookies</button>.</p>
   <h2>4. Formulário de contato</h2>
   <p>O formulário da página de contato não envia nem guarda nada neste site: ele só monta o texto e abre o seu WhatsApp, onde você decide se envia a mensagem.</p>
   <h2>5. Quando você fala comigo</h2>
@@ -111,7 +112,7 @@
 <a class="wa-float" href="https://wa.me/5564992718193" data-wa="Olá, João! Vim pelo site da My Dev Hub." aria-label="Conversar no WhatsApp"><svg class="ico fill" aria-hidden="true"><use href="#i-wa"/></svg><span>Fale comigo</span></a>
 <div class="cookie" role="dialog" aria-live="polite" aria-label="Aviso de cookies" hidden>
  <div class="t"><svg class="ico" aria-hidden="true"><use href="#i-cookie"/></svg> Privacidade em primeiro lugar</div>
- <p>Não usamos cookies de rastreamento nem anúncios. Só guardamos esta escolha no seu navegador. <a href="../privacidade/">Saiba mais</a>.</p>
+ <p>Se você aceitar, usamos o Pixel da Meta e o Metricool para medir visitas e anúncios. Em “Só o essencial”, nada disso é carregado. <a href="../privacidade/">Saiba mais</a>.</p>
  <div class="acts"><button class="btn sm" type="button" data-cookie="all">Aceitar</button><button class="btn sm ghost" type="button" data-cookie="essential">Só o essencial</button></div>
 </div>
 </body>
