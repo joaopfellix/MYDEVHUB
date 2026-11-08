@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://connect.facebook.net https://tracker.metricool.com; style-src 'self'; img-src 'self' data: https://www.facebook.com https://tracker.metricool.com; font-src 'self'; connect-src 'self' https://www.facebook.com https://connect.facebook.net https://tracker.metricool.com; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>João Félix · Te ensino a vender de R$100 a R$1.000 por dia | My Dev Hub</title>
 <meta name="description" content="Te ensino a vender de R$100 a R$1.000 por dia na internet usando sites, Instagram e inteligência artificial, mesmo começando do zero. Conheça o curso.">
@@ -29,6 +29,7 @@
 <link rel="stylesheet" href="assets/css/site.css">
 <script src="assets/js/boot.js"></script>
 <script defer src="assets/js/site.js"></script>
+<script defer src="assets/js/track.js"></script>
 <script defer src="assets/js/shader.js"></script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "João Pedro Félix", "jobTitle": "Desenvolvedor de sites e criador de cursos", "url": "https://mydevhub.club/", "image": "https://mydevhub.club/assets/img/joao-avatar-256.jpg", "address": {"@type": "PostalAddress", "addressLocality": "Itumbiara", "addressRegion": "GO", "addressCountry": "BR"}, "sameAs": ["https://instagram.com/mydevhub.club"]}</script>
 </head>
@@ -132,7 +133,7 @@
 <a class="wa-float" href="https://wa.me/5564992718193" data-wa="Olá, João! Vim pelo site da My Dev Hub." aria-label="Conversar no WhatsApp"><svg class="ico fill" aria-hidden="true"><use href="#i-wa"/></svg><span>Fale comigo</span></a>
 <div class="cookie" role="dialog" aria-live="polite" aria-label="Aviso de cookies" hidden>
  <div class="t"><svg class="ico" aria-hidden="true"><use href="#i-cookie"/></svg> Privacidade em primeiro lugar</div>
- <p>Não usamos cookies de rastreamento nem anúncios. Só guardamos esta escolha no seu navegador. <a href="privacidade/">Saiba mais</a>.</p>
+ <p>Se você aceitar, usamos o Pixel da Meta e o Metricool para medir visitas e anúncios. Em “Só o essencial”, nada disso é carregado. <a href="privacidade/">Saiba mais</a>.</p>
  <div class="acts"><button class="btn sm" type="button" data-cookie="all">Aceitar</button><button class="btn sm ghost" type="button" data-cookie="essential">Só o essencial</button></div>
 </div>
 </body>
