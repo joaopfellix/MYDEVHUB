@@ -3,7 +3,7 @@
    Para ligar o Pixel, coloque o ID dele em PIXEL_ID (só números). */
 (() => {
   'use strict';
-  const PIXEL_ID = '';                                   // ex.: '1234567890123456'
+  const PIXEL_ID = '1802510040968258';   // Pixel "My Dev Hub"
   const METRICOOL_HASH = '707d638ccd7085221b641e24dc5801d'; // marca mydevhub.club no Metricool
 
   const path = location.pathname;
