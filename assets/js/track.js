@@ -7,11 +7,11 @@
   const METRICOOL_HASH = '707d638ccd7085221b641e24dc5801d'; // marca mydevhub.club no Metricool
 
   const path = location.pathname;
-  const isPlan = /\/cursos\/plano-[a-z]+\/?$|\/lives-ia\/?$/.test(path);
+  const isPlan = /\/cursos\/plano-[a-z]+\/?$/.test(path);
   const isThanks = /\/obrigado\/?$/.test(path);
   const CHECKOUT = /^https:\/\/(syncpaycheckout\.com|link\.syncpayments\.com\.br)\//;
-  const prices = { 'plano-inicial': 27, 'plano-intermediario': 97, 'plano-avancado': 197, 'lives-ia': 14.9 };
-  const plan = (path.match(/plano-[a-z]+|lives-ia/) || [])[0];
+  const prices = { 'plano-inicial': 27, 'plano-intermediario': 97, 'plano-avancado': 197 };
+  const plan = (path.match(/plano-[a-z]+/) || [])[0];
 
   const load = (src, onload) => {
     const s = document.createElement('script');
