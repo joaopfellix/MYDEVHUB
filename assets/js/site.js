@@ -63,6 +63,17 @@
 
   let lastY = scrollY;
   const waFloat = $('.wa-float');
+  // Botão "voltar ao topo" (todas as páginas)
+  const toTop = document.createElement('button');
+  toTop.type = 'button';
+  toTop.className = 'to-top' + (waFloat ? ' has-wa' : '');
+  toTop.setAttribute('aria-label', 'Voltar ao topo da página');
+  toTop.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';
+  toTop.addEventListener('click', () => {
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+  });
+  document.body.appendChild(toTop);
   const buyTop = $('#topo-compra'), buybar = buyTop && $('.buybar'), offer = $('#comprar'), foot = $('.foot');
   const onScroll = () => {
     const y = scrollY, max = document.documentElement.scrollHeight - innerHeight;
@@ -73,6 +84,7 @@
       else if (y < lastY - 4 || y < 480) head.classList.remove('away');
     }
     if (waFloat) waFloat.classList.toggle('on', y > innerHeight * 0.4);
+    toTop.classList.toggle('on', y > innerHeight * 0.8);
     if (buybar) {
       const vh = innerHeight, a = buyTop.getBoundingClientRect(), o = offer && offer.getBoundingClientRect(), f = foot && foot.getBoundingClientRect();
       const show = a.bottom < 0 && !(o && o.top < vh && o.bottom > 0) && !(f && f.top < vh);
