@@ -111,3 +111,14 @@
 .concept{margin-top:clamp(4rem,9vw,7rem)}
 /* celular com a tela inteira do print (sem cortar as laterais) */
 .phone.tall{aspect-ratio:780/1410}
+/* cartão do GitHub (Sobre) */
+.gh-card{display:flex;align-items:center;gap:1rem;margin-top:1.6rem;padding:1.1rem 1.2rem;text-decoration:none;transition:border-color .4s,transform .5s var(--out)}
+.gh-card:hover{border-color:var(--line2);transform:translateY(-3px)}
+.gh-ico{flex:none;width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:#fff;color:#000}
+.gh-ico .ico{width:28px;height:28px}
+.gh-txt{flex:1;display:flex;flex-direction:column;gap:.15rem;min-width:0}
+.gh-txt small{font:500 .66rem var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut2)}
+.gh-txt b{font:600 1.05rem var(--disp);letter-spacing:-.02em;overflow-wrap:anywhere}
+.gh-txt span{color:var(--mut);font-size:.9rem}
+.gh-go{flex:none;display:inline-flex;align-items:center;gap:.4rem;font-weight:700;font-size:.9rem;color:var(--neon)}
+@media(max-width:560px){.gh-card{flex-wrap:wrap}.gh-go{width:100%}}
