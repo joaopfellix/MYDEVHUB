@@ -27,6 +27,7 @@
 <link rel="preload" href="../assets/fonts/unbounded-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../assets/fonts/manrope-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/work.css">
 <script src="../assets/js/boot.js"></script>
 <script defer src="../assets/js/site.js?v=20261108"></script>
 <script defer src="../assets/js/track.js"></script>
@@ -42,10 +43,10 @@
  <div class="wrap">
   <div class="head-in">
    <a class="brand" href="../" aria-label="My Dev Hub, início"><span class="brand-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7 4 12l5 5M15 7l5 5-5 5"/></svg></span><span>My Dev Hub<small>Ideias que viram códigos</small></span></a>
-   <nav class="tabs" aria-label="Principal"><span class="tab-ind" aria-hidden="true"></span><a href="../">Início</a><a href="../cursos/">Cursos</a><a href="../servicos/">Serviços</a><a href="../portfolio/" aria-current="page">Portfólio</a><a href="../sobre/">Sobre</a><a href="../contato/">Contato</a></nav>
-   <a class="btn sm head-cta" href="../cursos/">Ver os cursos <svg class="ico arr" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+   <nav class="tabs" aria-label="Principal"><span class="tab-ind" aria-hidden="true"></span><a href="../">Início</a><a href="../servicos/">Serviços</a><a href="../portfolio/" aria-current="page">Portfólio</a><a href="../sobre/">Sobre</a><a href="../contato/">Contato</a></nav>
+   <a class="btn sm head-cta" href="../contato/">Pedir orçamento <svg class="ico arr" aria-hidden="true"><use href="#i-arrow"/></svg></a>
    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="sheet"><b>Menu</b><i aria-hidden="true"></i></button>
-   <nav class="sheet" id="sheet" aria-label="Menu"><a href="../">Início<span>01</span></a><a href="../cursos/">Cursos<span>02</span></a><a href="../servicos/">Serviços<span>03</span></a><a href="../portfolio/" aria-current="page">Portfólio<span>04</span></a><a href="../sobre/">Sobre<span>05</span></a><a href="../contato/">Contato<span>06</span></a><a class="btn" href="../cursos/">Ver os cursos <svg class="ico arr" aria-hidden="true"><use href="#i-arrow"/></svg></a></nav>
+   <nav class="sheet" id="sheet" aria-label="Menu"><a href="../">Início<span>01</span></a><a href="../servicos/">Serviços<span>02</span></a><a href="../portfolio/" aria-current="page">Portfólio<span>03</span></a><a href="../sobre/">Sobre<span>04</span></a><a href="../contato/">Contato<span>05</span></a><a class="btn" href="../contato/">Pedir orçamento <svg class="ico arr" aria-hidden="true"><use href="#i-arrow"/></svg></a></nav>
   </div>
  </div>
 </header>
@@ -55,32 +56,118 @@
  <canvas class="shader" aria-hidden="true"></canvas>
  <div class="wrap">
   <nav class="crumbs" data-h aria-label="Você está em"><a href="../">Início</a><span>/</span><span>Portfólio</span></nav>
-  <h1 class="page-title" id="pt" data-sp=".1">Projetos que <em>vendem</em> na tela.</h1>
-  <p class="lead" data-h data-d=".45">Passe o mouse (ou toque) nas telas pra ver a página rolar. Abra no seu celular e sinta como o seu cliente vai navegar.</p>
+  <h1 class="page-title" id="pt" data-sp=".1">Sistemas <em>no ar</em>, com gente usando.</h1>
+  <p class="lead" data-h data-d=".45">Três projetos em produção e um conceito. Abra cada um e teste: é o mesmo cuidado que vai no seu.</p>
   
  </div>
 </section>
 
 <section class="sec tight" aria-label="Projetos">
- <div class="wrap stack">
+ <div class="wrap">
+  <div class="work">
+   <article class="proj" data-r>
+    <div class="stage">
+     <div class="browser">
+      <div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>nexusmidia.club</span></div>
+      <div class="shots">
+       <img src="../assets/img/proj/nexus-desk-1.webp" width="800" height="500" alt="Página inicial da Nexus Mídia: seguidores, curtidas e visualizações para o seu perfil" loading="lazy">
+       <img src="../assets/img/proj/nexus-desk-2.webp" width="800" height="500" alt="Catálogo da Nexus Mídia com 1.749 serviços ativos lidos da API" loading="lazy">
+       <img src="../assets/img/proj/nexus-desk-3.webp" width="800" height="500" alt="Três passos até o primeiro pedido: criar conta, adicionar saldo e pedir" loading="lazy">
+      </div>
+     </div>
+     <div class="phone"><img src="../assets/img/proj/nexus-mob-1.webp" width="390" height="844" alt="" loading="lazy"></div>
+    </div>
+    <div class="pinfo">
+     <span class="idx">01 · Plataforma SaaS</span>
+     <h3>Nexus Mídia</h3>
+     <p class="kind">Painel de serviços para redes sociais</p>
+     <p>O cliente cria conta, recarrega por Pix e faz pedidos que vão direto para o fornecedor, 24 horas por dia, sem ninguém operando.</p>
+     <ul class="feats">
+      <li>Login com Google ou e-mail e saldo em carteira</li>
+      <li>Recarga por Pix com confirmação automática</li>
+      <li>Catálogo de 1.700+ serviços lido ao vivo da API</li>
+      <li>Status do pedido e reembolso automático do que não foi entregue</li>
+     </ul>
+     <div class="stack-chips"><span>Supabase</span><span>Postgres</span><span>Auth</span><span>Realtime</span><span>API Pix (Sync Pay)</span><span>Cloudflare</span></div>
+     <div class="acts"><a class="btn ghost" href="https://nexusmidia.club" target="_blank" rel="noopener noreferrer">Abrir o site <svg class="ico arr" aria-hidden="true"><use href="#i-ne"/></svg></a><span class="live">no ar</span></div>
+    </div>
+   </article>
+
+   <article class="proj flip" data-r>
+    <div class="stage">
+     <div class="browser">
+      <div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>pointcut.club</span></div>
+      <div class="shots" data-n="2">
+       <img src="../assets/img/proj/pointcut-desk-1.webp" width="800" height="500" alt="Página inicial da Point Cut: Seu horário. Seu padrão. Com o menu de serviços e preços" loading="lazy">
+       <img src="../assets/img/proj/pointcut-desk-2.webp" width="800" height="500" alt="Planos de assinatura da Point Cut: Club Corte, Club Barba e Club Corte e Barba" loading="lazy">
+      </div>
+     </div>
+     <div class="phone"><img src="../assets/img/proj/pointcut-mob-1.webp" width="390" height="844" alt="" loading="lazy"></div>
+    </div>
+    <div class="pinfo">
+     <span class="idx">02 · Agendamento e assinaturas</span>
+     <h3>Point Cut</h3>
+     <p class="kind">Barbearia particular, só com hora marcada</p>
+     <p>Site com área do cliente: a pessoa cria conta, assina um plano mensal ou agenda um serviço avulso e escolhe o horário livre em tempo real.</p>
+     <ul class="feats">
+      <li>Agenda que reserva o tempo exato de cada serviço</li>
+      <li>Planos de assinatura mensais (clube)</li>
+      <li>Cadastro com confirmação de contato</li>
+      <li>Barra de ação fixa no celular: planos e agendar</li>
+     </ul>
+     <div class="stack-chips"><span>SPA (Vite)</span><span>JavaScript</span><span>Área do cliente</span><span>Cloudflare</span></div>
+     <div class="acts"><a class="btn ghost" href="https://pointcut.club" target="_blank" rel="noopener noreferrer">Abrir o site <svg class="ico arr" aria-hidden="true"><use href="#i-ne"/></svg></a><span class="live">no ar</span></div>
+    </div>
+   </article>
+
+   <article class="proj" data-r>
+    <div class="stage">
+     <div class="browser">
+      <div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>warfex.fun</span></div>
+      <div class="shots">
+       <img src="../assets/img/proj/warfex-desk-1.webp" width="1600" height="1000" alt="Página inicial do Warfex: tiro em primeira pessoa grátis, com servidor brasileiro dedicado" loading="lazy">
+       <img src="../assets/img/proj/warfex-desk-2.webp" width="1600" height="1000" alt="Topo do site Warfex com cena de combate e o botão Baixar o jogo grátis" loading="lazy">
+       <img src="../assets/img/proj/warfex-desk-3.webp" width="1600" height="1000" alt="Topo do site Warfex com explosão ao fundo e o botão Ver trailer" loading="lazy">
+      </div>
+     </div>
+     <div class="phone tall"><img src="../assets/img/proj/warfex-mob-1.webp" width="780" height="1410" alt="" loading="lazy"></div>
+    </div>
+    <div class="pinfo">
+     <span class="idx">03 · Jogo online</span>
+     <h3>Warfex</h3>
+     <p class="kind">FPS grátis com servidor brasileiro</p>
+     <p>Site de lançamento de um jogo de tiro em primeira pessoa gratuito, com servidor dedicado no Brasil: apresenta o jogo, mostra o trailer e leva o jogador direto pro download.</p>
+     <ul class="feats">
+      <li>Vídeo de gameplay rodando no fundo do topo</li>
+      <li>Download do jogo e trailer em um toque</li>
+      <li>Servidor brasileiro dedicado, PvP e PvE</li>
+      <li>Times e classes de personagem</li>
+     </ul>
+     <div class="stack-chips"><span>Landing de jogo</span><span>Vídeo em background</span><span>Servidor dedicado</span><span>Mobile first</span></div>
+     <div class="acts"><a class="btn ghost" href="https://warfex.fun" target="_blank" rel="noopener noreferrer">Abrir o site <svg class="ico arr" aria-hidden="true"><use href="#i-ne"/></svg></a><span class="live">no ar</span></div>
+    </div>
+   </article>
+  </div>
+  <div class="stack concept">
   <article class="card case" data-r tabindex="0">
    <div class="screen"><div class="chrome" aria-hidden="true"><i></i><i></i><i></i><span>mydevhub.club/demo</span></div><img src="../assets/img/case-brasa64.webp" width="900" height="3000" alt="Página do site da hamburgueria Brasa 64, do topo ao rodapé" loading="lazy"><span class="hint" aria-hidden="true">passe o mouse</span></div>
    <div class="info">
-    <span class="idx">PROJETO CONCEITO · 2026</span>
+    <span class="idx">04 · PROJETO CONCEITO</span>
     <h3>Brasa 64 · Hamburgueria</h3>
     <p>Site de hamburgueria com o lanche que se abre na rolagem, cardápio completo e pedido montado direto no WhatsApp.</p>
     <ul class="meta"><li>Tipo<b>Cardápio digital</b></li><li>Destaque<b>Hambúrguer que abre na rolagem</b></li><li>Pedido<b>WhatsApp</b></li></ul>
     <a class="btn ghost" href="../demo/" target="_blank" rel="noopener noreferrer">Abrir o site <svg class="ico arr" aria-hidden="true"><use href="#i-ne"/></svg></a>
    </div>
   </article>
+  </div>
  </div>
 </section>
 <section class="final cv">
  <div class="wrap">
   <span class="label" data-r><span class="led"></span>O próximo pode ser o seu</span>
-  <h2 data-sp>Seu negócio merece <em>um site assim.</em></h2>
+  <h2 data-sp>O próximo sistema no ar <em>pode ser o seu.</em></h2>
   <p class="lead" data-r>Me conta da sua ideia e eu te mostro como ela ficaria na tela.</p>
-  <div class="ctas" data-r><a class="btn lg wa" href="https://wa.me/5561985450132" data-wa="Olá, João! Vi o portfólio e quero um site assim."><svg class="ico fill" aria-hidden="true"><use href="#i-wa"/></svg> Quero o meu</a><a class="btn lg ghost" href="../servicos/">Ver planos</a></div>
+  <div class="ctas" data-r><a class="btn lg wa" href="https://wa.me/5561985450132" data-wa="Olá, João! Vi o portfólio e quero um site assim."><svg class="ico fill" aria-hidden="true"><use href="#i-wa"/></svg> Quero o meu</a><a class="btn lg ghost" href="../contato/">Descrever meu projeto</a></div>
  </div>
 </section>
 
@@ -90,11 +177,11 @@
   <div class="foot-grid">
    <div>
     <a class="brand" href="../"><span class="brand-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7 4 12l5 5M15 7l5 5-5 5"/></svg></span><span>My Dev Hub<small>Ideias que viram códigos</small></span></a>
-    <p>Cursos, sites e landing pages por João Félix. Atendimento 100% online, para todo o Brasil.</p>
+    <p>Sites, landing pages, sistemas e software por João Félix. Atendimento 100% online, para todo o Brasil.</p>
    </div>
    <div>
     <h4>Navegue</h4>
-    <ul><li><a href="../">Início</a></li><li><a href="../cursos/">Cursos</a></li><li><a href="../servicos/">Serviços</a></li><li><a href="../portfolio/">Portfólio</a></li><li><a href="../sobre/">Sobre</a></li></ul>
+    <ul><li><a href="../">Início</a></li><li></li><li><a href="../servicos/">Serviços</a></li><li><a href="../portfolio/">Portfólio</a></li><li><a href="../sobre/">Sobre</a></li></ul>
    </div>
    <div>
     <h4>Contato</h4>
@@ -106,8 +193,6 @@
    </div>
   </div>
   <div class="legal">
-   <p>Os resultados de quem aplica o método dependem da dedicação, do tempo investido e do contexto de cada pessoa. Os valores citados neste site são metas do método e não uma promessa ou garantia de ganhos.</p>
-   <p>Este site não é afiliado ao Instagram, ao Facebook, ao WhatsApp, à Meta Platforms nem à Anthropic. Claude é uma marca da Anthropic.</p>
    <div class="row"><span>© <span data-year>2026</span> My Dev Hub · João Pedro Félix</span><span class="mono">&lt;/&gt; feito à mão, linha por linha</span></div>
   </div>
  </div>
