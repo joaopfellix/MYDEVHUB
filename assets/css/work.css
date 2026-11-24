@@ -109,3 +109,5 @@
  .phone,.panel .bars i,.live::before{animation:none}
 }
 .concept{margin-top:clamp(4rem,9vw,7rem)}
+/* celular com a tela inteira do print (sem cortar as laterais) */
+.phone.tall{aspect-ratio:780/1410}
